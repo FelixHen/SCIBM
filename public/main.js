@@ -58,6 +58,7 @@ $(document).ready(function () {
 				.data('username', data.user)
 				.append($usernameDiv, $messageBodyDiv, $timeStampDiv);
 
+			alert(data.message);
 			addMessageElement($messageDiv);
 		}
 		
@@ -74,7 +75,7 @@ $(document).ready(function () {
 		*/
 		function addMessageElement (messageElement) {
 			var $messageElement = $(messageElement);
-			alert($messageElement);
+			
 			$('#messages').append($messageElement);
 			
 			$messages[0].scrollTop = $messages[0].scrollHeight;
