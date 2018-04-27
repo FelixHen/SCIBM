@@ -14,15 +14,17 @@ var io = require('socket.io')(http);
 var port = process.env.PORT || 3000;
 var bodyParser = require('body-parser');
 
-/* let ToneAnalyzerV3 = require('watson-developer-cloud/tone-analyzer/v3');
-
 // Create the service wrapper
-let toneAnalyzer = new ToneAnalyzerV3({
-  version_date: '2017-09-21',
-}); */
+var ToneAnalyzerV3 = require('watson-developer-cloud/tone-analyzer/v3');
+
+var toneAnalyzer = new ToneAnalyzerV3({
+    version_date: '2016-05-19',
+    username: 'd13d161c-37a8-497c-b72d-ccb5601a83ef',
+    password: 'vBRie4TxLo2Y',
+    url: 'https://gateway-fra.watsonplatform.net/tone-analyzer/api'
+});
 
 require('dotenv').config({silent: true});
-
 
 app.use(express.static(path.join(__dirname, 'public')));
 app.use(bodyParser.json());
@@ -205,15 +207,18 @@ io.on('connection', function(socket){
 
 
 function createToneRequest (request) {
-  let toneChatRequest;
-
+	let toneChatRequest;
+	// if (request.texts) {
+		// toneChatRequest = {utterances: []};
+		// toneChatRequest.utterances.push(request.texts);
+	// }
   if (request.texts) {
-    toneChatRequest = {utterances: []};
+	 toneChatRequest = {utterances: []};
 
-    for (let i in request.texts) {
-      let utterance = {text: request.texts[i]};
-      toneChatRequest.utterances.push(utterance);
-    }
+	 for (let i in request.texts) {
+	  let utterance = {text: request.texts[i]};
+	   toneChatRequest.utterances.push(utterance);
+	 }
   }
 
   return toneChatRequest;
@@ -245,22 +250,18 @@ function happyOrUnhappy (response) {
   }
 }
 
-/* Example 
-{
-  "texts": ["I do not like what I see", "I like very much what you have said."]
-}
-*/
 app.post('/tone', (req, res, next) => {
 	
   let toneRequest = createToneRequest(req.body);
+  console.log("request  "+ toneRequest);
 
-  if (toneRequest) {
+  if (toneRequest) {console.log("toneRequest: "+ toneRequest);
     toneAnalyzer.tone_chat(toneRequest, (err, response) => {
       if (err) {
         return next(err);
       }
       let answer = {mood: happyOrUnhappy(response)};
-	// alert(answer);
+
       return res.json(answer);
     });
   }

@@ -58,7 +58,7 @@ $(document).ready(function () {
 				.data('username', data.user)
 				.append($usernameDiv, $messageBodyDiv, $timeStampDiv);
 
-			alert(data.message);
+			//alert(data.message);
 			addMessageElement($messageDiv);
 		}
 		
