@@ -74,7 +74,7 @@ $(document).ready(function () {
 		*/
 		function addMessageElement (messageElement) {
 			var $messageElement = $(messageElement);
-
+			alert($messageElement);
 			$('#messages').append($messageElement);
 			
 			$messages[0].scrollTop = $messages[0].scrollHeight;
