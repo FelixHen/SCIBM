@@ -10,7 +10,7 @@ $(document).ready(function () {
 		var $loginPage = $('.login.page');	// landing page
 		var $chatPage = $('.chat.page');	// chat
 		
-		var maxFileSize = 2.5; 				// max File Size in MB
+		var maxFileSize = 5.5; 				// max File Size in MB
 		var myUsername;
 		var $messages = $('.messages');
 		

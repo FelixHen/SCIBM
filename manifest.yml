@@ -1,5 +1,5 @@
 ---
 applications:
 - name: compassionate-jackson
-  memory: 512M
-  instances: 1
+  memory: 128M
+  host: compassionate-jackson
