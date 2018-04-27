@@ -11,9 +11,37 @@
     <title>Socket.IO chat</title>
 	 <link rel="stylesheet" href="style.css" />
 
-
+<script>
+    function getTone() {
+        fetch("/tone", {
+            method: "POST",
+            headers: {
+                'Accept': 'application/json',
+                'Content-Type': 'application/json',
+                'mode': 'cors'
+            },
+            body: JSON.stringify({
+               texts: [document.getElementById("text1").value, document.getElementById("text2").value]
+            })
+        })
+        .then((response) => {
+            var contentType = response.headers.get("content-type");
+            if(contentType && contentType.includes("application/json")) {
+               return response.json();
+            }
+            throw new TypeError("Oops, we haven't got JSON!");
+        })
+        .then((response) => { 
+            console.log("response:" +  JSON.stringify(response));
+            if (response.mood) {
+              document.getElementById("mood").value = response.mood;
+            }
+        })
+    }
+</script>
    
   </head>
+  
   <body>
     <ul class="pages">
 		
@@ -40,7 +68,7 @@
 		
 	</div>
 		
-    <form action="" id="messageForm">
+    <form method="POST" id="messageForm">
 	<div style="clear: both;" />
 	
 	
