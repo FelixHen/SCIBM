@@ -12,8 +12,11 @@ var http = require('http').Server(app);
 var server = require('http').createServer(app);
 var io = require('socket.io')(http);
 var port = process.env.PORT || 3000;
+var bodyParser = require('body-parser');
 
 app.use(express.static(path.join(__dirname, 'public')));
+app.use(bodyParser.json());
+
 	
 var numUsers = 0;		// number of users
 var users = {};			// contains sockets
