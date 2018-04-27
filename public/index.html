@@ -13,30 +13,22 @@
 
 <script>
     function getTone() {
-        fetch("/tone", {
-            method: "POST",
-            headers: {
-                'Accept': 'application/json',
-                'Content-Type': 'application/json',
-                'mode': 'cors'
-            },
-            body: JSON.stringify({
-               texts: [document.getElementById("text1").value, document.getElementById("text2").value]
-            })
-        })
-        .then((response) => {
-            var contentType = response.headers.get("content-type");
-            if(contentType && contentType.includes("application/json")) {
-               return response.json();
-            }
-            throw new TypeError("Oops, we haven't got JSON!");
-        })
-        .then((response) => { 
-            console.log("response:" +  JSON.stringify(response));
-            if (response.mood) {
-              document.getElementById("mood").value = response.mood;
-            }
-        })
+	
+	var text={"texts":["I do not like what I see","I like very much what you have said"]};
+	
+        const promise = $.post({
+			type: 'POST',
+			dataType: 'json',
+			data: JSON.stringify(text),
+			contentType: 'application/json',
+			url: 'http://localhost:3000/tone',
+			success: function(data) {
+				console.log('success: ',data);
+				
+				}
+		});	
+   
+
     }
 </script>
    
@@ -68,7 +60,7 @@
 		
 	</div>
 		
-    <form method="POST" id="messageForm">
+    <form method="POST" action="tone" id="messageForm">
 	<div style="clear: both;" />
 	
 	
