@@ -14,6 +14,14 @@ var io = require('socket.io')(http);
 var port = process.env.PORT || 3000;
 var bodyParser = require('body-parser');
 
+let ToneAnalyzerV3 = require('watson-developer-cloud/tone-analyzer/v3');
+require('dotenv').config({silent: true});
+// Create the service wrapper
+let toneAnalyzer = new ToneAnalyzerV3({
+  version_date: '2017-09-21',
+});
+
+
 app.use(express.static(path.join(__dirname, 'public')));
 app.use(bodyParser.json());
 
@@ -241,6 +249,7 @@ function happyOrUnhappy (response) {
 }
 */
 app.post('/tone', (req, res, next) => {
+	
   let toneRequest = createToneRequest(req.body);
 
   if (toneRequest) {
@@ -249,7 +258,7 @@ app.post('/tone', (req, res, next) => {
         return next(err);
       }
       let answer = {mood: happyOrUnhappy(response)};
-	  alert(answer);
+	// alert(answer);
       return res.json(answer);
     });
   }
