@@ -1,0 +1,338 @@
+/**
+ * Node Server
+ * @author Jan-Patrick Kirchner [742143], Felix Hennig [752734], Konstantinos Karagkiozis [752753]
+ * @version 1.0
+ */
+/* General CSS */
+
+* {
+  box-sizing: border-box;
+}
+
+html {
+  font-weight: 300;
+  -webkit-font-smoothing: antialiased;
+}
+
+html, input {
+  font-family:
+    "HelveticaNeue-Light",
+    "Helvetica Neue Light",
+    "Helvetica Neue",
+    Helvetica,
+    Arial,
+    "Lucida Grande",
+    sans-serif;
+}
+
+html, body {
+  height: 100%;
+  margin: 0;
+  padding: 0;
+}
+
+ul {
+  list-style: none;
+  word-wrap: break-word;
+}
+
+/*********/
+/* Pages */
+/*********/
+
+.pages {
+  height: 100%;
+  margin: 0;
+  padding: 0;
+  width: 100%;
+}
+
+.page {
+  height: 100%;
+  position: absolute;
+  width: 100%;
+}
+/**************/
+/* Login Page */
+/**************/
+
+.login.page {
+  background-color: #424242;
+}
+
+.login.page .form {
+  height: 100px;
+  margin-top: -100px;
+  position: absolute;
+
+  text-align: center;
+  top: 50%;
+  width: 100%;
+}
+
+.login.page .form .usernameInput {
+  background-color: transparent;
+  border: none;
+  border-bottom: 2px solid #fff;
+  outline: none;
+  padding-bottom: 15px;
+  text-align: center;
+  width: 400px;
+}
+
+.login.page .title {
+  font-size: 200%;
+}
+
+.login.page .usernameInput {
+  font-size: 200%;
+  letter-spacing: 3px;
+}
+
+.login.page .title, .login.page .usernameInput {
+  color: #fff;
+  font-weight: 100;
+}
+
+/* Chat page */
+
+.chat.page {
+  display: none;
+}
+
+/********/
+/* Font */
+/********/
+.messages {
+  font-size: 140%;
+}
+
+.userList {
+	float:right;
+	border: 1px;
+	position: absolute;
+	right: 0px;
+	width: 15%;
+	height: 100%;
+} 
+
+.inputMessage {
+  font-size: 100%;
+}
+
+.log {
+  color: gray;
+  font-size: 70%;
+  margin: 5px;
+  text-align: center;
+}
+
+/************/
+/* Messages */
+/************/
+.chatArea {
+  float:left;
+  height: 100%;
+  width: 85%;
+
+    padding-bottom: 90px;
+  border-right: 2px solid #424242;
+}
+
+.messages {
+  height: 100%;
+  margin: 0;
+  overflow-y: scroll;
+  padding: 10px 20px 10px 20px;
+}
+
+.message.typing .messageBody {
+  color: gray;
+}
+
+.timeStamp {
+  text-align: center;
+  margin-top: -5px;
+  float: right;
+  font-size: 0.6em;
+}
+
+.username {
+  font-weight: 700;
+  overflow: hidden;
+  padding-right: 15px;
+  text-align: right;
+}
+
+.log  { 
+	background: #eee !important; 
+}
+
+.message {
+	margin-top: 10px;
+	margin-bottom: 10px;
+	padding: 5px;
+	
+}
+
+#messageForm {
+
+	width: 100%;
+}
+
+
+
+
+/*********/
+/* Input */
+/*********/
+.inputMessage {
+  border: 10px solid #424242;
+  bottom: 0;
+  height: 60px;
+  left: 0;
+  outline: none;
+  padding-left: 10px;
+  position: absolute;
+  right: 0;
+  width: 100%;
+}
+
+
+
+h3.onlineUsers {
+	font-size: 1.8em;
+	background: #424242;
+	color: #fff;
+}
+
+#user {
+
+	font-size: 1.0em;
+	min-width: 150px;
+	border: 1px solid #fff;
+	color: #fff;
+	padding: 11px;
+	font-weight: bold;
+	background: darkred;
+}
+
+.users {
+	overflow-y: scroll;
+	font-size: 1.5em;
+	height: 95%;
+    padding-bottom: 290px;
+	background: #424242;
+}
+
+#m {
+	margin-top: 5px;
+	width: 75%;
+	min-height: 40px;
+	font-size: 1.2em;
+}
+
+
+.btn_round {
+	border: 1px solid #fff;
+	color: #fff;
+	padding: 11px;
+	font-weight: bold;
+	background: darkred;
+	width: 120px;
+		min-height: 35px; 
+}
+
+#header_top {
+	color: #fff;
+	border-bottom: 2px solid white;
+	width: 100%;
+	height: 60px;
+	padding: 25px;
+	text-align: center;
+	
+}
+
+/*********/
+/* MEDIA */
+/*********/
+.chatArea img {
+    border: 1px solid #ddd; /* Gray border */
+    border-radius: 4px;  /* Rounded border */
+    padding: 5px; /* Some padding */
+    width: 350px; /* Set a small width */
+	background: #424242;
+}
+
+/* Add a hover effect (blue shadow) */
+.chatArea img:hover {
+    box-shadow: 0 0 2px 5px rgba(0, 0, 0, 0.5);
+}
+
+/********************************/
+/* DEBUGGING - SINCE IT'S A BETA*/
+/********************************/
+* { margin: 0; padding: 0; box-sizing: border-box; }
+body { font: 13px Helvetica, Arial; }
+form { background: #424242; padding: 3px; position: fixed; bottom: 0; width: 100%; border-top: 2px solid #424242; }
+
+#messages { list-style-type: none; margin: 0; padding: 0; }
+#messages li { padding: 5px 10px; }
+#messages li:nth-child(odd) { background: linear-gradient(to right, #ddd , white); }
+#messages { margin-bottom: 0px }
+
+/*************/
+/* SCROLLBAR */	  
+/*************/  
+/* width */
+::-webkit-scrollbar {
+    width: 10px;
+/*	 box-shadow:  -10px 0 10px grey; */
+}
+
+/* Track */
+::-webkit-scrollbar-track {
+    background: #424242; 
+}
+
+/* Handle */
+::-webkit-scrollbar-thumb {
+    background: #ddd; 
+}
+
+/* Handle on hover */
+::-webkit-scrollbar-thumb:hover {
+    background: #555; 
+}
+
+
+
+
+/*************/
+/* MOBILE    */
+/*************/
+
+@media only screen and (max-width: 800px) {
+
+  .userList {
+	  font-size: 10px;
+  }
+  
+}
+
+
+@media only screen and (max-width: 500px) {
+  .chatArea {
+    width: 100%;
+  }
+  
+  .userList {
+	font-size: 7px;
+  }
+  .userList img {
+	  display: none;
+  }
+  
+}
+	  
+	  

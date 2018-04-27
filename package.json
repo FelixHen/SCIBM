@@ -1,0 +1,13 @@
+{
+  "name": "socket-chat-gruppe-m",
+  "version": "0.0.1",
+  "description": "Cloud Computing: A simple chat server: Jan-Patrick Kirchner [742143], Felix Hennig [752734], Konstantinos Karagkiozis [752753]",
+  "dependencies": {
+    "express": "^4.15.2",
+    "path": "^0.12.7",
+    "socket.io": "^1.7.4"
+  },
+  "scripts": {
+    "start": "node server.js"
+  }
+}
