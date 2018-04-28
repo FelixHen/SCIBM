@@ -10,14 +10,14 @@ var app = require('express')();
 var path = require('path');
 var http = require('http').Server(app);
 var server = require('http').createServer(app);
-var io = require('socket.io')(http);
-var port = process.env.PORT || process.env.VCAP_APP_PORT || 3000;
+let io = require('socket.io')(http);
+let port = process.env.PORT || process.env.VCAP_APP_PORT || 3000;
 var bodyParser = require('body-parser');
 
 // Create the service wrapper
-var ToneAnalyzerV3 = require('watson-developer-cloud/tone-analyzer/v3');
+let ToneAnalyzerV3 = require('watson-developer-cloud/tone-analyzer/v3');
 
-var toneAnalyzer = new ToneAnalyzerV3({
+let toneAnalyzer = new ToneAnalyzerV3({
     version_date: '2016-05-19',
     username: 'd13d161c-37a8-497c-b72d-ccb5601a83ef',
     password: 'vBRie4TxLo2Y',
