@@ -11,7 +11,7 @@ var path = require('path');
 var http = require('http').Server(app);
 var server = require('http').createServer(app);
 var io = require('socket.io')(http);
-var port = process.env.PORT || 3000;
+var port = process.env.PORT || process.env.VCAP_APP_PORT || 3000;
 var bodyParser = require('body-parser');
 
 // Create the service wrapper
