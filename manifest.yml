@@ -1,5 +1,5 @@
 ---
 applications:
-- name: cloudIBMreutlingen
+- name: cloudIBMreutlingenM
   memory: 128M
-  host: cloudIBMreutlingen
+  host: cloudIBMreutlingenM
