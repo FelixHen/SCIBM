@@ -18,6 +18,12 @@ $(document).ready(function () {
 		var file;
 		var fileInfo;
 		
+		//fuer Emojis
+		$('#m').emojioneArea({
+			
+			pickerPosition: "top"
+		})
+		
 		/*
 		builds message in HTML
 		*/
