@@ -8,28 +8,11 @@
   <head>
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-    <title>Socket.IO chat</title>
+    <title>Chat!!</title>
 	 <link rel="stylesheet" href="style.css" />
 
 <script>
-    function getTone() {
-	
-	var text={"texts":["",$('#m').val()]};
-
-        $.post({
-			type: 'POST',
-			dataType: 'json',
-			data: JSON.stringify(text),
-			contentType: 'application/json',
-			url: 'https://cloudibmreutlingenm.eu-de.mybluemix.net/tone',
-			success: function(data) {
-				console.log('success: ',data);
-				document.getElementById("mood").value = data.mood;
-			}
-		});	
-   
-
-    }
+    //tone
 </script>
    
    <link href="dist/emojionearea.css" rel="stylesheet"/>	
