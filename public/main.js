@@ -24,10 +24,14 @@ $(document).ready(function () {
 		
 		
 		//fuer Emojis
+		/*
 		$('#m').emojioneArea({
 			
 			pickerPosition: "top"
 		})
+		*/
+		
+		$("#example3").emojioneArea();
 		
 		/*
 		function getTone() {
