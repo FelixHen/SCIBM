@@ -31,7 +31,7 @@ $(document).ready(function () {
 		})
 		*/
 		
-		$("#example3").emojioneArea();
+		$("#m").emojioneArea();
 		
 		/*
 		function getTone() {
