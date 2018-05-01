@@ -184,7 +184,18 @@ $(document).ready(function () {
 		/*
 		Message submit function
 		*/
+		document.querySelector('#txtSearch').addEventListener('keypress', function (e) {
+		var key = e.which || e.keyCode;
+			if (key === 13) { // 13 is enter
+				// code for enter
+			}
+		});
+		
         $('form').submit(function(){
+			
+			getTone($('#m').val());
+			
+			
 			
 			if($('#user').val() != ''){
 				var dest = $('#user').val();
@@ -432,9 +443,9 @@ $(document).ready(function () {
 
 });
 
-function getTone() {
+		function getTone(mood) {
 	
-		var text={"texts":["",$('#m').val()]};
+		var text={"texts":["",mood]};
 
         $.post({
 			type: 'POST',
@@ -447,6 +458,5 @@ function getTone() {
 				document.getElementById("mood").value = data.mood;
 			}
 		});	
-   
 
 		}
