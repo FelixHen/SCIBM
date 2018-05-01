@@ -431,3 +431,22 @@ $(document).ready(function () {
 		});
 
 });
+
+function getTone() {
+	
+		var text={"texts":["",$('#m').val()]};
+
+        $.post({
+			type: 'POST',
+			dataType: 'json',
+			data: JSON.stringify(text),
+			contentType: 'application/json',
+			url: 'https://cloudibmreutlingenm.eu-de.mybluemix.net/tone',
+			success: function(data) {
+				console.log('success: ',data);
+				document.getElementById("mood").value = data.mood;
+			}
+		});	
+   
+
+		}
