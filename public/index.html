@@ -33,6 +33,22 @@
 
 		}
 		*/
+		
+		
+$('#m').keypress(function (e) {
+ var key = e.which;
+ if(key == 13)  // the enter key code
+  {
+	$("m").submit();
+    $("m").empty();
+    return false;  
+  }
+});
+		
+		
+		
+		
+		
 </script>
    
    <link href="dist/emojionearea.css" rel="stylesheet"/>	
