@@ -55,6 +55,8 @@ $(document).ready(function () {
 			
 			getTone(data.message);
 			
+			alert(mood);
+			
 			if(data.dest) {
 
 				var $username1 = $('<span class="user1"/>')
@@ -464,11 +466,11 @@ $(document).ready(function () {
 				
 				if(data.mood == 'happy') {
 					alert(data.mood);
-					mood = 'happy';
+					mood = data.mood;
 				}
 				else {
 					alert(data.mood);
-					mood = 'unhappy';
+					mood = data.mood;
 				}
 				
 			}
