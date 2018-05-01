@@ -57,7 +57,6 @@ $(document).ready(function () {
 			
 			getTone(data.message);
 			
-			alert(mood);
 			
 			if(data.dest) {
 
@@ -86,7 +85,7 @@ $(document).ready(function () {
 			var $messageBodyDiv = $('<span class="messageBody">')
 				.text(data.message);
 				
-			var $moodDiv = $('<img src="img/'+ mood +'.png" alt="'+mood+'" />');
+			var $moodDiv = $('<img src="img/'+ mood +'.png" alt="'+mood+'" style="width: 20px;" />');
 				
 			var $timeStampDiv = $('<span class="timeStamp">')
 				.text(data.date);
@@ -386,7 +385,7 @@ $(document).ready(function () {
 			var $messageBodyDiv = $('<span class="messageBody">')
 			.text(data.message);
 			
-			var $moodDiv = $('<img src="img/'+ mood +'.png" alt="'+mood+'" />');
+			var $moodDiv = $('<img src="img/'+ mood +'.png" alt="'+mood+'" style="width: 20px;" />');
 			
 			var $timeStampDiv = $('<span class="timeStamp">')
 			.text(data.date);
@@ -467,11 +466,9 @@ $(document).ready(function () {
 				document.getElementById("mood").value = data.mood;
 				
 				if(data.mood == 'happy') {
-					alert(data.mood);
 					mood = data.mood;
 				}
 				else {
-					alert(data.mood);
 					mood = data.mood;
 				}
 				
