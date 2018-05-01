@@ -462,10 +462,12 @@ $(document).ready(function () {
 				console.log('success: ',data);
 				document.getElementById("mood").value = data.mood;
 				
-				if(data.mood == "happy") {
+				if(data.mood == 'happy') {
+					alert(data.mood);
 					mood = "happy";
 				}
 				else {
+					alert(data.mood);
 					mood = "unhappy";
 				}
 				
