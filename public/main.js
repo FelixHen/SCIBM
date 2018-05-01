@@ -17,7 +17,7 @@ $(document).ready(function () {
 		var fileReader = new FileReader();	
 		var file;
 		var fileInfo;
-		
+		var mood;
 		
 		
 		
@@ -53,6 +53,7 @@ $(document).ready(function () {
 		*/
 		function addMessage(data) {
 			
+			getTone(data.message);
 			
 			if(data.dest) {
 
@@ -81,12 +82,14 @@ $(document).ready(function () {
 			var $messageBodyDiv = $('<span class="messageBody">')
 				.text(data.message);
 				
+			var $moodDiv = $('<img src="img/'+ mood +'.png" alt="'+mood+'" />');
+				
 			var $timeStampDiv = $('<span class="timeStamp">')
 				.text(data.date);
 
 			var $messageDiv = $('<li class="message"/>')
 				.data('username', data.user)
-				.append($usernameDiv, $messageBodyDiv, $timeStampDiv);
+				.append($usernameDiv, $messageBodyDiv, $moodDiv, $timeStampDiv);
 
 			//alert(data.message);
 			addMessageElement($messageDiv);
@@ -351,7 +354,7 @@ $(document).ready(function () {
 		}
 		
 		function appendFile(file, fileInfo, data){
-		
+			
 			if(data.dest) {
 
 				var $username1 = $('<span class="user1"/>')
@@ -379,6 +382,8 @@ $(document).ready(function () {
 			var $messageBodyDiv = $('<span class="messageBody">')
 			.text(data.message);
 			
+			var $moodDiv = $('<img src="img/'+ mood +'.png" alt="'+mood+'" />');
+			
 			var $timeStampDiv = $('<span class="timeStamp">')
 			.text(data.date);
 
@@ -397,7 +402,7 @@ $(document).ready(function () {
 			
 			var $messageDiv = $('<li class="message"/>')
 			.data('username', data.user)
-			.append($usernameDiv, $messageData, $messageBodyDiv, $timeStampDiv);
+			.append($usernameDiv, $messageData, $messageBodyDiv, $moodDiv, $timeStampDiv);
 			
 			addMessageElement($messageDiv);
 		}
@@ -424,6 +429,8 @@ $(document).ready(function () {
 			$('#user').val('');
 			$('#m').val('');
 			
+			getTone(data.message);
+			
 			appendFile(file.target.result, fileInfo, data);
 	
 			socket.emit('file', file.target.result, fileInfo, data);
@@ -433,14 +440,17 @@ $(document).ready(function () {
 		receives file + message and calls appendFile (called from server)
 		*/
 		socket.on('file', function(file, fileInfo, data){
+			
+			getTone(data.message);
+			
 			appendFile(file, fileInfo, data);
 		});
 
 });
 
-		function getTone(mood) {
+		function getTone(message) {
 	
-		var text={"texts":["",mood]};
+		var text={"texts":["",message]};
 
         $.post({
 			type: 'POST',
@@ -451,6 +461,14 @@ $(document).ready(function () {
 			success: function(data) {
 				console.log('success: ',data);
 				document.getElementById("mood").value = data.mood;
+				
+				if(data.mood == "happy") {
+					mood = "happy";
+				}
+				else {
+					mood = "unhappy";
+				}
+				
 			}
 		});	
 
