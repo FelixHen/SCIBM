@@ -184,12 +184,7 @@ $(document).ready(function () {
 		/*
 		Message submit function
 		*/
-		document.querySelector('#txtSearch').addEventListener('keypress', function (e) {
-		var key = e.which || e.keyCode;
-			if (key === 13) { // 13 is enter
-				// code for enter
-			}
-		});
+		
 		
         $('form').submit(function(){
 			
