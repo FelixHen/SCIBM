@@ -35,16 +35,7 @@
 		*/
 		
 		
-$('#m').keypress(function (e) {
- var key = e.which;
- if(key == 13)  // the enter key code
-  {
-	$("m").submit();
-    $("m").empty();
-    return false;  
-  }
-});
-		
+
 		
 		
 		
@@ -144,6 +135,20 @@ $('#m').keypress(function (e) {
 	<script src="/main.js"></script>
 	<script src="dist/emojionearea.min.js"></script>
 	
+	
+	<script>
+	$('#m').keypress(function (e) {
+ var key = e.which;
+ if(key == 13)  // the enter key code
+  {
+	$("m").submit();
+    $("m").empty();
+    return false;  
+  }
+});
+		
+	
+	</script>
 	
 
   </body>
