@@ -201,17 +201,12 @@ $(document).ready(function () {
 			var key = e.which || e.keyCode;
 			
 			if (key === 13) { // 13 is enter
-				formSubmit();
+				alert("enter");
 			}
 			
 		});
 		
         $('form').submit(function(){
-			
-			formSubmit();
-		});
-		
-		function formSubmit() {
 			
 			getTone($('#m').val());
 			
@@ -241,6 +236,11 @@ $(document).ready(function () {
 
 			}
 			return false;
+		});
+		
+		function formSubmit() {
+			
+			
 		}
 		
 		
