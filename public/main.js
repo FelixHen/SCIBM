@@ -236,7 +236,8 @@ $(document).ready(function () {
 				
 				$('#user').val('');
 				$('#m').val('');
-				$('#m').empty();
+				$("div.emojionearea-editor").data("emojioneArea").setText('');
+
 			}
 			return false;
 		}
