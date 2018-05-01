@@ -86,14 +86,14 @@ $(document).ready(function () {
 			var $messageBodyDiv = $('<span class="messageBody">')
 				.text(data.message);
 				
-			var $moodDiv = $('<img src="img/'+ mood +'.png" alt="'+mood+'" style="width: 30px;" />');
+			var $moodDiv = $('<img src="img/'+ mood +'.png" alt="'+mood+'" class="moodEmote" />');
 				
 			var $timeStampDiv = $('<span class="timeStamp">')
 				.text(data.date);
 
 			var $messageDiv = $('<li class="message"/>')
 				.data('username', data.user)
-				.append($usernameDiv, $messageBodyDiv, $moodDiv, $timeStampDiv);
+				.append($usernameDiv, $messageBodyDiv, $timeStampDiv, $moodDiv);
 
 			//alert(data.message);
 			addMessageElement($messageDiv);
@@ -218,7 +218,7 @@ $(document).ready(function () {
 						dest: dest
 					});
 				}
-				
+				$('#m').empty();
 				$('#user').val('');
 				$('#m').val('');
 			}
@@ -406,7 +406,7 @@ $(document).ready(function () {
 			
 			var $messageDiv = $('<li class="message"/>')
 			.data('username', data.user)
-			.append($usernameDiv, $messageData, $messageBodyDiv, $moodDiv, $timeStampDiv);
+			.append($usernameDiv, $messageData, $messageBodyDiv, $timeStampDiv, $moodDiv);
 			
 			addMessageElement($messageDiv);
 		}
