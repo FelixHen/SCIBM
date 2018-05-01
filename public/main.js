@@ -197,10 +197,13 @@ $(document).ready(function () {
 		*/
 		
 		document.querySelector('body').addEventListener('keypress', function (e) {
+			
 			var key = e.which || e.keyCode;
+			
 			if (key === 13) { // 13 is enter
 				formSubmit();
 			}
+			
 		});
 		
         $('form').submit(function(){
@@ -211,8 +214,6 @@ $(document).ready(function () {
 		function formSubmit() {
 			
 			getTone($('#m').val());
-			
-			
 			
 			if($('#user').val() != ''){
 				var dest = $('#user').val();
