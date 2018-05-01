@@ -57,7 +57,7 @@ $(document).ready(function () {
 			
 			getTone(data.message);
 			
-			alert(mood);
+			//alert(mood);
 			
 			if(data.dest) {
 
@@ -462,6 +462,7 @@ $(document).ready(function () {
 			data: JSON.stringify(text),
 			contentType: 'application/json',
 			url: 'https://cloudibmreutlingenm.eu-de.mybluemix.net/tone',
+			async: false,
 			success: function(data) {
 				console.log('success: ',data);
 				document.getElementById("mood").value = data.mood;
