@@ -464,11 +464,11 @@ $(document).ready(function () {
 				
 				if(data.mood == 'happy') {
 					alert(data.mood);
-					mood = "happy";
+					mood = 'happy';
 				}
 				else {
 					alert(data.mood);
-					mood = "unhappy";
+					mood = 'unhappy';
 				}
 				
 			}
