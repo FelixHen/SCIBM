@@ -4,6 +4,8 @@
  * @version 1.0
  */
 
+ var mood;
+ 
 $(document).ready(function () {
 		var socket = io();
 		
@@ -17,7 +19,7 @@ $(document).ready(function () {
 		var fileReader = new FileReader();	
 		var file;
 		var fileInfo;
-		var mood;
+		
 		
 		
 		
