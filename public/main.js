@@ -222,9 +222,10 @@ $(document).ready(function () {
 						dest: dest
 					});
 				}
-				//$('#m').empty();
-				//$('#user').val('');
-				//$('#m').val('');
+				
+				$('#user').val('');
+				$('#m').val('');
+				$('#m').empty();
 			}
 			return false;
         });
