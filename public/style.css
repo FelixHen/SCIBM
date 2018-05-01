@@ -257,12 +257,19 @@ h3.onlineUsers {
 /* MEDIA */
 /*********/
 .chatArea img {
-    border: 1px solid #ddd; /* Gray border */
+   
+}
+
+
+.imageFile {
+	 border: 1px solid #ddd; /* Gray border */
     border-radius: 4px;  /* Rounded border */
     padding: 5px; /* Some padding */
     width: 350px; /* Set a small width */
 	background: #424242;
 }
+
+
 
 /* Add a hover effect (blue shadow) */
 .chatArea img:hover {

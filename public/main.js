@@ -392,7 +392,7 @@ $(document).ready(function () {
 			.text(data.date);
 
 			if (fileInfo.fileType === 'image'){
-				var $messageData = $('<li><a target="_blank" href="' + file + '" height="150px" ><img src="' + file + '" alt="Forest"></a></li>');
+				var $messageData = $('<li><a target="_blank" href="' + file + '" height="150px" ><img src="' + file + '" alt="Image" class="imageFile" /></a></li>');
 			}
 			else if (fileInfo.fileType === 'audio') {
 				var $messageData = $('<li><audio controls><source src="' + file + '"></li>');
