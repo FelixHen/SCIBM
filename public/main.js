@@ -196,7 +196,7 @@ $(document).ready(function () {
 		Message submit function
 		*/
 		
-		document.querySelector('body').addEventListener('keypress', function (e) {
+		document.querySelector('#m').addEventListener('keypress', function (e) {
 			
 			var key = e.which || e.keyCode;
 			
