@@ -201,11 +201,11 @@ document = window.document || {};
             searchPosition    : "top", // top | bottom
             hidePickerOnBlur  : true,
             buttonTitle       : "Use the TAB key to insert emoji faster",
-            tones             : true,
+            tones             : false,
             tonesStyle        : "bullet", // bullet | radio | square | checkbox
             inline            : null, // null - auto
             saveEmojisAs      : "unicode", // unicode | shortname | image
-            shortcuts         : true,
+            shortcuts         : false,
             autocomplete      : true,
             autocompleteTones : false,
             standalone        : false,
