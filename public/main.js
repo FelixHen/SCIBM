@@ -386,7 +386,7 @@ $(document).ready(function () {
 			var $messageBodyDiv = $('<span class="messageBody">')
 			.text(data.message);
 			
-			var $moodDiv = $('<img src="img/'+ mood +'.png" alt="'+mood+'" style="width: 30px;" />');
+			var $moodDiv = $('<img src="img/'+ mood +'.png" alt="'+mood+'" class="moodEmote" />');
 			
 			var $timeStampDiv = $('<span class="timeStamp">')
 			.text(data.date);

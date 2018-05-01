@@ -269,12 +269,12 @@ h3.onlineUsers {
 	background: #424242;
 }
 
-
-
-/* Add a hover effect (blue shadow) */
-.chatArea img:hover {
+/* Add a hover effect (black shadow) */
+.imageFile :hover {
     box-shadow: 0 0 2px 5px rgba(0, 0, 0, 0.5);
 }
+
+
 
 /********************************/
 /* DEBUGGING - SINCE IT'S A BETA*/
@@ -343,3 +343,9 @@ form { background: #424242; padding: 3px; position: fixed; bottom: 0; width: 100
 }
 	  
 	  
+	  
+.moodEmote {	  
+    width: 10px;
+    float: right;
+    margin-top: -5px;	  
+}
