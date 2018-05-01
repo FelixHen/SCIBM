@@ -27,6 +27,7 @@ $(document).ready(function () {
 			pickerPosition: "top"
 		})
 		
+		/*
 		function getTone() {
 	
 		var text={"texts":["",$('#m').val()]};
@@ -44,7 +45,8 @@ $(document).ready(function () {
 		});	
    
 
-    }
+		}
+		*/
 		
 		/*
 		builds message in HTML
