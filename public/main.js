@@ -86,7 +86,7 @@ $(document).ready(function () {
 			var $messageBodyDiv = $('<span class="messageBody">')
 				.text(data.message);
 				
-			var $moodDiv = $('<img src="img/'+ mood +'.png" alt="'+mood+'" class="moodEmote" />');
+			var $moodDiv = $('<img src="img/'+ mood +'.png" alt="'+mood+'" class="moodEmote" title="'+mood+'" />');
 				
 			var $timeStampDiv = $('<span class="timeStamp">')
 				.text(data.date);
@@ -386,7 +386,7 @@ $(document).ready(function () {
 			var $messageBodyDiv = $('<span class="messageBody">')
 			.text(data.message);
 			
-			var $moodDiv = $('<img src="img/'+ mood +'.png" alt="'+mood+'" class="moodEmote" />');
+			var $moodDiv = $('<img src="img/'+ mood +'.png" alt="'+mood+'" class="moodEmote" title="'+mood+'" />');
 			
 			var $timeStampDiv = $('<span class="timeStamp">')
 			.text(data.date);
