@@ -202,13 +202,14 @@ $(document).ready(function () {
 			
 			if (key === 13) { // 13 is enter
 				alert("enter");
+				
 			}
 			
 		});
 		
         $('form').submit(function(){
 			
-			getTone(message);
+			getTone($('#m').val());
 			
 			if($('#user').val() != ''){
 				var dest = $('#user').val();
@@ -236,6 +237,7 @@ $(document).ready(function () {
 
 			}
 			return false;
+			
 		});
 		
 		function formSubmit(message) {
