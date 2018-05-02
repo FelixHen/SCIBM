@@ -33,7 +33,7 @@ $(document).ready(function () {
 		
 		//$("#m").emojioneArea();
 		
-		$("#txtMessage").emojioneArea({
+		$("#m").emojioneArea({
     events: {
       keypress: function (editor, event) {
           console.log('event:keypress', event.which); //work
@@ -41,7 +41,7 @@ $(document).ready(function () {
           console.log('event:keypress2', event.which); //work
           $('#add-msg-form').submit(); // work
           //$('#txtMessage').val(''); //not work
-          $('#txtMessage').data("emojioneArea").setText(""); // this work
+          $('#m').data("emojioneArea").setText(""); // this work
         }
       }
     }
