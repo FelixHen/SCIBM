@@ -202,19 +202,19 @@ $(document).ready(function () {
 			
 			if (key === 13) { // 13 is enter
 				alert("enter");
-				formSubmit();
+				formSubmit($('#m').val());
 			}
 			
 		});
 		
         $('form').submit(function(){
-			formSubmit();
+			formSubmit($('#m').val());
 			
 		});
 		
-		function formSubmit() {
+		function formSubmit(message) {
 			
-			getTone($('#m').val());
+			getTone(message);
 			
 			if($('#user').val() != ''){
 				var dest = $('#user').val();
