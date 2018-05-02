@@ -202,17 +202,11 @@ $(document).ready(function () {
 			
 			if (key === 13) { // 13 is enter
 				alert("enter");
-				formSubmit($('#m').val());
 			}
 			
 		});
 		
         $('form').submit(function(){
-			formSubmit($('#m').val());
-			
-		});
-		
-		function formSubmit(message) {
 			
 			getTone(message);
 			
@@ -238,10 +232,15 @@ $(document).ready(function () {
 				
 				$('#user').val('');
 				$('#m').val('');
-				//$("div.emojionearea-editor").data("emojioneArea").setText('');
+				$("div.emojionearea-editor").data("emojioneArea").setText('');
 
 			}
 			return false;
+		});
+		
+		function formSubmit(message) {
+			
+			
 		}
 		
 		
