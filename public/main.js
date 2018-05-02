@@ -31,7 +31,21 @@ $(document).ready(function () {
 		})
 		*/
 		
-		$("#m").emojioneArea();
+		//$("#m").emojioneArea();
+		
+		$("#txtMessage").emojioneArea({
+    events: {
+      keypress: function (editor, event) {
+          console.log('event:keypress', event.which); //work
+        if(event.which == 13){
+          console.log('event:keypress2', event.which); //work
+          $('#add-msg-form').submit(); // work
+          //$('#txtMessage').val(''); //not work
+          $('#txtMessage').data("emojioneArea").setText(""); // this work
+        }
+      }
+    }
+  });
 		
 		/*
 		function getTone() {
