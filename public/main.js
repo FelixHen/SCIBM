@@ -202,11 +202,17 @@ $(document).ready(function () {
 			
 			if (key === 13) { // 13 is enter
 				alert("enter");
+				formSubmit();
 			}
 			
 		});
 		
         $('form').submit(function(){
+			formSubmit();
+			
+		});
+		
+		function formSubmit() {
 			
 			getTone($('#m').val());
 			
@@ -236,11 +242,6 @@ $(document).ready(function () {
 
 			}
 			return false;
-		});
-		
-		function formSubmit() {
-			
-			
 		}
 		
 		
