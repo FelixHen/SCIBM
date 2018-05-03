@@ -224,7 +224,7 @@ $(document).ready(function () {
 		
 			if( code === 13 ) {
 				e.preventDefault();
-				$( "#" ).click();
+				$( "#submitBtn" ).click();
 			};
 		});
 		
