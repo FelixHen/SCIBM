@@ -219,14 +219,6 @@ $(document).ready(function () {
 		// 	}
 			
 		// });
-		$('form').keypress(function(e){
-			var code = e.keyCode || e.which;
-		
-			if( code === 13 ) {
-				e.preventDefault();
-				$( "#submitBtn" ).click();
-			};
-		});
 		
         $('form').submit(function(){
 			
