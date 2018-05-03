@@ -199,9 +199,8 @@ $(document).ready(function () {
 		*/
 		$('#loginButton').on('click', function (event) {
 
-			if($('#login').val()) {
-			
-			socket.emit('add_User', $('#login').val());
+			if($('#login').val()) {		
+				socket.emit('add_User', $('#login').val());
 			}
 		});
 	  
