@@ -222,7 +222,7 @@ $(document).ready(function () {
 		
         $('form').submit(function(){
 			
-			getTone($('#m').val());
+			
 			
 			if($('#user').val() != ''){
 				var dest = $('#user').val();
@@ -237,7 +237,7 @@ $(document).ready(function () {
 			else {
 				
 				if($('#m').val()){
-				
+					getTone($('#m').val());
 					socket.emit('chat_message', {
 						msg: $('#m').val(),
 						dest: dest
