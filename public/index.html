@@ -33,9 +33,7 @@
 
 		}
 		*/
-		
-
-		
+	
 </script>
    
    <link href="dist/emojionearea.css" rel="stylesheet"/>	
@@ -51,17 +49,14 @@
   </head>
   
   <body>
+
     <ul class="pages">
 		
 	<li class="chat page">
 	
-
-	
-	
 	<div class="chatArea" id="messageFild">
 	
 		<ul class="messages" id="messages">
-	
 	
 		</ul>
 		
@@ -69,38 +64,28 @@
 	
 	<div class="userList" id="userList">
 		<h3 class="title onlineUsers">Online Users <span id="userCounter"></span></h3>
-		<ul class="users" id="users">
-	
-	
-		</ul>
+		<ul class="users" id="users"></ul>
 		
 	</div>
 		
     <form method="POST" action="tone" id="messageForm">
-	<div style="clear: both;" />
-	
-	
-		
-	
+		<div style="clear: both;" />
 
-		<select name="user" size="1" id="user">
-			
+		<select name="user" size="1" id="user">		
 		</select>
 		
 		
 			<label for="fileselect" class="btn_round">file upload</label>
 			<input id="fileselect" style="visibility:hidden;" type="file" name="fileselect">
 		
-	
 
 		<br />
 		<input id="m" autocomplete="off" placeholder="your message" type="text" />
-		
-		
-		<button class="btn_round" onclick="">Send</button>
+			
+		<!-- <button class="btn_round" onclick="">Send</button> -->
+		<input type="submit" class="btn_round" value="Sign In" > 
 		<input id="mood" type="hidden" name="mood" value="" readonly> 
-		
-	
+			
 	</form>
 	
 
