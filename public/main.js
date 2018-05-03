@@ -219,6 +219,16 @@ $(document).ready(function () {
 		// 	}
 			
 		// });
+
+		document.getElementById('m').addEventListener('keypress', function(e) {
+			
+			var key = e.which || e.keyCode;
+			
+			if (key === 13) { // 13 is enter
+				alert("enter");			
+			}
+			
+		});
 		
         $('form').submit(function(){
 			
