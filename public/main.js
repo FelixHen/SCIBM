@@ -73,7 +73,7 @@ $(document).ready(function () {
 		*/
 		function addMessage(data) {
 			
-			getTone(data.message);
+			// getTone(data.message);
 			
 			//alert(mood);
 			
