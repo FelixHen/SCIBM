@@ -209,20 +209,26 @@ $(document).ready(function () {
 		Message submit function
 		*/
 		
-		document.querySelector('body').addEventListener('keypress', function (e) {
+		// document.querySelector('body').addEventListener('keypress', function (e) {
 			
-			var key = e.which || e.keyCode;
+		// 	var key = e.which || e.keyCode;
 			
-			if (key === 13) { // 13 is enter
-				alert("enter");
+		// 	if (key === 13) { // 13 is enter
+		// 		alert("enter");
 				
-			}
+		// 	}
 			
+		// });
+		$('form').keypress(function(e){
+			var code = e.keyCode || e.which;
+		
+			if( code === 13 ) {
+				e.preventDefault();
+				$( "#" ).click();
+			};
 		});
 		
         $('form').submit(function(){
-			
-			
 			
 			if($('#user').val() != ''){
 				var dest = $('#user').val();
