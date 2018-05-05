@@ -59,7 +59,7 @@ app.post('/login', function(req, res) {
   });
 
 //registration
-app.post('/reg', function(req, res) {
+app.post('/signup', function(req, res) {
 	console.log("LOGIN: "+JSON.stringify(req.body));
 
 	/* check data*/ 
