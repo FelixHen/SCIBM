@@ -94,10 +94,17 @@ ul {
   font-weight: 100;
 }
 
-#profileImg{
+#imageUpload
+{
+    display: none;
+}
+
+#profileImage
+{
   width:100px;
   height:100px;
   margin-bottom:40px;
+  cursor: pointer;
 }
 
 /* Chat page */
