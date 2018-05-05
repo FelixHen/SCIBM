@@ -1,6 +1,6 @@
 <!--
  * Node Server
- * @author Jan-Patrick Kirchner [742143], Felix Hennig [752734], Konstantinos Karagkiozis [752753]
+ * @author Jan-Patrick Kirchner [742143], Felix Hennig [752734], Konstantinos Karagkiozis [752753], Marija Belova []
  * @version 1.0
 -->
 <!doctype html>
@@ -79,13 +79,20 @@
 		 
 		 $('#registerButton').on('click', function (event) {
 
-			alert("registerButton");
+			//alert("registerButton");
 			
 			$.ajax({
 			url: '/register',
-            method: 'POST'
-            
-        });
+            method: 'POST',
+            contentType: 'application/json',
+            data: JSON.stringify({
+                test: null
+            }),
+            success: function (response) {
+				
+				
+            }
+			});
 			
 		});
 	</script> 
