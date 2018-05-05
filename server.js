@@ -78,7 +78,7 @@ app.post('/signup', function(req, res) {
 	// res.send(req.body);
   });
   
-app.post('/register', function(req, res) {
+app.get('/register', function(req, res) {
 	//console.log("register: "+JSON.stringify(req.body));
 
 	/* check data*/ 
