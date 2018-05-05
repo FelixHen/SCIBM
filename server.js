@@ -77,6 +77,25 @@ app.post('/signup', function(req, res) {
 	res.sendFile(__dirname + '/public/chat.html');
 	// res.send(req.body);
   });
+  
+app.post('/register', function(req, res) {
+	//console.log("register: "+JSON.stringify(req.body));
+
+	/* check data*/ 
+
+	// console.log(req.body.password);
+	//the name from login field
+	//var username = req.body.username;  
+	//var password = req.body.password;  
+	// var clients=getArrayWithNames();
+	//if(username!=null){
+	//	console.log(req.body.username);
+	//	user.name=username;
+	//	user.password=password;
+	//}
+	res.sendFile(__dirname + '/public/register.html');
+	// res.send(req.body);
+  });
 //   app.use('/',router);
 
 /*

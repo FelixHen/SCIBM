@@ -80,6 +80,20 @@
 		 $('#registerButton').on('click', function (event) {
 
 			alert("registerButton");
+			
+			$.ajax({
+			url: '/register',
+            method: 'POST',
+            contentType: 'application/json',
+            data: JSON.stringify({
+                leer: ""
+            }),
+            success: function (response) {
+				
+				
+            }
+        });
+			
 		});
 	</script> 
 
