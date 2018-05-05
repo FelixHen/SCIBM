@@ -77,7 +77,7 @@ app.post('/reg', function(req, res) {
 	res.sendFile(__dirname + '/public/chat.html');
 	// res.send(req.body);
   });
-  app.use('/',router);
+//   app.use('/',router);
 
 /*
 
