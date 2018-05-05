@@ -36,7 +36,7 @@
 			<form class="form" action="/login" method="post" > 
 				<!-- <input type="image" id="profileImg" src="img/user.png" alt="Profile Image"> -->
 				<image id="profileImage" src="img/user.png" />
-				<input id="imageUpload" type="file" name="profile_img" placeholder="Avatar" required="" capture>
+				<input id="imageUpload" type="file" name="profile_img" placeholder="Avatar" onchange="loadImg(event)" required="" capture>
 				<h3 class="title">What's your nickname?</h3>
 				<input id="login" class="usernameInput" name="username" type="text" maxlength="14" minlength="1" required/> <br /><br />
 				<h3 class="title">What's your password?</h3>
@@ -62,6 +62,14 @@
 		$("#profileImage").click(function(e) {
 			$("#imageUpload").click();
 		});
+		var loadImg = function(e) {
+			var reader = new FileReader();
+			reader.onload = function(){
+				var output = document.getElementById('profileImage');
+				output.src = reader.result;
+    		};
+    		reader.readAsDataURL(e.target.files[0]);
+ 		 };
 	</script>
 
 </html>
