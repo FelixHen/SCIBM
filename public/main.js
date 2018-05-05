@@ -4,7 +4,7 @@
  * @version 1.0
  */
 
- var mood;
+var mood;
  
 $(document).ready(function () {
 		var socket = io();
@@ -24,14 +24,6 @@ $(document).ready(function () {
 		
 		
 		//fuer Emojis
-		/*
-		$('#m').emojioneArea({
-			
-			pickerPosition: "top"
-		})
-		*/
-		
-		//$("#m").emojioneArea();
 		
 		$("#m").emojioneArea({
 			events: {
@@ -46,28 +38,7 @@ $(document).ready(function () {
 				}
 			}
 		});
-		
-		/*
-		function getTone() {
-	
-		var text={"texts":["",$('#m').val()]};
-
-        $.post({
-			type: 'POST',
-			dataType: 'json',
-			data: JSON.stringify(text),
-			contentType: 'application/json',
-			url: 'https://cloudibmreutlingenm.eu-de.mybluemix.net/tone',
-			success: function(data) {
-				console.log('success: ',data);
-				document.getElementById("mood").value = data.mood;
-			}
-		});	
-   
-
-		}
-		*/
-		
+				
 		/*
 		builds message in HTML
 		*/
@@ -204,31 +175,17 @@ $(document).ready(function () {
 			}
 		});
 	  
-        
-		/*
-		Message submit function
-		*/
-		
-		// document.querySelector('body').addEventListener('keypress', function (e) {
+
+
+		// document.getElementById('m').addEventListener('keypress', function(e) {
 			
 		// 	var key = e.which || e.keyCode;
 			
 		// 	if (key === 13) { // 13 is enter
-		// 		alert("enter");
-				
+		// 		alert("enter");			
 		// 	}
 			
 		// });
-
-		document.getElementById('m').addEventListener('keypress', function(e) {
-			
-			var key = e.which || e.keyCode;
-			
-			if (key === 13) { // 13 is enter
-				alert("enter");			
-			}
-			
-		});
 		
         $('form').submit(function(){
 			
@@ -271,8 +228,8 @@ $(document).ready(function () {
 		shows chat page if login is successful (called from server)
 		*/
 		socket.on('login', function (data) {
-			$loginPage.fadeOut();
-			$chatPage.show();
+			// $loginPage.fadeOut();
+			// $chatPage.show();
 			myUsername = data.username;
 			log("Welcome to Chat: " + data.username);
 		});

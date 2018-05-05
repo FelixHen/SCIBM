@@ -8,33 +8,8 @@
   <head>
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-    <title>Chat!!</title>
+    <title>Chat login</title>
 	 <link rel="stylesheet" href="style.css" />
-
-<script>
-    //tone
-	/*
-	function getTone() {
-	
-		var text={"texts":["",$('#m').val()]};
-
-        $.post({
-			type: 'POST',
-			dataType: 'json',
-			data: JSON.stringify(text),
-			contentType: 'application/json',
-			url: 'https://cloudibmreutlingenm.eu-de.mybluemix.net/tone',
-			success: function(data) {
-				console.log('success: ',data);
-				document.getElementById("mood").value = data.mood;
-			}
-		});	
-   
-
-		}
-		*/
-	
-</script>
    
    <link href="dist/emojionearea.css" rel="stylesheet"/>	
    
@@ -52,54 +27,17 @@
 
     <ul class="pages">
 		
-	<li class="chat page">
-	
-	<div class="chatArea" id="messageFild">
-	
-		<ul class="messages" id="messages">
-	
-		</ul>
-		
-	</div>
-	
-	<div class="userList" id="userList">
-		<h3 class="title onlineUsers">Online Users <span id="userCounter"></span></h3>
-		<ul class="users" id="users"></ul>
-		
-	</div>
-		
-    <form method="post" action="" id="messageForm">
-		<div style="clear: both;" />
-
-		<select name="user" size="1" id="user">		
-		</select>
-		
-		
-			<label for="fileselect" class="btn_round">file upload</label>
-			<input id="fileselect" style="visibility:hidden;" type="file" name="fileselect">
-		
-
-		<br />
-		<input id="m" autocomplete="off" placeholder="your message" type="text" />
-			
-		<!-- <button class="btn_round" onclick="">Send</button> -->
-		<!-- <button type="submit" class="btn_round" onclick="">Send</button> -->
-		<input type="submit" id="submitBtn" class="btn_round" value="Send" /> 
-		<input id="mood" type="hidden" name="mood" value="" readonly> 
-			
-	</form>
-	
-	</li>
-	
 	<li class="login page">
 		<div id="header_top">
 			<h2>BETA v0.1 (IBM) - IBM<span style="color:red;">chat</style></h2>
 		</div>
 
 		<div class="form">
-			<form class="form"> 
+			<form class="form" action="/login" method="post" > 
 				<h3 class="title">What's your nickname?</h3>
-				<input id="login" class="usernameInput" type="text" maxlength="14" /> <br /><br />
+				<input id="login" class="usernameInput" name="username" type="text" maxlength="14" minlength="1" required/> <br /><br />
+				<h3 class="title">What's your password?</h3>
+				<input id="password" class="passwordInput" name="password" type="password" maxlength="14" minlength="3" required/> <br /><br />
 				<!-- <button id="loginButton" class="btn_round">Login</button> -->
 				<input type="submit" id="loginButton" class="btn_round" value="Login" /> 
 			</form>
@@ -108,16 +46,15 @@
 	
 	</ul>
 	
-   <script src="https://cdn.socket.io/socket.io-1.7.3.js"></script>
+    <script src="https://cdn.socket.io/socket.io-1.7.3.js"></script>
     <script src="https://code.jquery.com/jquery-1.11.1.js"></script>
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>	
 	
-	<script src="/colors.js"></script>
-	<script src="/main.js"></script>
-	<script src="dist/emojionearea.min.js"></script>
-	
+	<!-- <script src="colors.js"></script>
+	<script src="main.js"></script> -->
+	<!-- <script src="dist/emojionearea.min.js"></script> -->
+	</body>
 
 	
 
-  </body>
 </html>

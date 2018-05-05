@@ -14,6 +14,13 @@ let io = require('socket.io')(http);
 let port = process.env.PORT || process.env.VCAP_APP_PORT || 3000;
 var bodyParser = require('body-parser');
 
+var router = express.Router();
+app.use(express.static(path.join(__dirname, 'public')));
+
+app.use(bodyParser.urlencoded({ extended: false }));
+app.use(bodyParser.json());
+
+
 // Create the service wrapper
 let ToneAnalyzerV3 = require('watson-developer-cloud/tone-analyzer/v3');
 
@@ -26,13 +33,31 @@ let toneAnalyzer = new ToneAnalyzerV3({
 
 require('dotenv').config({silent: true});
 
-app.use(express.static(path.join(__dirname, 'public')));
-app.use(bodyParser.json());
 
 	
 var numUsers = 0;		// number of users
 var users = {};			// contains sockets
 var userNames = [];		// names of users
+var user={};
+
+//--------POST login
+app.post('/login', function(req, res) {
+	console.log("LOGIN: "+JSON.stringify(req.body));
+	
+	// console.log(req.body.password);
+	//the name from login field
+	var username = req.body.username;  
+	var password = req.body.password;  
+	// var clients=getArrayWithNames();
+	if(username!=null){
+		console.log(req.body.username);
+		user.name=username;
+		user.password=password;
+	}
+	res.sendFile(__dirname + '/public/chat.html');
+	// res.send(req.body);
+  });
+  app.use('/',router);
 
 /*
 
@@ -40,12 +65,44 @@ var userNames = [];		// names of users
 io.on('connection', function(socket){
 	
 	console.log('a user connected');
-	
+	console.log("USER: "+user.name+" PASSWORD: "+user.password);
+	addUser(user.name);
 	/*
 	Login process
 	*/
-	socket.on('add_User', function(username) {
+	// socket.on('add_User', function(username) {
 		
+	// 	var username = username.replace(/[ `~!@#$%^&*()_|+\-=?;:'",.<>\{\}\[\]\\\/]/gi, '');
+		
+	// 	if(users[username]) {
+	// 		console.log('user exist: '+ username);
+	// 		socket.emit('login_failed', { });			// username is taken
+	// 	}
+	// 	else {
+	// 		console.log('add user: '+ username);
+	// 		socket.username = username;
+			
+	// 		userNames.push(username);
+			
+	// 		users[username] = socket.id;
+
+	// 		numUsers++;
+			
+	// 		socket.emit('login', {						// call client login
+	// 			username: username
+	// 		});
+			
+	// 		io.emit('userList', {						// sends userList to all clients
+	// 			userList: userNames
+	// 		});
+			
+	// 		socket.broadcast.emit('user_joined', {		// sends user joined message to other clients
+	// 			username: socket.username
+	// 		});
+	// 	}
+	// });
+
+	function addUser(username){
 		var username = username.replace(/[ `~!@#$%^&*()_|+\-=?;:'",.<>\{\}\[\]\\\/]/gi, '');
 		
 		if(users[username]) {
@@ -74,7 +131,7 @@ io.on('connection', function(socket){
 				username: socket.username
 			});
 		}
-	});
+	}
 	
 	/*
 	removes user
