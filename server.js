@@ -40,10 +40,30 @@ var users = {};			// contains sockets
 var userNames = [];		// names of users
 var user={};
 
-//--------POST login
+//login
 app.post('/login', function(req, res) {
 	console.log("LOGIN: "+JSON.stringify(req.body));
 	
+	// console.log(req.body.password);
+	//the name from login field
+	var username = req.body.username;  
+	var password = req.body.password;  
+	// var clients=getArrayWithNames();
+	if(username!=null){
+		console.log(req.body.username);
+		user.name=username;
+		user.password=password;
+	}
+	res.sendFile(__dirname + '/public/chat.html');
+	// res.send(req.body);
+  });
+
+//registration
+app.post('/reg', function(req, res) {
+	console.log("LOGIN: "+JSON.stringify(req.body));
+
+	/* check data*/ 
+
 	// console.log(req.body.password);
 	//the name from login field
 	var username = req.body.username;  
