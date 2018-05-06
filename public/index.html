@@ -33,7 +33,7 @@
 		</div>
 
 		<div class="form">
-			<form class="form" action="/login" method="post"  > 
+			<form id="form1" class="form" action="/login" method="post"  > 
 				<!-- <input type="image" id="profileImg" src="img/user.png" alt="Profile Image"> -->
 				<h3 class="tit">Log In</h3> 
 				<!--
@@ -49,8 +49,12 @@
 				<!-- <a href="register.html"><button id="registerButton" class="btn_round">Register</button></a> -->
 				<input type="submit" id="loginButton" class="btn_round" value="Login" /> 
 			</form>
+			
+			<form id="form2" class="form" action="/register" method="get"  >
+				<input type="submit" id="registerButton" class="btn_round" value="Register" />
+			</form>
 		</div>
-		<button id="registerButton" class="btn_round" onclick="">Register</button>
+		<!-- <button id="registerButton" class="btn_round" onclick="">Register</button> -->
     </li>	
 	
 	</ul>
@@ -76,7 +80,7 @@
     		};
     		reader.readAsDataURL(e.target.files[0]);
  		 };
-		 
+		 /*
 		 $('#registerButton').on('click', function (event) {
 
 			//alert("registerButton");
@@ -90,6 +94,7 @@
         });
 			
 		});
+		*/
 	</script> 
 
 </html>
