@@ -49,8 +49,7 @@ var user={};
 var con = mysql.createConnection({
   host: "eu-mm-auto-sl-lhr-01-b.cleardb.net",	// london2
   user: "b4402c6bba0e8c",
-  password: "364ab0a9",
-  databse:"SimpleChat_GruppeM_Users"
+  password: "364ab0a9"
 });
 
 con.connect(function(err) {
@@ -60,7 +59,7 @@ con.connect(function(err) {
     if (err) throw err;
     console.log("Database created");
   });
-  
+  /*
   var sql = "CREATE TABLE users (id INT AUTO_INCREMENT PRIMARY KEY, username VARCHAR(255), password VARCHAR(255), mail VARCHAR(255), language VARCHAR(255), gender INT(1))";
   con.query(sql, function (err, result) {
     if (err) throw err;
@@ -72,7 +71,7 @@ con.connect(function(err) {
     if (err) throw err;
     console.log("1 record inserted");
   });
-  
+  */
   
 });
 
