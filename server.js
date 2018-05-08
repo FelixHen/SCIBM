@@ -47,7 +47,7 @@ var user={};
 
 
 var con = mysql.createConnection({
-  host: "eu-mm-auto-sl-ams-01-c.cleardb.net",	//amsterdam
+  host: "eu-mm-auto-sl-lhr-01-b.cleardb.net",	// london2
   user: "b4402c6bba0e8c",
   password: "364ab0a9"
 });
