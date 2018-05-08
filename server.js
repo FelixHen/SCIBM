@@ -39,6 +39,43 @@ var numUsers = 0;		// number of users
 var users = {};			// contains sockets
 var userNames = [];		// names of users
 var user={};
+var mysql = require('mysql'); 
+
+//-------------------------------------------------------------------------------------------------------------------------------------------
+
+var con = mysql.createConnection({
+  host: "eu-cdbr-sl-lhr-01.cleardb.net",
+  user: "b4402c6bba0e8c",
+  password: "364ab0a9"
+});
+
+con.connect(function(err) {
+  if (err) throw err;
+  console.log("Connected!");
+  con.query("CREATE DATABASE SimpleChat_GruppeM_Users ", function (err, result) {
+    if (err) throw err;
+    console.log("Database created");
+  });
+  
+  var sql = "CREATE TABLE users (id INT AUTO_INCREMENT PRIMARY KEY, username VARCHAR(255), password VARCHAR(255), mail VARCHAR(255), language VARCHAR(255), gender INT(1))";
+  con.query(sql, function (err, result) {
+    if (err) throw err;
+    console.log("Table created");
+  });
+  
+  var sql = "INSERT INTO customers (username, password, mail, language, gender) VALUES ('Jannik', 'password', 'student@hochschule-rt.de', 'de', 5)";
+  con.query(sql, function (err, result) {
+    if (err) throw err;
+    console.log("1 record inserted");
+  });
+  
+  
+});
+
+
+//-------------------------------------------------------------------------------------------------------------------------------------------
+
+
 
 //login
 app.post('/login', function(req, res) {
