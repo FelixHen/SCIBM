@@ -39,10 +39,11 @@ var numUsers = 0;		// number of users
 var users = {};			// contains sockets
 var userNames = [];		// names of users
 var user={};
-var mysql = require('mysql'); 
+//var mysql = require('mysql'); 
 
 //-------------------------------------------------------------------------------------------------------------------------------------------
 
+/*
 var con = mysql.createConnection({
   host: "eu-cdbr-sl-lhr-01.cleardb.net",
   user: "b4402c6bba0e8c",
@@ -71,7 +72,7 @@ con.connect(function(err) {
   
   
 });
-
+*/
 
 //-------------------------------------------------------------------------------------------------------------------------------------------
 
