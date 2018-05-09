@@ -102,15 +102,22 @@ app.post('/login', function(req, res) {
 					throw err;
 					res.sendFile(__dirname + '/public/index.html');
 				}
-				resultUsername = result[0].username;
-				resultPassword = result[0].password;
-				console.log("Result DB Name: "+result[0].username);
-				console.log("Result DB PW: "+result[0].password);
+				if(!result[0]){
+					resultUsername = result[0].username;
+					resultPassword = result[0].password;
+					console.log("Result DB Name: "+result[0].username);
+					console.log("Result DB PW: "+result[0].password);
+					
+					if(resultUsername == username && resultPassword == password){
+		
+						console.log("Login erfolgreich");
+						res.sendFile(__dirname + '/public/chat.html');
+					}
+					else {
+						
+						res.sendFile(__dirname + '/public/index.html');
+					}
 				
-				if(resultUsername == username && resultPassword == password){
-	
-					console.log("Login erfolgreich");
-					res.sendFile(__dirname + '/public/chat.html');
 				}
 				else {
 					
