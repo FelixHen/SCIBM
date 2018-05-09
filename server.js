@@ -102,7 +102,7 @@ app.post('/login', function(req, res) {
 					throw err;
 					res.sendFile(__dirname + '/public/index.html');
 				}
-				//if(!result[0]){
+				if(!result){
 					resultUsername = result[0].username;
 					resultPassword = result[0].password;
 					console.log("Result DB Name: "+result[0].username);
@@ -117,12 +117,12 @@ app.post('/login', function(req, res) {
 						
 						res.sendFile(__dirname + '/public/index.html');
 					}
-				/*
+				
 				}
 				else {
 					
 					res.sendFile(__dirname + '/public/index.html');
-				}*/
+				}
 			});
 	/*
 	});
