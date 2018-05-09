@@ -102,7 +102,7 @@ app.post('/login', function(req, res) {
 					throw err;
 					res.sendFile(__dirname + '/public/index.html');
 				}
-				if(!result){
+				if(result[0]){
 					resultUsername = result[0].username;
 					resultPassword = result[0].password;
 					console.log("Result DB Name: "+result[0].username);
