@@ -82,7 +82,7 @@ con.connect(function(err) {
 
 //login
 app.post('/login', function(req, res) {
-	console.log("LOGIN: "+JSON.stringify(req.body));
+	// console.log("LOGIN: "+JSON.stringify(req.body));
 	
 	// console.log(req.body.password);
 	//the name from login field
@@ -100,42 +100,31 @@ app.post('/login', function(req, res) {
 
 //registration
 app.post('/signup', function(req, res) {
-	console.log("LOGIN: "+JSON.stringify(req.body));
+	// console.log("LOGIN: "+JSON.stringify(req.body));
 
 	/* check data*/ 
 
 	// console.log(req.body.password);
 	//the name from login field
 	var username = req.body.username;  
-	var password = req.body.password;  
+	var password = req.body.password; 
+	var picture = req.body.picture; 
 	// var clients=getArrayWithNames();
 	if(username!=null){
-		console.log(req.body.username);
+		// console.log(req.body.username);
 		user.name=username;
 		user.password=password;
+		user.picture=picture;
 	}
 	res.sendFile(__dirname + '/public/chat.html');
 	// res.send(req.body);
   });
   
 app.get('/register', function(req, res) {
-	//console.log("register: "+JSON.stringify(req.body));
 
-	/* check data*/ 
-
-	// console.log(req.body.password);
-	//the name from login field
-	//var username = req.body.username;  
-	//var password = req.body.password;  
-	// var clients=getArrayWithNames();
-	//if(username!=null){
-	//	console.log(req.body.username);
-	//	user.name=username;
-	//	user.password=password;
-	//}
 	res.sendFile(__dirname + '/public/register.html');
-	// res.send(req.body);
-  });
+	
+});
 //   app.use('/',router);
 
 /*
@@ -144,8 +133,8 @@ app.get('/register', function(req, res) {
 io.on('connection', function(socket){
 	
 	console.log('a user connected');
-	console.log("USER: "+user.name+" PASSWORD: "+user.password);
-	addUser(user.name);
+	// console.log("USER: "+user.name+" PASSWORD: "+user.password);
+	addUser(user);
 	/*
 	Login process
 	*/
@@ -181,8 +170,9 @@ io.on('connection', function(socket){
 	// 	}
 	// });
 
-	function addUser(username){
-		var username = username.replace(/[ `~!@#$%^&*()_|+\-=?;:'",.<>\{\}\[\]\\\/]/gi, '');
+	function addUser(user){
+		var name=user.name;
+		var username = name.replace(/[ `~!@#$%^&*()_|+\-=?;:'",.<>\{\}\[\]\\\/]/gi, '');
 		
 		if(users[username]) {
 			console.log('user exist: '+ username);
@@ -199,7 +189,8 @@ io.on('connection', function(socket){
 			numUsers++;
 			
 			socket.emit('login', {						// call client login
-				username: username
+				username: username,
+				picture: user.picture
 			});
 			
 			io.emit('userList', {						// sends userList to all clients
