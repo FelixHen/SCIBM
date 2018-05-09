@@ -231,7 +231,7 @@ $(document).ready(function () {
 			// $loginPage.fadeOut();
 			// $chatPage.show();
 			myUsername = data.username;
-			console.log("picture "+ data.picture );
+			// console.log("picture "+ data.picture );
 			log("Welcome to Chat: " + data.username);
 		});
 		

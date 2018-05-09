@@ -108,13 +108,13 @@ app.post('/signup', function(req, res) {
 	//the name from login field
 	var username = req.body.username;  
 	var password = req.body.password; 
-	var picture = req.body.picture; 
+	// var picture = req.body.picture; 
 	// var clients=getArrayWithNames();
 	if(username!=null){
 		// console.log(req.body.username);
 		user.name=username;
 		user.password=password;
-		user.picture=picture;
+		// user.picture=picture;
 	}
 	res.sendFile(__dirname + '/public/chat.html');
 	// res.send(req.body);
@@ -189,8 +189,8 @@ io.on('connection', function(socket){
 			numUsers++;
 			
 			socket.emit('login', {						// call client login
-				username: username,
-				picture: user.picture
+				username: username
+				// picture: user.picture
 			});
 			
 			io.emit('userList', {						// sends userList to all clients
