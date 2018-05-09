@@ -45,36 +45,28 @@ var user={};
 
 //-------------------------------------------------------------------------------------------------------------------------------------------
 
+var con = mysql.createConnection({
+  host: 'den1.mysql1.gear.host',
+  user: 'simplechatusers',
+  password: 'Qc4vAR-GBU_Y',
+  database: 'SimpleChatUsers'
+});
+
 /*
 var con = mysql.createConnection({
   host: "eu-mm-auto-sl-lhr-01-b.cleardb.net",	// london2
   user: "b4402c6bba0e8c",
   password: "364ab0a9"
 });
+*/
+
 
 con.connect(function(err) {
   if (err) throw err;
   console.log("Connected!");
-  con.query("CREATE DATABASE SimpleChat_GruppeM_Users", function (err, result) {
-    if (err) throw err;
-    console.log("Database created");
-  });
-  
-  var sql = "CREATE TABLE users (id INT AUTO_INCREMENT PRIMARY KEY, username VARCHAR(255), password VARCHAR(255), mail VARCHAR(255), language VARCHAR(255), gender INT(1))";
-  con.query(sql, function (err, result) {
-    if (err) throw err;
-    console.log("Table created");
-  });
-  
-  var sql = "INSERT INTO customers (username, password, mail, language, gender) VALUES ('Jannik', 'password', 'student@hochschule-rt.de', 'de', 5)";
-  con.query(sql, function (err, result) {
-    if (err) throw err;
-    console.log("1 record inserted");
-  });
- 
   
 });
- */
+ 
 
 //-------------------------------------------------------------------------------------------------------------------------------------------
 
@@ -87,15 +79,50 @@ app.post('/login', function(req, res) {
 	// console.log(req.body.password);
 	//the name from login field
 	var username = req.body.username;  
-	var password = req.body.password;  
+	var password = req.body.password;
+	
+	var resultUsername;
+	var resultPassword;
+	
 	// var clients=getArrayWithNames();
 	if(username!=null){
 		console.log(req.body.username);
 		user.name=username;
 		user.password=password;
 	}
-	res.sendFile(__dirname + '/public/chat.html');
+	/*
+	con.connect(function(err) {
+		if (err) throw err;
+	*/
+			var sql = "SELECT * FROM users WHERE username = ?";
+			
+			con.query(sql, [username], function (err, result) {
+				if (err) {
+					throw err;
+					res.sendFile(__dirname + '/public/index.html');
+				}
+				resultUsername = result[0].username;
+				resultPassword = result[0].password;
+				console.log("Result DB Name: "+result[0].username);
+				console.log("Result DB PW: "+result[0].password);
+				
+				if(resultUsername == username && resultPassword == password){
+	
+					console.log("Login erfolgreich");
+					res.sendFile(__dirname + '/public/chat.html');
+				}
+				else {
+					
+					res.sendFile(__dirname + '/public/index.html');
+				}
+			});
+	/*
+	});
+	*/
+	
+	
 	// res.send(req.body);
+	
   });
 
 //registration
@@ -114,7 +141,36 @@ app.post('/signup', function(req, res) {
 		user.name=username;
 		user.password=password;
 	}
-	res.sendFile(__dirname + '/public/chat.html');
+	
+	var sql = "SELECT * FROM users WHERE username = ?";
+	
+	con.query(sql, [username], function (err, result) {
+		if (err) {
+			throw err;
+			res.sendFile(__dirname + '/public/index.html');
+		}
+			
+		if(!result[0]){
+
+			var sql = "INSERT INTO users (username, password, mail, language, gender) VALUES ('"+username+"', '"+password+"', 'student@hochschule-rt.de', 'de', 0)";
+			con.query(sql, function (err, result) {
+			if (err) throw err;
+				console.log("1 record inserted");
+				res.sendFile(__dirname + '/public/chat.html');
+			});
+			
+		
+		}
+		else{
+			res.sendFile(__dirname + '/public/register.html');
+		}
+		
+			
+	});
+	
+	
+	
+	
 	// res.send(req.body);
   });
   
