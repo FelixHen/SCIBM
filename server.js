@@ -14,7 +14,7 @@ let io = require('socket.io')(http);
 let port = process.env.PORT || process.env.VCAP_APP_PORT || 3000;
 var bodyParser = require('body-parser');
 
-//var mysql = require('mysql'); 
+var mysql = require('mysql'); 
 
 var router = express.Router();
 app.use(express.static(path.join(__dirname, 'public')));
@@ -62,6 +62,7 @@ var con = mysql.createConnection({
 
 
 con.connect(function(err) {
+
   if (err) throw err;
   console.log("Connected!");
   
