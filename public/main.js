@@ -196,7 +196,9 @@ $(document).ready(function () {
 				if($('#m').val()){
 					socket.emit('chat_message', {
 						msg: $('#m').val(),
-						dest: dest
+						dest: dest,
+						from: myUsername,
+						language: myLanguage
 					});
 				}
 				
@@ -219,12 +221,11 @@ $(document).ready(function () {
 		shows chat page if login is successful (called from server)
 		*/
 		socket.on('login', function (data) {
-			// $loginPage.fadeOut();
-			// $chatPage.show();
+
 			myUsername = data.username;
 			myLanguage = data.language;
-			// console.log("picture "+ data.picture );
 			console.log("myLanguage: "+data.language);
+
 			log("Welcome to Chat: " + data.username);
 		});
 		
@@ -249,19 +250,19 @@ $(document).ready(function () {
         socket.on('chat_message', function(data){
 			console.log("source: "+data.language+"| my: "+myLanguage);
 			console.log(data.language===myLanguage);
-			if(data.language!=myLanguage){
-				var message={
-					msg: data.message,
-					date: data.date,
-					source:data.language,
-					target:myLanguage,
-					user:data.user
-				}
-			if(data.dest)message.dest= data.dest;
-				translate(message);
-			}else{
+			// if(data.language!=myLanguage){
+			// 	var message={
+			// 		msg: data.message,
+			// 		date: data.date,
+			// 		source:data.language,
+			// 		target:myLanguage,
+			// 		user:data.user
+			// 	}
+			// if(data.dest)message.dest= data.dest;
+			// 	translate(message);
+			// }else{
 				addMessage(data);
-			}
+			// }
         });
 		
 		/*
