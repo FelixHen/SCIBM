@@ -44,6 +44,7 @@ $(document).ready(function () {
 		builds message in HTML
 		*/
 		function addMessage(data) {
+			console.log("language: "+data.lang);
 			
 			// getTone(data.message);
 			

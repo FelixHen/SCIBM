@@ -78,7 +78,8 @@ app.post('/translate', function(req, res, next) {
 				var message={
 					msg:translation['translations'][0].translation,
 					dest:req.body.dest,					
-					from:req.body.from
+					from:req.body.from,
+					lang:user.language
 				}
 				sendMessage(message);
 				res.send(req.body.msg+" -> "+translation['translations'][0].translation);
@@ -558,7 +559,8 @@ function sendMessage(data){
 		io.emit('chat_message', {			// sends to all clients
 			user: data.from,
 			date: time,
-			message: data.msg
+			message: data.msg,
+			lang:data.lang
 		});
 	}
 }
