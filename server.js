@@ -50,95 +50,37 @@ var translator = new LanguageTranslatorV2({
 
 
 app.post('/translate', function(req, res, next) {
-	// console.log('!!!!translate!!!!! '+JSON.stringify(req.body));
-	var msg=req.body.msg;
+	console.log('Translate Body: '+JSON.stringify(req.body));
+	var sourcelang=req.body.source;
+	var targetlang=req.body.target;
+	console.log(' TranslateLANG '+JSON.stringify(sourcelang)+" | "+JSON.stringify(targetlang));
+
+	// var msg=req.body.msg;
 	
-	var parameters = {
-		text: msg
-	}
-	// var model=getModel(user.language);
-	// console.log(model);
-	// var target;
-	// if(model==0){
-	// 	target="en";
+	// var parameters = {
+	// 	text: msg
 	// }
-	// var from=identifyLanguage(parameters);
-	// console.log('Language:',  user.language+" | from: "+identifyLanguage(parameters));
 
 	/*
 	Translate
 	 */
-	translator.translate({
-		text: req.body.msg, source :  "en", target: user.language },
-		//
-	function (err, translation) {
-			if (err)
-					console.log('error:', err);
-			else{
-				var message={
-					msg:translation['translations'][0].translation,
-					dest:req.body.dest,					
-					from:req.body.from,
-					lang:user.language
+		translator.translate({
+			text: req.body.msg, source : sourcelang, target: targetlang },
+			//
+		function (err, translation) {
+			console.log("translate");
+				if (err)
+						console.log('error:', err);
+				else{
+					var message=req.body;
+					message.message=translation['translations'][0].translation;
+					console.log(message);
+					res.send(message);
 				}
-				sendMessage(message);
-				res.send(req.body.msg+" -> "+translation['translations'][0].translation);
-			}
-					
-	});
-
-
-	
-// 	translator.getIdentifiableLanguages(
-//   parameters,
-//   function(err, response) {
-//     if (err)
-//       console.log(err)
-//     else
-//       console.log(JSON.stringify(response, null, 2));
-//   }
-// );
+						
+		});
 
 });
-
-/*
- available translation models (source:  source language.)
-*/
-// function getModel(source){
-
-// 	translator.listModels(
-// 		{source:source},
-// 		function(error, response) {
-// 			if (error)
-// 				console.log(error);
-// 			else{
-// 				// console.log(JSON.stringify(response, null, 2));
-// 				console.log(response['models'].length);
-// 				return JSON.stringify(response, null, 2);
-// 			}
-				
-// 		}
-// 	);
-// }
-
-/*
-Identifies the language of the input text (parameters)
-*/
-// function identifyLanguage(parameters){
-// 	translator.identify(
-// 		parameters,
-// 		function(error, language) {
-// 			if (error)
-// 				console.log(error);
-// 			else{
-// 				console.log("SPRACHE: "+language['languages'][0].language);
-// 				return language['languages'][0].language;
-// 			}
-// 		}
-// 	);
-// }
-
-
 
 require('dotenv').config({silent: true});
 
@@ -184,19 +126,13 @@ con.connect(function(err) {
 app.post('/login', function(req, res) {
 	console.log("LOGIN: "+JSON.stringify(req.body));
 	
-	// console.log(req.body.password);
-	//the name from login field
 	var username = req.body.username;  
 	var password = req.body.password;  
-	// var language = req.body.languages;
-	// land=req.body.languages;
-	// console.log("LAND: "+land);
-	// var clients=getArrayWithNames();
+
 	if(username!=null){
 		console.log(req.body.username);
 		user.name=username;
 		user.password=password;
-		// user.language=language;
 	}
 	/*
 	con.connect(function(err) {
@@ -248,14 +184,11 @@ app.post('/signup', function(req, res) {
 
 	/* check data*/ 
 
-		// console.log(req.body.password);
 	//the name from login field
 	var username = req.body.username;  
 	var password = req.body.password;  
 	var language = req.body.languages;
-	// land=req.body.languages;
-	// console.log("LAND: "+land);
-	// var clients=getArrayWithNames();
+
 	if(username!=null){
 		console.log(req.body.username);
 		user.name=username;
@@ -310,40 +243,6 @@ io.on('connection', function(socket){
 	console.log('a user connected');
 	console.log("USER: "+user.name+" PASSWORD: "+user.password);
 	addUser(user.name,user.language);
-	/*
-	Login process
-	*/
-	// socket.on('add_User', function(username) {
-		
-	// 	var username = username.replace(/[ `~!@#$%^&*()_|+\-=?;:'",.<>\{\}\[\]\\\/]/gi, '');
-		
-	// 	if(users[username]) {
-	// 		console.log('user exist: '+ username);
-	// 		socket.emit('login_failed', { });			// username is taken
-	// 	}
-	// 	else {
-	// 		console.log('add user: '+ username);
-	// 		socket.username = username;
-			
-	// 		userNames.push(username);
-			
-	// 		users[username] = socket.id;
-
-	// 		numUsers++;
-			
-	// 		socket.emit('login', {						// call client login
-	// 			username: username
-	// 		});
-			
-	// 		io.emit('userList', {						// sends userList to all clients
-	// 			userList: userNames
-	// 		});
-			
-	// 		socket.broadcast.emit('user_joined', {		// sends user joined message to other clients
-	// 			username: socket.username
-	// 		});
-	// 	}
-	// });
 
 	function addUser(username,language){
 		var username = username.replace(/[ `~!@#$%^&*()_|+\-=?;:'",.<>\{\}\[\]\\\/]/gi, '');
@@ -436,7 +335,49 @@ io.on('connection', function(socket){
 		}
 
 	});
+
+/*
+	receives message from a user
+	sends message to one or all clients
+	*/	
+	socket.on('chat_message', function(data){
+		console.log('user: ' + socket.username + ' send message');
+		console.log('message: ' + data.msg);
+		
+		var time = timeStamp();
+		
+
+		if(data.dest != null) {					
+			socket.broadcast.to(users[data.dest]).emit('chat_message', {	// sends to specific client
+				user: socket.username,
+				date: time,
+				message: data.msg,
+				dest: data.dest,
+				language:data.language
+			});
+			
+			socket.emit('chat_message', {		// send message to self client
+				user: socket.username,
+				date: time,
+				message: data.msg,
+				dest: data.dest,
+				language:data.language
+			});
+		}
+		else {			
+			io.emit('chat_message', {			// sends to all clients
+				user: socket.username,
+				date: time,
+				message: data.msg,
+				language:data.language
+			});
+		}
+
+	});
+
 });
+
+
 	/*
 	creates a timeStamp
 	*/	
@@ -466,111 +407,43 @@ io.on('connection', function(socket){
 			
 		return time;
 	}
+
+// function sendMessage(data){
+
+// 	console.log('user: ' + data.from + ' send message');
+// 	console.log('message: ' + data.msg);
 	
-  	/*
-	receives message from a user
-	sends message to one or all clients
-	*/	
-	// socket.on('chat_message', function(data){
-	// 	console.log('user: ' + socket.username + ' send message');
-	// 	console.log('message: ' + data.msg);
-		
-	// 	var time = timeStamp();
-		
-
-	// 	if(data.dest != null) {					
-	// 		socket.broadcast.to(users[data.dest]).emit('chat_message', {	// sends to specific client
-	// 			user: socket.username,
-	// 			date: time,
-	// 			message: data.msg,
-	// 			dest: data.dest
-	// 		});
-			
-	// 		socket.emit('chat_message', {		// send message to self client
-	// 			user: socket.username,
-	// 			date: time,
-	// 			message: data.msg,
-	// 			dest: data.dest
-	// 		});
-	// 	}
-	// 	else {			
-	// 		io.emit('chat_message', {			// sends to all clients
-	// 			user: socket.username,
-	// 			date: time,
-	// 			message: data.msg
-	// 		});
-	// 	}
-
-	// });
-  
-  	// /*
-	// receives file+message from a user
-	// sends file+message to one or all clients
-	// */	
-	// socket.on('file', function(file, type, data){
-    //     console.log(socket.username + ' is sharing a file');
-		
-	// 	var time = timeStamp();
-		
-	// 	if(data.dest != null) {		
-	// 		socket.broadcast.to(users[data.dest]).emit('file', file, type, {	// sends to specific client
-	// 			user: socket.username,
-	// 			date: time,
-	// 			message: data.message,
-	// 			dest: data.dest
-	// 		});
-	// 	}
-	// 	else{
-	// 		socket.broadcast.emit('file', file, type, {				// sends to all clients but not self
-	// 			user: socket.username,
-	// 			date: time,
-	// 			message: data.message
-	// 		});
-	// 	}
-
-	// });
-
-// });
-
-function sendMessage(data){
-
-	console.log('user: ' + data.from + ' send message');
-	console.log('message: ' + data.msg);
-	
-	var time = timeStamp();
+// 	var time = timeStamp();
 	
 
-	if(data.dest != null) {					
-		io.to(users[data.dest]).emit('chat_message', {	// sends to specific client
-			user: data.from,
-			date: time,
-			message: data.msg,
-			dest: data.dest
-		});
+// 	if(data.dest != null) {					
+// 		io.to(users[data.dest]).emit('chat_message', {	// sends to specific client
+// 			user: data.from,
+// 			date: time,
+// 			message: data.msg,
+// 			dest: data.dest
+// 		});
 		
-		io.to(users[data.from]).emit('chat_message', {		// send message to self client
-			user: data.from,
-			date: time,
-			message: data.msg,
-			dest: data.dest
-		});
-	}
-	else {			
-		io.emit('chat_message', {			// sends to all clients
-			user: data.from,
-			date: time,
-			message: data.msg,
-			lang:data.lang
-		});
-	}
-}
+// 		io.to(users[data.from]).emit('chat_message', {		// send message to self client
+// 			user: data.from,
+// 			date: time,
+// 			message: data.msg,
+// 			dest: data.dest
+// 		});
+// 	}
+// 	else {			
+// 		io.emit('chat_message', {			// sends to all clients
+// 			user: data.from,
+// 			date: time,
+// 			message: data.msg,
+// 			lang:data.lang
+// 		});
+// 	}
+// }
 
 function createToneRequest (request) {
 	let toneChatRequest;
-	// if (request.texts) {
-		// toneChatRequest = {utterances: []};
-		// toneChatRequest.utterances.push(request.texts);
-	// }
+
   if (request.texts) {
 	 toneChatRequest = {utterances: []};
 
