@@ -46,7 +46,7 @@ $(document).ready(function () {
 		function addMessage(data) {
 			// console.log("language: "+data.lang);
 			
-			getTone(data.message);
+			// getTone(data.message);
 			
 			//alert(mood);
 			
@@ -248,6 +248,7 @@ $(document).ready(function () {
 		receives message and calls function addMessage (called from server)
 		*/
         socket.on('chat_message', function(data){
+			getTone(data.message);
 			console.log("source: "+data.language+"| my: "+myLanguage);
 			console.log(data.language!=myLanguage);
 			if(data.language!=myLanguage){
