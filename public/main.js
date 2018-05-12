@@ -258,11 +258,11 @@ $(document).ready(function () {
 					target:myLanguage,
 					user:data.user
 				}
-			// if(data.dest)message.dest= data.dest;
+			if(data.dest) message.dest = data.dest;
 			console.log(message);
 				// translate(message);
 			}else{
-			addMessage(data);
+				addMessage(data);
 			}
         });
 		
