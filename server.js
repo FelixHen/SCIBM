@@ -537,14 +537,14 @@ function sendMessage(data){
 	
 
 	if(data.dest != null) {					
-		socket.broadcast.to(users[data.dest]).emit('chat_message', {	// sends to specific client
+		io.to(users[data.dest]).emit('chat_message', {	// sends to specific client
 			user: data.from,
 			date: time,
 			message: data.msg,
 			dest: data.dest
 		});
 		
-		socket.broadcast.to(users[data.from]).emit('chat_message', {		// send message to self client
+		io.to(users[data.from]).emit('chat_message', {		// send message to self client
 			user: data.from,
 			date: time,
 			message: data.msg,
