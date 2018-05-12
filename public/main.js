@@ -1,6 +1,6 @@
 /**
  * Main
- * @author Jan-Patrick Kirchner [742143], Felix Hennig [752734], Konstantinos Karagkiozis [752753], Marija Belova []
+ * @author Jan-Patrick Kirchner [742143], Felix Hennig [752734], Konstantinos Karagkiozis [752753], Marija Belova [752684]
  * @version 1.0
  */
 
@@ -245,7 +245,7 @@ $(document).ready(function () {
 		});
 		
 		/*
-		receives message and calls function addMessage (called from server)
+		receives message and calls function addMessage (called from server) or translate the message
 		*/
         socket.on('chat_message', function(data){
 			getTone(data.message);
