@@ -405,6 +405,33 @@ io.on('connection', function(socket){
 			array.splice(index, 1);
 		}
 	}
+
+	 	/*
+	receives file+message from a user
+	sends file+message to one or all clients
+	*/	
+	socket.on('file', function(file, type, data){
+        console.log(socket.username + ' is sharing a file');
+		
+		var time = timeStamp();
+		
+		if(data.dest != null) {		
+			socket.broadcast.to(users[data.dest]).emit('file', file, type, {	// sends to specific client
+				user: socket.username,
+				date: time,
+				message: data.message,
+				dest: data.dest
+			});
+		}
+		else{
+			socket.broadcast.emit('file', file, type, {				// sends to all clients but not self
+				user: socket.username,
+				date: time,
+				message: data.message
+			});
+		}
+
+	});
 });
 	/*
 	creates a timeStamp
@@ -472,32 +499,32 @@ io.on('connection', function(socket){
 
 	// });
   
-  	/*
-	receives file+message from a user
-	sends file+message to one or all clients
-	*/	
-	socket.on('file', function(file, type, data){
-        console.log(socket.username + ' is sharing a file');
+  	// /*
+	// receives file+message from a user
+	// sends file+message to one or all clients
+	// */	
+	// socket.on('file', function(file, type, data){
+    //     console.log(socket.username + ' is sharing a file');
 		
-		var time = timeStamp();
+	// 	var time = timeStamp();
 		
-		if(data.dest != null) {		
-			socket.broadcast.to(users[data.dest]).emit('file', file, type, {	// sends to specific client
-				user: socket.username,
-				date: time,
-				message: data.message,
-				dest: data.dest
-			});
-		}
-		else{
-			socket.broadcast.emit('file', file, type, {				// sends to all clients but not self
-				user: socket.username,
-				date: time,
-				message: data.message
-			});
-		}
+	// 	if(data.dest != null) {		
+	// 		socket.broadcast.to(users[data.dest]).emit('file', file, type, {	// sends to specific client
+	// 			user: socket.username,
+	// 			date: time,
+	// 			message: data.message,
+	// 			dest: data.dest
+	// 		});
+	// 	}
+	// 	else{
+	// 		socket.broadcast.emit('file', file, type, {				// sends to all clients but not self
+	// 			user: socket.username,
+	// 			date: time,
+	// 			message: data.message
+	// 		});
+	// 	}
 
-	});
+	// });
 
 // });
 
