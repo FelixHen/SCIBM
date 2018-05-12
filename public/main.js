@@ -249,16 +249,16 @@ $(document).ready(function () {
 		*/
         socket.on('chat_message', function(data){
 			console.log("source: "+data.language+"| my: "+myLanguage);
-			console.log(data.language===myLanguage);
-			if(data.language!=myLanguage){
-				var message={
-					msg: data.message,
-					date: data.date,
-					source:data.language,
-					target:myLanguage,
-					user:data.user
-				}
-			if(data.dest)message.dest= data.dest;
+			// console.log(data.language===myLanguage);
+			// if(data.language!=myLanguage){
+			// 	var message={
+			// 		msg: data.message,
+			// 		date: data.date,
+			// 		source:data.language,
+			// 		target:myLanguage,
+			// 		user:data.user
+			// 	}
+			// if(data.dest)message.dest= data.dest;
 			console.log(message);
 				// translate(message);
 			}else{
