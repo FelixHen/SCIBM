@@ -69,7 +69,7 @@ app.post('/translate', function(req, res, next) {
 	Translate
 	 */
 	translator.translate({
-		text: req.body.msg, source : "en", target:  "es" },
+		text: req.body.msg, source : "en", target: user.language },
 		//converting from english to spanish
 	function (err, translation) {
 			if (err)
@@ -211,6 +211,8 @@ app.post('/login', function(req, res) {
 				if(result[0]){
 					resultUsername = result[0].username;
 					resultPassword = result[0].password;
+					user.language = language = result[0].language;
+
 					console.log("Result DB Name: "+result[0].username);
 					console.log("Result DB PW: "+result[0].password);
 					
