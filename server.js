@@ -50,42 +50,64 @@ var translator = new LanguageTranslatorV2({
 
 
 app.post('/translate', function(req, res, next) {
-	// console.log('!!!!translate!!!!! '+JSON.stringify(req.body));
+	console.log('!!!!translate!!!!! '+JSON.stringify(req.body));
+	var sourcelang=req.body.source;
+	var targetlang=req.body.target;
+	console.log(' TranslateLANG '+JSON.stringify(sourcelang)+" | "+JSON.stringify(targetlang));
+	// console.log(' TranslateLANG '+userlang.localeCompare(targetlang));
+
 	var msg=req.body.msg;
 	
 	var parameters = {
 		text: msg
 	}
-	// var model=getModel(user.language);
-	// console.log(model);
+	// var model=getModel(userlang);
+	// console.log("MODEL: "+model);
 	// var target;
 	// if(model==0){
-	// 	target="en";
+	// 	console.log("HA");
+	// 	// target=req.body.language;
 	// }
-	// var from=identifyLanguage(parameters);
-	// console.log('Language:',  user.language+" | from: "+identifyLanguage(parameters));
+	// var from;
+	// console.log('Language:',  user.language+" | from: "+JSON.stringify(from));
 
 	/*
 	Translate
 	 */
-	translator.translate({
-		text: req.body.msg, source :  "en", target: user.language },
-		//
-	function (err, translation) {
-			if (err)
-					console.log('error:', err);
-			else{
-				var message={
-					msg:translation['translations'][0].translation,
-					dest:req.body.dest,					
-					from:req.body.from,
-					lang:user.language
+	// if(userlang.localeCompare(sourcelang))
+		translator.translate({
+			text: req.body.msg, source : sourcelang, target: targetlang },
+			//
+		function (err, translation) {
+			console.log("translate");
+				if (err)
+						console.log('error:', err);
+				else{
+					// var message={
+					// 	msg:translation['translations'][0].translation			
+					// 	// from:req.body.from,
+					// 	// lang:user.language
+					// }
+					// if(req.body.dest) message.dest=req.body.dest;
+					// sendMessage(message);
+					// res.send(translation['translations'][0].translation);
+					var message=req.body;
+					message.message=translation['translations'][0].translation;
+					console.log(message);
+					res.send(message);
 				}
-				sendMessage(message);
-				res.send(req.body.msg+" -> "+translation['translations'][0].translation);
-			}
-					
-	});
+						
+		});
+		// else{
+		// 	var message={
+		// 		msg:req.body.msg,
+		// 		dest:req.body.dest,					
+		// 		from:req.body.from,
+		// 		lang:user.language
+		// 	}
+		// 	sendMessage(message);
+		// 	res.send(req.body.msg+" -> "+req.body.msg);
+		// }
 
 
 	
@@ -104,21 +126,22 @@ app.post('/translate', function(req, res, next) {
 /*
  available translation models (source:  source language.)
 */
-// function getModel(source){
+// function getModel(target){
 
 // 	translator.listModels(
-// 		{source:source},
+// 		{target:target},
 // 		function(error, response) {
 // 			if (error)
 // 				console.log(error);
 // 			else{
 // 				// console.log(JSON.stringify(response, null, 2));
-// 				console.log(response['models'].length);
-// 				return JSON.stringify(response, null, 2);
+// 				console.log("LENGTH: "+response['models'].length);
+// 				return JSON.stringify(response);
 // 			}
 				
 // 		}
 // 	);
+	
 // }
 
 /*
@@ -132,7 +155,8 @@ Identifies the language of the input text (parameters)
 // 				console.log(error);
 // 			else{
 // 				console.log("SPRACHE: "+language['languages'][0].language);
-// 				return language['languages'][0].language;
+// 				var sp=language['languages'][0].language;
+// 				return sp;
 // 			}
 // 		}
 // 	);
@@ -436,6 +460,46 @@ io.on('connection', function(socket){
 		}
 
 	});
+
+ 	/*
+	receives message from a user
+	sends message to one or all clients
+	*/	
+	socket.on('chat_message', function(data){
+		console.log('user: ' + socket.username + ' send message');
+		console.log('message: ' + data.msg);
+		
+		var time = timeStamp();
+		
+
+		if(data.dest != null) {					
+			socket.broadcast.to(users[data.dest]).emit('chat_message', {	// sends to specific client
+				user: socket.username,
+				date: time,
+				message: data.msg,
+				dest: data.dest,
+				language:data.language
+			});
+			
+			socket.emit('chat_message', {		// send message to self client
+				user: socket.username,
+				date: time,
+				message: data.msg,
+				dest: data.dest,
+				language:data.language
+			});
+		}
+		else {			
+			io.emit('chat_message', {			// sends to all clients
+				user: socket.username,
+				date: time,
+				message: data.msg,
+				language:data.language
+			});
+		}
+
+	});
+
 });
 	/*
 	creates a timeStamp
@@ -467,10 +531,10 @@ io.on('connection', function(socket){
 		return time;
 	}
 	
-  	/*
-	receives message from a user
-	sends message to one or all clients
-	*/	
+  	// /*
+	// receives message from a user
+	// sends message to one or all clients
+	// */	
 	// socket.on('chat_message', function(data){
 	// 	console.log('user: ' + socket.username + ' send message');
 	// 	console.log('message: ' + data.msg);

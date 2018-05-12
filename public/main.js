@@ -44,9 +44,9 @@ $(document).ready(function () {
 		builds message in HTML
 		*/
 		function addMessage(data) {
-			console.log("language: "+data.lang);
+			// console.log("language: "+data.lang);
 			
-			// getTone(data.message);
+			getTone(data.message);
 			
 			//alert(mood);
 			
@@ -190,7 +190,7 @@ $(document).ready(function () {
 		// });
 		
         $('form').submit(function(){
-			console.log("lang: "+myLanguage);
+			console.log("myLanguage: "+myLanguage);
 			
 			if($('#user').val() != ''){
 				var dest = $('#user').val();
@@ -205,17 +205,19 @@ $(document).ready(function () {
 			else {
 				
 				if($('#m').val()){
-					getTone($('#m').val());
-					translate({
+					// getTone($('#m').val());
+				// 	translate({
+				// 		msg: $('#m').val(),
+				// 		dest: dest,
+				// 		from:myUsername,
+				// 		language:myLanguage
+				// 	});
+					socket.emit('chat_message', {
 						msg: $('#m').val(),
 						dest: dest,
-						from:myUsername
-						// language:myLanguage
+						from:myUsername,
+						language:myLanguage
 					});
-					// socket.emit('chat_message', {
-					// 	msg: $('#m').val(),
-					// 	dest: dest
-					// });
 				}
 				
 				$('#user').val('');
@@ -242,7 +244,7 @@ $(document).ready(function () {
 			myUsername = data.username;
 			myLanguage = data.language;
 			// console.log("picture "+ data.picture );
-			console.log(data.language);
+			console.log("myLanguage: "+data.language);
 			log("Welcome to Chat: " + data.username);
 		});
 		
@@ -265,6 +267,32 @@ $(document).ready(function () {
 		receives message and calls function addMessage (called from server)
 		*/
         socket.on('chat_message', function(data){
+			console.log("source: "+data.language+"| my: "+myLanguage);
+			console.log(data.language===myLanguage);
+			if(data.language!=myLanguage){
+				var message={
+					msg: data.message,
+					date: data.date,
+					source:data.language,
+					target:myLanguage,
+					user:data.user
+				}
+				if(data.dest)message.dest= data.dest;
+				translate(message
+				// {
+				// 	msg: data.message,
+				// 	date: data.date,
+				// 	dest: data.dest,
+				// 	source:data.language,
+				// 	target:myLanguage
+				// }
+			);
+			}else{
+				addMessage(data);
+			}
+		});
+
+		socket.on('translated_chat_message', function(data){
 			addMessage(data);
         });
 		
@@ -460,35 +488,6 @@ $(document).ready(function () {
 			appendFile(file, fileInfo, data);
 		});
 
-});
-
-		function getTone(message) {
-	
-		var text={"texts":["",message]};
-
-        $.post({
-			type: 'POST',
-			dataType: 'json',
-			data: JSON.stringify(text),
-			contentType: 'application/json',
-			url: 'https://cloudibmreutlingenm.eu-de.mybluemix.net/tone',
-			async: false,
-			success: function(data) {
-				console.log('success: ',data);
-				document.getElementById("mood").value = data.mood;
-				
-				if(data.mood == 'happy') {
-					mood = data.mood;
-				}
-				else {
-					mood = data.mood;
-				}
-				
-			}
-		});	
-
-		}
-
 		function translate(msg) {
 	
 			// var text={msg:message};
@@ -498,12 +497,89 @@ $(document).ready(function () {
 				dataType: 'json',
 				data: JSON.stringify(msg),
 				contentType: 'application/json',
-				// url: 'http://localhost:3000/translate',
-				url: 'https://cloudibmreutlingenm.eu-de.mybluemix.net/translate',
+				url: 'http://localhost:3000/translate',
+				// url: 'https://cloudibmreutlingenm.eu-de.mybluemix.net/translate',
 				async: false,
 				success: function(data) {
-					console.log('success: ',data);				
+					console.log('success: ',data);	
+					addMessage(data);			
 				}
 			});	
 	
 			}
+
+			function getTone(message) {
+	
+				var text={"texts":["",message]};
+		
+				$.post({
+					type: 'POST',
+					dataType: 'json',
+					data: JSON.stringify(text),
+					contentType: 'application/json',
+					url: 'http://localhost:3000/tone',
+					async: false,
+					success: function(data) {
+						console.log('success: ',data);
+						document.getElementById("mood").value = data.mood;
+						
+						if(data.mood == 'happy') {
+							mood = data.mood;
+						}
+						else {
+							mood = data.mood;
+						}
+						
+					}
+				});	
+		
+				}
+
+});
+
+		// function getTone(message) {
+	
+		// var text={"texts":["",message]};
+
+        // $.post({
+		// 	type: 'POST',
+		// 	dataType: 'json',
+		// 	data: JSON.stringify(text),
+		// 	contentType: 'application/json',
+		// 	url: 'http://localhost:3000/tone',
+		// 	async: false,
+		// 	success: function(data) {
+		// 		console.log('success: ',data);
+		// 		document.getElementById("mood").value = data.mood;
+				
+		// 		if(data.mood == 'happy') {
+		// 			mood = data.mood;
+		// 		}
+		// 		else {
+		// 			mood = data.mood;
+		// 		}
+				
+		// 	}
+		// });	
+
+		// }
+
+		// function translate(msg) {
+	
+		// 	// var text={msg:message};
+	
+		// 	$.post({
+		// 		type: 'POST',
+		// 		dataType: 'json',
+		// 		data: JSON.stringify(msg),
+		// 		contentType: 'application/json',
+		// 		url: 'http://localhost:3000/translate',
+		// 		// url: 'https://cloudibmreutlingenm.eu-de.mybluemix.net/translate',
+		// 		async: false,
+		// 		success: function(data) {
+		// 			console.log('success: ',data);	
+		// 			addMessage(data);			
+		// 		}
+		// 	});	
+	
+		// 	}
