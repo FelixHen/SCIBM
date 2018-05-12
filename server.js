@@ -50,20 +50,20 @@ var translator = new LanguageTranslatorV2({
 
 
 app.post('/translate', function(req, res, next) {
-	console.log('!!!!translate!!!!! '+JSON.stringify(req.body));
+	// console.log('!!!!translate!!!!! '+JSON.stringify(req.body));
 	var msg=req.body.msg;
 	
 	var parameters = {
 		text: msg
 	}
-	var model=getModel(user.language);
-	console.log(model);
+	// var model=getModel(user.language);
+	// console.log(model);
 	// var target;
 	// if(model==0){
 	// 	target="en";
 	// }
-	var from=identifyLanguage(parameters);
-	console.log('Language:',  user.language+" | from: "+identifyLanguage(parameters));
+	// var from=identifyLanguage(parameters);
+	// console.log('Language:',  user.language+" | from: "+identifyLanguage(parameters));
 
 	/*
 	Translate
@@ -77,8 +77,8 @@ app.post('/translate', function(req, res, next) {
 			else{
 				var message={
 					msg:translation['translations'][0].translation,
-					dest:req.body.dest,
-					from:req.body.from
+					dest:req.body.dest
+					// ,from:req.body.from
 				}
 				sendMessage(message);
 				res.send(req.body.msg+" -> "+translation['translations'][0].translation);
@@ -103,39 +103,39 @@ app.post('/translate', function(req, res, next) {
 /*
  available translation models (source:  source language.)
 */
-function getModel(source){
+// function getModel(source){
 
-	translator.listModels(
-		{source:source},
-		function(error, response) {
-			if (error)
-				console.log(error);
-			else{
-				// console.log(JSON.stringify(response, null, 2));
-				console.log(response['models'].length);
-				return JSON.stringify(response, null, 2);
-			}
+// 	translator.listModels(
+// 		{source:source},
+// 		function(error, response) {
+// 			if (error)
+// 				console.log(error);
+// 			else{
+// 				// console.log(JSON.stringify(response, null, 2));
+// 				console.log(response['models'].length);
+// 				return JSON.stringify(response, null, 2);
+// 			}
 				
-		}
-	);
-}
+// 		}
+// 	);
+// }
 
 /*
 Identifies the language of the input text (parameters)
 */
-function identifyLanguage(parameters){
-	translator.identify(
-		parameters,
-		function(error, language) {
-			if (error)
-				console.log(error);
-			else{
-				console.log("SPRACHE: "+language['languages'][0].language);
-				return language['languages'][0].language;
-			}
-		}
-	);
-}
+// function identifyLanguage(parameters){
+// 	translator.identify(
+// 		parameters,
+// 		function(error, language) {
+// 			if (error)
+// 				console.log(error);
+// 			else{
+// 				console.log("SPRACHE: "+language['languages'][0].language);
+// 				return language['languages'][0].language;
+// 			}
+// 		}
+// 	);
+// }
 
 
 
@@ -187,7 +187,7 @@ app.post('/login', function(req, res) {
 	//the name from login field
 	var username = req.body.username;  
 	var password = req.body.password;  
-	var language = req.body.languages;
+	// var language = req.body.languages;
 	// land=req.body.languages;
 	// console.log("LAND: "+land);
 	// var clients=getArrayWithNames();
@@ -195,7 +195,7 @@ app.post('/login', function(req, res) {
 		console.log(req.body.username);
 		user.name=username;
 		user.password=password;
-		user.language=language;
+		// user.language=language;
 	}
 	/*
 	con.connect(function(err) {
