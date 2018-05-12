@@ -203,6 +203,11 @@ $(document).ready(function () {
 				
 				if($('#m').val()){
 					getTone($('#m').val());
+					translate({
+						msg: $('#m').val(),
+						dest: dest,
+						from:myUsername
+					});
 					socket.emit('chat_message', {
 						msg: $('#m').val(),
 						dest: dest
@@ -477,3 +482,22 @@ $(document).ready(function () {
 		});	
 
 		}
+
+		function translate(msg) {
+	
+			// var text={msg:message};
+	
+			$.post({
+				type: 'POST',
+				dataType: 'json',
+				data: JSON.stringify(msg),
+				contentType: 'application/json',
+				url: 'http://localhost:3000/translate',
+				// url: 'https://cloudibmreutlingenm.eu-de.mybluemix.net/translate',
+				async: false,
+				success: function(data) {
+					console.log('success: ',data);				
+				}
+			});	
+	
+			}

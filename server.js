@@ -33,6 +33,112 @@ let toneAnalyzer = new ToneAnalyzerV3({
     url: 'https://gateway-fra.watsonplatform.net/tone-analyzer/api'
 });
 
+
+
+// authenticate to the Language Translator API
+var LanguageTranslatorV2 = require('watson-developer-cloud/language-translator/v2');
+var translator = new LanguageTranslatorV2({
+
+  username: '14dff385-eee3-466a-9f61-9e10278b75d1',
+  password: 'bpUjUDQ2qvKO',
+  url: 'https://gateway-fra.watsonplatform.net/language-translator/api'
+  // headers: {
+  //   'X-Watson-Technology-Preview': '2017-07-01',
+  //   'X-Watson-Learning-Opt-Out': true
+  // }
+});
+
+
+app.post('/translate', function(req, res, next) {
+	console.log('!!!!translate!!!!! '+JSON.stringify(req.body));
+	var msg=req.body.msg;
+	
+	var parameters = {
+		text: msg
+	}
+	var model=getModel(user.language);
+	console.log(model);
+	// var target;
+	// if(model==0){
+	// 	target="en";
+	// }
+	var from=identifyLanguage(parameters);
+	console.log('Language:',  user.language+" | from: "+identifyLanguage(parameters));
+
+	/*
+	Translate
+	 */
+	translator.translate({
+		text: req.body.msg, source : "en", target:  user.language },
+		//converting from english to spanish
+	function (err, translation) {
+			if (err)
+					console.log('error:', err);
+			else{
+				var message={
+					msg:translation['translations'][0].translation,
+					dest:req.body.dest,
+					from:req.body.from
+				}
+				sendMessage(message);
+				res.send(req.body.msg+" -> "+translation['translations'][0].translation);
+			}
+					
+	});
+
+
+	
+// 	translator.getIdentifiableLanguages(
+//   parameters,
+//   function(err, response) {
+//     if (err)
+//       console.log(err)
+//     else
+//       console.log(JSON.stringify(response, null, 2));
+//   }
+// );
+
+});
+
+/*
+ available translation models (source:  source language.)
+*/
+function getModel(source){
+
+	translator.listModels(
+		{source:source},
+		function(error, response) {
+			if (error)
+				console.log(error);
+			else{
+				// console.log(JSON.stringify(response, null, 2));
+				console.log(response['models'].length);
+				return JSON.stringify(response, null, 2);
+			}
+				
+		}
+	);
+}
+
+/*
+Identifies the language of the input text (parameters)
+*/
+function identifyLanguage(parameters){
+	translator.identify(
+		parameters,
+		function(error, language) {
+			if (error)
+				console.log(error);
+			else{
+				console.log("SPRACHE: "+language['languages'][0].language);
+				return language['languages'][0].language;
+			}
+		}
+	);
+}
+
+
+
 require('dotenv').config({silent: true});
 
 
@@ -139,15 +245,19 @@ app.post('/signup', function(req, res) {
 
 	/* check data*/ 
 
-	// console.log(req.body.password);
+		// console.log(req.body.password);
 	//the name from login field
 	var username = req.body.username;  
 	var password = req.body.password;  
+	var language = req.body.languages;
+	// land=req.body.languages;
+	// console.log("LAND: "+land);
 	// var clients=getArrayWithNames();
 	if(username!=null){
 		console.log(req.body.username);
 		user.name=username;
 		user.password=password;
+		user.language=language;
 	}
 	
 	var sql = "SELECT * FROM users WHERE username = ?";
