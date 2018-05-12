@@ -249,7 +249,7 @@ $(document).ready(function () {
 		*/
         socket.on('chat_message', function(data){
 			console.log("source: "+data.language+"| my: "+myLanguage);
-			console.log(data.language===myLanguage);
+			// console.log(data.language===myLanguage);
 			// if(data.language!=myLanguage){
 			// 	var message={
 			// 		msg: data.message,
@@ -499,7 +499,7 @@ $(document).ready(function () {
 					async: false,
 					success: function(data) {
 						console.log('success: ',data);	
-						addMessage(data);				
+						// addMessage(data);				
 					}
 				});	
 		

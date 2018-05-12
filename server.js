@@ -408,39 +408,6 @@ io.on('connection', function(socket){
 		return time;
 	}
 
-// function sendMessage(data){
-
-// 	console.log('user: ' + data.from + ' send message');
-// 	console.log('message: ' + data.msg);
-	
-// 	var time = timeStamp();
-	
-
-// 	if(data.dest != null) {					
-// 		io.to(users[data.dest]).emit('chat_message', {	// sends to specific client
-// 			user: data.from,
-// 			date: time,
-// 			message: data.msg,
-// 			dest: data.dest
-// 		});
-		
-// 		io.to(users[data.from]).emit('chat_message', {		// send message to self client
-// 			user: data.from,
-// 			date: time,
-// 			message: data.msg,
-// 			dest: data.dest
-// 		});
-// 	}
-// 	else {			
-// 		io.emit('chat_message', {			// sends to all clients
-// 			user: data.from,
-// 			date: time,
-// 			message: data.msg,
-// 			lang:data.lang
-// 		});
-// 	}
-// }
-
 function createToneRequest (request) {
 	let toneChatRequest;
 
