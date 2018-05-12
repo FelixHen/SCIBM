@@ -272,7 +272,7 @@ app.post('/signup', function(req, res) {
 			
 		if(!result[0]){
 
-			var sql = "INSERT INTO users (username, password, mail, language, gender) VALUES ('"+username+"', '"+password+"', 'student@hochschule-rt.de', 'de', 0)";
+			var sql = "INSERT INTO users (username, password, mail, language, gender) VALUES ('"+username+"', '"+password+"', 'student@hochschule-rt.de', '"+language+"', 0)";
 			con.query(sql, function (err, result) {
 			if (err) throw err;
 				console.log("1 record inserted");
