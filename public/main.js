@@ -249,8 +249,8 @@ $(document).ready(function () {
 		*/
         socket.on('chat_message', function(data){
 			console.log("source: "+data.language+"| my: "+myLanguage);
-			// console.log(data.language===myLanguage);
-			// if(data.language!=myLanguage){
+			console.log(data.language===myLanguage);
+			if(data.language!=myLanguage){
 				var message={
 					msg: data.message,
 					date: data.date,
@@ -261,9 +261,9 @@ $(document).ready(function () {
 			// if(data.dest)message.dest= data.dest;
 			console.log(message);
 				// translate(message);
-			// }else{
+			}else{
 			addMessage(data);
-			// }
+			}
         });
 		
 		/*
