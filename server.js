@@ -69,7 +69,7 @@ app.post('/translate', function(req, res, next) {
 	Translate
 	 */
 	translator.translate({
-		text: req.body.msg, source : "en", target:  user.language },
+		text: req.body.msg, source : "en", target:  "es" },
 		//converting from english to spanish
 	function (err, translation) {
 			if (err)
@@ -186,16 +186,16 @@ app.post('/login', function(req, res) {
 	// console.log(req.body.password);
 	//the name from login field
 	var username = req.body.username;  
-	var password = req.body.password;
-	
-	var resultUsername;
-	var resultPassword;
-	
+	var password = req.body.password;  
+	var language = req.body.languages;
+	// land=req.body.languages;
+	// console.log("LAND: "+land);
 	// var clients=getArrayWithNames();
 	if(username!=null){
 		console.log(req.body.username);
 		user.name=username;
 		user.password=password;
+		user.language=language;
 	}
 	/*
 	con.connect(function(err) {
@@ -241,7 +241,7 @@ app.post('/login', function(req, res) {
 
 //registration
 app.post('/signup', function(req, res) {
-	console.log("LOGIN: "+JSON.stringify(req.body));
+	// console.log("LOGIN: "+JSON.stringify(req.body));
 
 	/* check data*/ 
 

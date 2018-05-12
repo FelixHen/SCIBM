@@ -492,8 +492,8 @@ $(document).ready(function () {
 				dataType: 'json',
 				data: JSON.stringify(msg),
 				contentType: 'application/json',
-				url: 'http://localhost:3000/translate',
-				// url: 'https://cloudibmreutlingenm.eu-de.mybluemix.net/translate',
+				// url: 'http://localhost:3000/translate',
+				url: 'https://cloudibmreutlingenm.eu-de.mybluemix.net/translate',
 				async: false,
 				success: function(data) {
 					console.log('success: ',data);				
