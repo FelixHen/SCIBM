@@ -69,8 +69,8 @@ app.post('/translate', function(req, res, next) {
 	Translate
 	 */
 	translator.translate({
-		text: req.body.msg, source :  req.body.language, target: user.language },
-		//converting from english to spanish
+		text: req.body.msg, source :  "en", target: user.language },
+		//
 	function (err, translation) {
 			if (err)
 					console.log('error:', err);

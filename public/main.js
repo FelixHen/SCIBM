@@ -190,6 +190,7 @@ $(document).ready(function () {
 		// });
 		
         $('form').submit(function(){
+			console.log("lang: "+myLanguage);
 			
 			if($('#user').val() != ''){
 				var dest = $('#user').val();
@@ -208,8 +209,8 @@ $(document).ready(function () {
 					translate({
 						msg: $('#m').val(),
 						dest: dest,
-						from:myUsername,
-						language:myLanguage
+						from:myUsername
+						// language:myLanguage
 					});
 					// socket.emit('chat_message', {
 					// 	msg: $('#m').val(),
