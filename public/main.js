@@ -237,6 +237,7 @@ $(document).ready(function () {
 			// $chatPage.show();
 			myUsername = data.username;
 			// console.log("picture "+ data.picture );
+			console.log(data.language);
 			log("Welcome to Chat: " + data.username);
 		});
 		

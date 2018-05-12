@@ -308,7 +308,7 @@ io.on('connection', function(socket){
 	
 	console.log('a user connected');
 	console.log("USER: "+user.name+" PASSWORD: "+user.password);
-	addUser(user.name);
+	addUser(user.name,user.language);
 	/*
 	Login process
 	*/
@@ -344,7 +344,7 @@ io.on('connection', function(socket){
 	// 	}
 	// });
 
-	function addUser(username){
+	function addUser(username,language){
 		var username = username.replace(/[ `~!@#$%^&*()_|+\-=?;:'",.<>\{\}\[\]\\\/]/gi, '');
 		
 		if(users[username]) {
@@ -362,7 +362,8 @@ io.on('connection', function(socket){
 			numUsers++;
 			
 			socket.emit('login', {						// call client login
-				username: username
+				username: username,
+				language: language
 			});
 			
 			io.emit('userList', {						// sends userList to all clients
