@@ -80,7 +80,7 @@ app.post('/translate', function(req, res, next) {
 					dest:req.body.dest
 					// ,from:req.body.from
 				}
-				// sendMessage(message);
+				sendMessage(message);
 				res.send(req.body.msg+" -> "+translation['translations'][0].translation);
 			}
 					
@@ -405,7 +405,7 @@ io.on('connection', function(socket){
 			array.splice(index, 1);
 		}
 	}
-	
+});
 	/*
 	creates a timeStamp
 	*/	
@@ -440,37 +440,37 @@ io.on('connection', function(socket){
 	receives message from a user
 	sends message to one or all clients
 	*/	
-	socket.on('chat_message', function(data){
-		console.log('user: ' + socket.username + ' send message');
-		console.log('message: ' + data.msg);
+	// socket.on('chat_message', function(data){
+	// 	console.log('user: ' + socket.username + ' send message');
+	// 	console.log('message: ' + data.msg);
 		
-		var time = timeStamp();
+	// 	var time = timeStamp();
 		
 
-		if(data.dest != null) {					
-			socket.broadcast.to(users[data.dest]).emit('chat_message', {	// sends to specific client
-				user: socket.username,
-				date: time,
-				message: data.msg,
-				dest: data.dest
-			});
+	// 	if(data.dest != null) {					
+	// 		socket.broadcast.to(users[data.dest]).emit('chat_message', {	// sends to specific client
+	// 			user: socket.username,
+	// 			date: time,
+	// 			message: data.msg,
+	// 			dest: data.dest
+	// 		});
 			
-			socket.emit('chat_message', {		// send message to self client
-				user: socket.username,
-				date: time,
-				message: data.msg,
-				dest: data.dest
-			});
-		}
-		else {			
-			io.emit('chat_message', {			// sends to all clients
-				user: socket.username,
-				date: time,
-				message: data.msg
-			});
-		}
+	// 		socket.emit('chat_message', {		// send message to self client
+	// 			user: socket.username,
+	// 			date: time,
+	// 			message: data.msg,
+	// 			dest: data.dest
+	// 		});
+	// 	}
+	// 	else {			
+	// 		io.emit('chat_message', {			// sends to all clients
+	// 			user: socket.username,
+	// 			date: time,
+	// 			message: data.msg
+	// 		});
+	// 	}
 
-	});
+	// });
   
   	/*
 	receives file+message from a user
@@ -499,9 +499,39 @@ io.on('connection', function(socket){
 
 	});
 
-});
+// });
 
+function sendMessage(data){
 
+	console.log('user: ' + data.from + ' send message');
+	console.log('message: ' + data.msg);
+	
+	var time = timeStamp();
+	
+
+	if(data.dest != null) {					
+		socket.broadcast.to(users[data.dest]).emit('chat_message', {	// sends to specific client
+			user: data.from,
+			date: time,
+			message: data.msg,
+			dest: data.dest
+		});
+		
+		socket.broadcast.to(users[data.from]).emit('chat_message', {		// send message to self client
+			user: data.from,
+			date: time,
+			message: data.msg,
+			dest: data.dest
+		});
+	}
+	else {			
+		io.emit('chat_message', {			// sends to all clients
+			user: data.from,
+			date: time,
+			message: data.msg
+		});
+	}
+}
 
 function createToneRequest (request) {
 	let toneChatRequest;

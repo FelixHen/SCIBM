@@ -208,10 +208,10 @@ $(document).ready(function () {
 						dest: dest,
 						from:myUsername
 					});
-					socket.emit('chat_message', {
-						msg: $('#m').val(),
-						dest: dest
-					});
+					// socket.emit('chat_message', {
+					// 	msg: $('#m').val(),
+					// 	dest: dest
+					// });
 				}
 				
 				$('#user').val('');
