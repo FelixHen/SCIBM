@@ -14,6 +14,7 @@ $(document).ready(function () {
 		
 		var maxFileSize = 3.5; 				// max File Size in MB
 		var myUsername;
+		var myLanguage;
 		var $messages = $('.messages');
 		
 		var fileReader = new FileReader();	
@@ -206,7 +207,8 @@ $(document).ready(function () {
 					translate({
 						msg: $('#m').val(),
 						dest: dest,
-						from:myUsername
+						from:myUsername,
+						language:myLanguage
 					});
 					// socket.emit('chat_message', {
 					// 	msg: $('#m').val(),
@@ -236,6 +238,7 @@ $(document).ready(function () {
 			// $loginPage.fadeOut();
 			// $chatPage.show();
 			myUsername = data.username;
+			myLanguage = data.language;
 			// console.log("picture "+ data.picture );
 			console.log(data.language);
 			log("Welcome to Chat: " + data.username);
