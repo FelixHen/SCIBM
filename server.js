@@ -77,8 +77,8 @@ app.post('/translate', function(req, res, next) {
 			else{
 				var message={
 					msg:translation['translations'][0].translation,
-					dest:req.body.dest
-					// ,from:req.body.from
+					dest:req.body.dest,					
+					from:req.body.from
 				}
 				sendMessage(message);
 				res.send(req.body.msg+" -> "+translation['translations'][0].translation);
