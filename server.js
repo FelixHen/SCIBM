@@ -42,10 +42,6 @@ var translator = new LanguageTranslatorV2({
   username: '14dff385-eee3-466a-9f61-9e10278b75d1',
   password: 'bpUjUDQ2qvKO',
   url: 'https://gateway-fra.watsonplatform.net/language-translator/api'
-  // headers: {
-  //   'X-Watson-Technology-Preview': '2017-07-01',
-  //   'X-Watson-Learning-Opt-Out': true
-  // }
 });
 
 

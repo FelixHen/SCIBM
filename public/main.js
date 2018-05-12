@@ -260,7 +260,7 @@ $(document).ready(function () {
 				}
 			if(data.dest) message.dest = data.dest;
 			console.log(message);
-				// translate(message);
+				translate(message);
 			}else{
 				addMessage(data);
 			}
