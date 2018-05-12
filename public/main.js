@@ -500,7 +500,7 @@ $(document).ready(function () {
 					async: false,
 					success: function(data) {
 						console.log('success: ',data);	
-						// addMessage(data);				
+						addMessage(data);				
 					}
 				});	
 		
