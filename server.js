@@ -21,8 +21,12 @@ app.use (function (req, res, next) {
 });
  
 var path = require('path');
-var https = require('https').Server(app);
-var server = require('https').createServer(app);
+
+//var https = require('https').Server(app);
+//var server = require('https').createServer(app);
+
+var http = require('http').Server(app);
+var server = require('http').createServer(app);
 
 /*
 var https = require('https');
@@ -33,8 +37,8 @@ var options = {
 };
 var server = https.createServer(options, app);
 */
-
-let io = require('socket.io').listen(server);
+//let io = require('socket.io').listen(server);
+let io = require('socket.io')(http);
 let port = process.env.PORT || process.env.VCAP_APP_PORT || 3000;
 var bodyParser = require('body-parser');
 var mysql = require('mysql'); 

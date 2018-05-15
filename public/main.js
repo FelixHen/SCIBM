@@ -7,9 +7,9 @@
 var mood;
  
 $(document).ready(function () {
-		//var socket = io();
+		var socket = io();
 		//var io = require('socket.io-client') /* tried: socket.io-client@1.4.8 - failed, socket.io-client@1.4.7 - failed, socket.io-client@1.4.6 - failed, socket.io-client@1.4.5 - Success*/
-		var socket = io.connect('https://cloudibmreutlingenm.eu-de.mybluemix.net', {secure: true, reconnect: true});
+		//var socket = io.connect('https://cloudibmreutlingenm.eu-de.mybluemix.net', {secure: true, reconnect: true});
 		
 		var $loginPage = $('.login.page');	// landing page
 		var $chatPage = $('.chat.page');	// chat
