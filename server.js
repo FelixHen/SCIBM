@@ -21,9 +21,9 @@ app.use (function (req, res, next) {
 //var express = require('express');
 //var app = require('express')();
 var path = require('path');
-var http = require('http').Server(app);
+var https = require('https').Server(app);
 //var server = require('http').createServer(app);
-let io = require('socket.io')(app);
+let io = require('socket.io')(https);
 let port = process.env.PORT || process.env.VCAP_APP_PORT || 3000;
 var bodyParser = require('body-parser');
 
