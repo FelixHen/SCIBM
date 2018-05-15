@@ -26,10 +26,10 @@ var path = require('path');
 
 var https = require('https');
 var options = {
-  key: fs.readFileSync('file.key'),
-  cert: fs.readFileSync('file.cert')
+  key: fs.readFileSync('./file.key'),
+  cert: fs.readFileSync('./file.cert')
 };
-var server = https.createServer(options, app);
+var server = https.createServer(app);
 
 let io = require('socket.io')(server);
 let port = process.env.PORT || process.env.VCAP_APP_PORT || 3000;
