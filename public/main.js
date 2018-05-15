@@ -130,7 +130,6 @@ $(document).ready(function () {
 		updates userlist
 		*/
 		function updateUserList(userList) {
-			
 			$('#users').empty();
 			$('#userCounter').empty();
 			$('#user').empty();
@@ -141,9 +140,9 @@ $(document).ready(function () {
 			$('#user').append($userDropDown);
 			
 			userList.forEach(function(user){
-				//username, language, profilbild
+				
 				var $usernameDiv = $('<span class="username"/>')
-					.text(user);
+					.text(user)
 					.css('color', getUsernameColor(user));
 				
 				if(user == myUsername){
