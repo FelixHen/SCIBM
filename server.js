@@ -49,6 +49,8 @@ var server = require('http').createServer(app);
 let io = require('socket.io')(http);
 
 
+var crypto = require('crypto');
+
 let port = process.env.PORT || process.env.VCAP_APP_PORT || 3000;
 var bodyParser = require('body-parser');
 var mysql = require('mysql'); 
@@ -159,8 +161,11 @@ app.post('/login', function(req, res) {
 	console.log("LOGIN: "+JSON.stringify(req.body));
 	
 	var username = req.body.username;  
-	var password = req.body.password;  
-
+	var password;
+	
+	var data = req.body.password;
+	password = crypto.createHash('md5').update(data).digest("hex");
+	
 	if(username!=null){
 		console.log(req.body.username);
 		user.name=username;
@@ -218,9 +223,12 @@ app.post('/signup', function(req, res) {
 
 	//the name from login field
 	var username = req.body.username;  
-	var password = req.body.password;  
+	var password;
 	var language = req.body.languages;
-
+	
+	var data = req.body.password;
+	password = crypto.createHash('md5').update(data).digest("hex");
+	
 	if(username!=null){
 		console.log(req.body.username);
 		user.name=username;
@@ -237,7 +245,7 @@ app.post('/signup', function(req, res) {
 		}
 			
 		if(!result[0]){
-
+			
 			var sql = "INSERT INTO users (username, password, mail, language, gender) VALUES ('"+username+"', '"+password+"', 'student@hochschule-rt.de', '"+language+"', 0)";
 			con.query(sql, function (err, result) {
 			if (err) throw err;
