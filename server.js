@@ -34,7 +34,7 @@ var options = {
 var server = https.createServer(options, app);
 */
 
-let io = require('socket.io')(server);
+let io = require('socket.io').listen(server);
 let port = process.env.PORT || process.env.VCAP_APP_PORT || 3000;
 var bodyParser = require('body-parser');
 var mysql = require('mysql'); 

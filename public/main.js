@@ -1,6 +1,6 @@
 /**
  * Main
- * @author Jan-Patrick Kirchner [742143], Felix Hennig [752734], Konstantinos Karagkiozis [752753], Marija Belova [752684]
+ * @author Jan-Patrick Kirchner [742143], Felix Hennig [752734], Marija Belova [752684]
  * @version 1.0
  */
 
