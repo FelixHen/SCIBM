@@ -127,15 +127,16 @@ var user={};
 
 
 //-------------------------------------------------------------------------------------------------------------------------------------------
-
+/*
 var con = mysql.createConnection({
   host: 'den1.mysql1.gear.host',
   user: 'simplechatusers',
   password: 'Qc4vAR-GBU_Y',
   database: 'SimpleChatUsers'
 });
-/*
-//mysql
+*/
+
+//mysql connection
 var options = {
     host: 'sl-eu-fra-2-portal.4.dblayer.com',
     port: 16736,
@@ -145,8 +146,9 @@ var options = {
     expiration: 86400000,
     checkExpirationInterval: 900000
 };
-var connection = mysql.createConnection(options); // or mysql.createPool(options);
-'/
+
+var connection = mysql.createConnection(options);
+
 /*
 let mysqlurl = new url.URL(mysql://admin:KKAKNFEBLHRXCTTZ@sl-eu-fra-2-portal.4.dblayer.com:16736/compose);
 let options = {
@@ -166,7 +168,7 @@ var con = mysql.createConnection({
 */
 
 
-con.connect(function(err) {
+connection.connect(function(err) {
 
   if (err) throw err;
   console.log("Connected!");
@@ -209,7 +211,7 @@ app.post('/login', function(req, res) {
 	*/
 			var sql = "SELECT * FROM users WHERE username = ?";
 			
-			con.query(sql, [username], function (err, result) {
+			connection.query(sql, [username], function (err, result) {
 				if (err) {
 					throw err;
 					res.sendFile(__dirname + '/public/index.html');
@@ -271,7 +273,7 @@ app.post('/signup', function(req, res) {
 	
 	var sql = "SELECT * FROM users WHERE username = ?";
 	
-	con.query(sql, [username], function (err, result) {
+	connection.query(sql, [username], function (err, result) {
 		if (err) {
 			throw err;
 			res.sendFile(__dirname + '/public/index.html');
@@ -286,7 +288,7 @@ app.post('/signup', function(req, res) {
 			*/
 			var sql = "INSERT INTO users (username, password, mail, language, gender) VALUES ('"+username+"', '"+password+"', 'student@hochschule-rt.de', '"+language+"', 0)";
 			//var sql = "INSERT INTO users (username, password, mail, language, gender, profilbild) VALUES ('"+username+"', '"+password+"', 'student@hochschule-rt.de', '"+language+"', 0, "+ bild +")";
-			con.query(sql, function (err, result) {
+			connection.query(sql, function (err, result) {
 			if (err) throw err;
 				console.log("1 record inserted");
 				res.sendFile(__dirname + '/public/chat.html');
@@ -351,7 +353,7 @@ io.on('connection', function(socket){
 			/*
 			var userListe = null;
 			var sql = "SELECT username, language, profilbild FROM users";
-			con.query(sql, function (err, result) {
+			connection.query(sql, function (err, result) {
 				if (err) {
 				console.log(err);
 					throw err;
@@ -398,7 +400,7 @@ io.on('connection', function(socket){
 		
 		
 			var sql = "SELECT username, language, profilbild FROM users";
-			con.query(sql, function (err, result) {
+			connection.query(sql, function (err, result) {
 				if (err) {
 				console.log(err);
 					throw err;
