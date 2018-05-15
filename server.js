@@ -135,6 +135,18 @@ var con = mysql.createConnection({
   database: 'SimpleChatUsers'
 });
 
+//mysql
+var options = {
+    host: 'sl-eu-fra-2-portal.4.dblayer.com',
+    port: 16736,
+    user: 'admin',
+    password: 'KKAKNFEBLHRXCTTZ',
+    database: 'compose',
+    expiration: 86400000,
+    checkExpirationInterval: 900000
+};
+var connection = mysql.createConnection(options); // or mysql.createPool(options);
+
 /*
 let mysqlurl = new url.URL(mysql://admin:KKAKNFEBLHRXCTTZ@sl-eu-fra-2-portal.4.dblayer.com:16736/compose);
 let options = {
@@ -245,7 +257,7 @@ app.post('/signup', function(req, res) {
 	var username = req.body.username;  
 	var password;
 	var language = req.body.languages;
-	var bild = req.body.profileImage;
+	//var bild = req.body.profileImage;
 	
 	var data = req.body.password;
 	password = crypto.createHash('md5').update(data).digest("hex");
@@ -269,11 +281,11 @@ app.post('/signup', function(req, res) {
 			/*
 			var img = {
 				img: fs.readFileSync(bild),
-				file_name: 'Cat'
+				file_name: 'Img'
 			};
 			*/
-			
-			var sql = "INSERT INTO users (username, password, mail, language, gender, profilbild) VALUES ('"+username+"', '"+password+"', 'student@hochschule-rt.de', '"+language+"', 0, "+ bild +")";
+			var sql = "INSERT INTO users (username, password, mail, language, gender) VALUES ('"+username+"', '"+password+"', 'student@hochschule-rt.de', '"+language+"', 0)";
+			//var sql = "INSERT INTO users (username, password, mail, language, gender, profilbild) VALUES ('"+username+"', '"+password+"', 'student@hochschule-rt.de', '"+language+"', 0, "+ bild +")";
 			con.query(sql, function (err, result) {
 			if (err) throw err;
 				console.log("1 record inserted");
@@ -336,9 +348,8 @@ io.on('connection', function(socket){
 				language: language
 			});
 			
+			/*
 			var userListe = null;
-		
-		
 			var sql = "SELECT username, language, profilbild FROM users";
 			con.query(sql, function (err, result) {
 				if (err) {
@@ -358,6 +369,11 @@ io.on('connection', function(socket){
 						
 				}
 			});
+			*/
+			
+			io.emit('userList', {						// sends userList to all clients
+						userList: userListe
+					});
 			
 			socket.broadcast.emit('user_joined', {		// sends user joined message to other clients
 				username: socket.username
@@ -377,7 +393,7 @@ io.on('connection', function(socket){
 
 		remove(userNames, socket.username);
 		
-		
+		/*
 		var userListe = null;
 		
 		
@@ -391,16 +407,16 @@ io.on('connection', function(socket){
 				if(result[0]){
 					console.log(result);
 					userListe = result;
-					
 					socket.broadcast.emit('userList', {				// sends userList to all other clients
 						userList: userNames
 					});
+					
 				}
 				else {
 						
 				}
 			});
-		
+		*/
 		
 		
 		socket.broadcast.emit('user_disconnected', {	// sends user disconnected message to other clients
