@@ -3,12 +3,13 @@
  * @author Jan-Patrick Kirchner [742143], Felix Hennig [752734], Marija Belova [752684]
  * @version 2.0
  */
-
-
-var express = require("express");
-var app = express();
-//var fs = require('fs');
 /*
+var express = require('express');
+//var express = require("express");
+//var app = express();
+var app = require('express')();
+//var fs = require('fs');
+
 app.enable('trust proxy');
 
 app.use (function (req, res, next) {
@@ -19,7 +20,7 @@ app.use (function (req, res, next) {
     res.redirect('https://' + req.headers.host + req.url);
   }
 });
-*/
+
 var path = require('path');
 
 //var https = require('https').Server(app);
@@ -30,7 +31,7 @@ var http = require('http').Server(app);
 var server = require('http').createServer(app);
 let io = require('socket.io')(http);
 
-/*
+
 var https = require('https');
 
 var options = {
@@ -39,6 +40,13 @@ var options = {
 };
 var server = https.createServer(options, app);
 */
+
+var express = require('express');
+var app = require('express')();
+var path = require('path');
+var http = require('http').Server(app);
+var server = require('http').createServer(app);
+let io = require('socket.io')(http);
 
 
 let port = process.env.PORT || process.env.VCAP_APP_PORT || 3000;
