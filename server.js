@@ -4,8 +4,6 @@
  * @version 1.0
  */
  
-
- 
  
 var express = require('express');
 var app = require('express')();
