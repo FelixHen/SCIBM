@@ -7,7 +7,7 @@
 
 var express = require("express");
 var app = express();
-var fs = require('fs');
+//var fs = require('fs');
 
 app.enable('trust proxy');
 
@@ -25,11 +25,11 @@ var path = require('path');
 //var server = require('http').createServer(app);
 
 var https = require('https');
-var options = {
+/*var options = {
   key: fs.readFileSync('file.key'),
   cert: fs.readFileSync('file.cert')
-};
-var server = https.createServer(options, app);
+};*/
+var server = https.createServer(app);
 
 let io = require('socket.io')(server);
 let port = process.env.PORT || process.env.VCAP_APP_PORT || 3000;
