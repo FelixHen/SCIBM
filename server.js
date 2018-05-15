@@ -7,7 +7,7 @@
 
 var express = require("express");
 var app = express();
-var fs = require('fs');
+//var fs = require('fs');
 
 app.enable('trust proxy');
 
@@ -21,17 +21,20 @@ app.use (function (req, res, next) {
 });
  
 var path = require('path');
-//var https = require('https').Server(app);
-//var server = require('http').createServer(app);
+var http = require('http').Server(app);
+var server = require('http').createServer(app);
 
+/*
 var https = require('https');
+
 var options = {
   key: fs.readFileSync('./file.key'),
   cert: fs.readFileSync('./file.cert')
 };
-var server = https.createServer(app);
+var server = https.createServer(options, app);
+*/
 
-let io = require('socket.io')(server);
+let io = require('socket.io')(http);
 let port = process.env.PORT || process.env.VCAP_APP_PORT || 3000;
 var bodyParser = require('body-parser');
 var mysql = require('mysql'); 
