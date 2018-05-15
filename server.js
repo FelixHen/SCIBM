@@ -127,15 +127,15 @@ var user={};
 
 
 //-------------------------------------------------------------------------------------------------------------------------------------------
-/*
+
 var con = mysql.createConnection({
   host: 'den1.mysql1.gear.host',
   user: 'simplechatusers',
   password: 'Qc4vAR-GBU_Y',
   database: 'SimpleChatUsers'
 });
-*/
 
+/*
 let mysqlurl = new url.URL(mysql://admin:KKAKNFEBLHRXCTTZ@sl-eu-fra-2-portal.4.dblayer.com:16736/compose);
 let options = {
     host: mysqlurl.hostname,
@@ -144,7 +144,7 @@ let options = {
     password: mysqlurl.password
     //database: mysqlurl.pathname.split("/")[1]
 };
-
+*/
 /*
 var con = mysql.createConnection({
   host: "eu-mm-auto-sl-lhr-01-b.cleardb.net",	// london2
@@ -158,13 +158,13 @@ con.connect(function(err) {
 
   if (err) throw err;
   console.log("Connected!");
-  
+  /*
   var sql = "CREATE TABLE users (id INT AUTO_INCREMENT PRIMARY KEY, username VARCHAR(255), password VARCHAR(255), mail VARCHAR(255), language VARCHAR(255), gender INT(1))"; 
   con.query(sql, function (err, result) { 
     if (err) throw err; 
     console.log("Table created"); 
   }); 
-  
+  */
 });
 
 
