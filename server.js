@@ -4,23 +4,11 @@
  * @version 1.0
  */
  
-var express = require("express");
-var app = express();
 
-app.enable('trust proxy');
-
-app.use (function (req, res, next) {
-  if (req.secure || process.env.BLUEMIX_REGION === undefined) {
-    next();
-  } else {
-    console.log('redirecting to https');
-    res.redirect('https://' + req.headers.host + req.url);
-  }
-});
  
  
-//var express = require('express');
-//var app = require('express')();
+var express = require('express');
+var app = require('express')();
 var path = require('path');
 var http = require('http').Server(app);
 var server = require('http').createServer(app);
