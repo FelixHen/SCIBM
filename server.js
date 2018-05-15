@@ -1,7 +1,7 @@
 /**
  * Node Server
- * @author Jan-Patrick Kirchner [742143], Felix Hennig [752734], Konstantinos Karagkiozis [752753], Marija Belova [752684]
- * @version 1.0
+ * @author Jan-Patrick Kirchner [742143], Felix Hennig [752734], Marija Belova [752684]
+ * @version 2.0
  */
 
 var tls = require('tls');
@@ -19,19 +19,24 @@ app.use (function (req, res, next) {
   }
 });
  
-
 var path = require('path');
-//var https = require('http').Server(app);
+//var https = require('https').Server(app);
 //var server = require('http').createServer(app);
+
+var https = require('https');
+var options = {
+  key: fs.readFileSync('./file.pem'),
+  cert: fs.readFileSync('./file.crt')
+};
+var server = https.createServer(options, app);
+
 let io = require('socket.io');
 let port = process.env.PORT || process.env.VCAP_APP_PORT || 3000;
 var bodyParser = require('body-parser');
-
 var mysql = require('mysql'); 
-
 var router = express.Router();
-app.use(express.static(path.join(__dirname, 'public')));
 
+app.use(express.static(path.join(__dirname, 'public')));
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(bodyParser.json());
 
@@ -485,6 +490,6 @@ app.post('/tone', (req, res, next) => {
 /*
 listen on Port XXXX
 */	
-app.listen(port, function(){
+server.listen(port, function(){
 	console.log('listening on *:' + port);
 });
