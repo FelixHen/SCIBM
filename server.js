@@ -374,8 +374,8 @@ io.on('connection', function(socket){
 			*/
 			
 			io.emit('userList', {						// sends userList to all clients
-						userList: userListe
-					});
+				userList: userNames
+			});
 			
 			socket.broadcast.emit('user_joined', {		// sends user joined message to other clients
 				username: socket.username
@@ -420,6 +420,9 @@ io.on('connection', function(socket){
 			});
 		*/
 		
+		socket.broadcast.emit('userList', {				// sends userList to all other clients
+			userList: userNames
+		});
 		
 		socket.broadcast.emit('user_disconnected', {	// sends user disconnected message to other clients
 			username: socket.username	

@@ -143,23 +143,23 @@ $(document).ready(function () {
 			userList.forEach(function(user){
 				//username, language, profilbild
 				var $usernameDiv = $('<span class="username"/>')
-					.text(user.username);
-					//.css('color', getUsernameColor(user.username));
+					.text(user);
+					.css('color', getUsernameColor(user));
 				
-				if(user.username == myUsername){
+				if(user == myUsername){
 					
 					var $myUsernameDiv = $('<img src="img/star.png" alt="star" style="width: 20px;" />');
 					
 					var $userDiv = $('<li class="user"/>')
-					.data('username', user.username)
+					.data('username', user)
 					.append($usernameDiv, $myUsernameDiv);
 				}
 				else {
 					var $userDiv = $('<li class="user"/>')
-					.data('username', user.username)
+					.data('username', user)
 					.append($usernameDiv);
 					
-					var $userDropDown = $('<option value="' + user.username + '">' + user.username + '</option>');
+					var $userDropDown = $('<option value="' + user + '">' + user + '</option>');
 				}
 
 				$('#user').append($userDropDown);
