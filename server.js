@@ -24,9 +24,11 @@ var path = require('path');
 
 //var https = require('https').Server(app);
 //var server = require('https').createServer(app);
+//let io = require('socket.io').listen(server);
 
 var http = require('http').Server(app);
 var server = require('http').createServer(app);
+let io = require('socket.io')(http);
 
 /*
 var https = require('https');
@@ -37,8 +39,8 @@ var options = {
 };
 var server = https.createServer(options, app);
 */
-//let io = require('socket.io').listen(server);
-let io = require('socket.io')(http);
+
+
 let port = process.env.PORT || process.env.VCAP_APP_PORT || 3000;
 var bodyParser = require('body-parser');
 var mysql = require('mysql'); 
@@ -498,6 +500,6 @@ app.post('/tone', (req, res, next) => {
 /*
 listen on Port XXXX
 */	
-app.listen(port, function(){
+server.listen(port, function(){
 	console.log('listening on *:' + port);
 });
