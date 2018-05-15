@@ -134,7 +134,7 @@ var con = mysql.createConnection({
   password: 'Qc4vAR-GBU_Y',
   database: 'SimpleChatUsers'
 });
-
+/*
 //mysql
 var options = {
     host: 'sl-eu-fra-2-portal.4.dblayer.com',
@@ -146,7 +146,7 @@ var options = {
     checkExpirationInterval: 900000
 };
 var connection = mysql.createConnection(options); // or mysql.createPool(options);
-
+'/
 /*
 let mysqlurl = new url.URL(mysql://admin:KKAKNFEBLHRXCTTZ@sl-eu-fra-2-portal.4.dblayer.com:16736/compose);
 let options = {
