@@ -8,7 +8,7 @@
 var express = require("express");
 var app = express();
 //var fs = require('fs');
-
+/*
 app.enable('trust proxy');
 
 app.use (function (req, res, next) {
@@ -19,7 +19,7 @@ app.use (function (req, res, next) {
     res.redirect('https://' + req.headers.host + req.url);
   }
 });
- 
+*/
 var path = require('path');
 
 //var https = require('https').Server(app);
