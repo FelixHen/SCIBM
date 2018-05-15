@@ -10,7 +10,8 @@
 	"watson-developer-cloud":"^3.3.0",
 	"body-parser":"^1.18.2",
 	"dotenv":"^5.0.1",
-	"mysql": "*"
+	"mysql": "*",
+	"fs": "2.2.2"
   },
   "scripts": {
     "start": "node server.js"
