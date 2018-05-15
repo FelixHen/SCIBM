@@ -26,8 +26,8 @@ var path = require('path');
 
 var https = require('https');
 var options = {
-  key: fs.readFileSync('./file.pem'),
-  cert: fs.readFileSync('./file.crt')
+  key: fs.readFileSync('./file.key'),
+  cert: fs.readFileSync('./file.cert')
 };
 var server = https.createServer(options, app);
 
