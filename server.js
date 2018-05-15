@@ -21,8 +21,8 @@ app.use (function (req, res, next) {
 });
  
 var path = require('path');
-var http = require('http').Server(app);
-var server = require('http').createServer(app);
+var https = require('https').Server(app);
+var server = require('https').createServer(app);
 
 /*
 var https = require('https');
