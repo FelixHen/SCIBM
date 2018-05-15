@@ -256,7 +256,7 @@ app.get('/register', function(req, res) {
 /*
 
 */
-io.sockets.on('connection', function(socket){
+io.on('connection', function(socket){
 	if(!user.name || user.name == null) {
 		sendFile(__dirname + '/public/index.html');
 	}
