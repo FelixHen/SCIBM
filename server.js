@@ -23,7 +23,7 @@ app.use (function (req, res, next) {
 var path = require('path');
 var http = require('http').Server(app);
 //var server = require('http').createServer(app);
-let io = require('socket.io')(http);
+let io = require('socket.io')(app);
 let port = process.env.PORT || process.env.VCAP_APP_PORT || 3000;
 var bodyParser = require('body-parser');
 
