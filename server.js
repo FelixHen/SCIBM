@@ -22,7 +22,7 @@ app.use (function (req, res, next) {
 //var app = require('express')();
 var path = require('path');
 var http = require('http').Server(app);
-var server = require('http').createServer(app);
+//var server = require('http').createServer(app);
 let io = require('socket.io')(http);
 let port = process.env.PORT || process.env.VCAP_APP_PORT || 3000;
 var bodyParser = require('body-parser');
@@ -485,6 +485,6 @@ app.post('/tone', (req, res, next) => {
 /*
 listen on Port XXXX
 */	
-http.listen(port, function(){
+app.listen(port, function(){
 	console.log('listening on *:' + port);
 });
