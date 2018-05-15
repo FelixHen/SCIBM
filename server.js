@@ -491,6 +491,6 @@ app.post('/tone', (req, res, next) => {
 /*
 listen on Port XXXX
 */	
-server.listen(port, function(){
+app.listen(port, function(){
 	console.log('listening on *:' + port);
 });
