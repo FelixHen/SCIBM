@@ -140,25 +140,25 @@ $(document).ready(function () {
 			$('#user').append($userDropDown);
 			
 			userList.forEach(function(user){
-				
+				//username, language, profilbild
 				var $usernameDiv = $('<span class="username"/>')
-					.text(user)
-					.css('color', getUsernameColor(user));
+					.text(user.username)
+					.css('color', getUsernameColor(user.username));
 				
-				if(user == myUsername){
+				if(user.username == myUsername){
 					
 					var $myUsernameDiv = $('<img src="img/star.png" alt="star" style="width: 20px;" />');
 					
 					var $userDiv = $('<li class="user"/>')
-					.data('username', user)
+					.data('username', user.username)
 					.append($usernameDiv, $myUsernameDiv);
 				}
 				else {
 					var $userDiv = $('<li class="user"/>')
-					.data('username', user)
+					.data('username', user.username)
 					.append($usernameDiv);
 					
-					var $userDropDown = $('<option value="' + user + '">' + user + '</option>');
+					var $userDropDown = $('<option value="' + user.username + '">' + user.username + '</option>');
 				}
 
 				$('#user').append($userDropDown);
