@@ -142,8 +142,8 @@ $(document).ready(function () {
 			userList.forEach(function(user){
 				//username, language, profilbild
 				var $usernameDiv = $('<span class="username"/>')
-					.text(user.username)
-					.css('color', getUsernameColor(user.username));
+					.text(user.username);
+				//	.css('color', getUsernameColor(user.username));
 				
 				if(user.username == myUsername){
 					
