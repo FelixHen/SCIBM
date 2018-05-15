@@ -130,6 +130,7 @@ $(document).ready(function () {
 		updates userlist
 		*/
 		function updateUserList(userList) {
+			
 			$('#users').empty();
 			$('#userCounter').empty();
 			$('#user').empty();
@@ -143,7 +144,7 @@ $(document).ready(function () {
 				//username, language, profilbild
 				var $usernameDiv = $('<span class="username"/>')
 					.text(user.username);
-				//	.css('color', getUsernameColor(user.username));
+					//.css('color', getUsernameColor(user.username));
 				
 				if(user.username == myUsername){
 					
