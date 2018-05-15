@@ -235,6 +235,9 @@ app.get('/register', function(req, res) {
 
 */
 io.on('connection', function(socket){
+	if(!user.name || user.name == null) {
+		sendFile(__dirname + '/public/index.html');
+	}
 	
 	console.log('a user connected');
 	console.log("USER: "+user.name+" PASSWORD: "+user.password);
