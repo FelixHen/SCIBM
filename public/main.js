@@ -282,6 +282,7 @@ $(document).ready(function () {
 			if(data.dest) message.dest = data.dest;
 			console.log(message);
 				translate(message);
+				getTone(data.message);
 			}else{
 				addMessage(data);
 			}
