@@ -38,8 +38,8 @@ var options = {
 var server = https.createServer(options, app);
 */
 
-var express = require('express');
-var app = require('express')();
+//var express = require('express');
+//var app = require('express')();
 
 var path = require('path');
 var http = require('http').Server(app);
@@ -664,6 +664,6 @@ app.post('/tone', (req, res, next) => {
 /*
 listen on Port XXXX
 */	
-server.listen(port, function(){
+http.listen(port, function(){
 	console.log('listening on *:' + port);
 });
