@@ -384,7 +384,8 @@ io.on('connection', function(socket){
 			socket.emit('login', {						// call client login
 				username: username,
 				language: language,
-				image: user.image
+				image: user.image,
+				tmp: user.tmp
 			});
 			
 			/*
