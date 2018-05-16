@@ -119,6 +119,28 @@ app.post('/translate', function(req, res, next) {
 
 });
 
+
+app.post('/model', function(req, res, next) {
+	console.log('Model Body: '+JSON.stringify(req.body));
+	var sourcelang=req.body.source;
+	var targetlang=req.body.target;
+	console.log(' MODELLANG '+JSON.stringify(sourcelang)+" | "+JSON.stringify(targetlang));
+	
+	translator.listModels(
+		{source:sourcelang, target:targetlang},
+		function(error, response) {
+		  if (error)
+			console.log(error);
+		  else{
+			console.log(response['models'].length);
+			// console.log(JSON.stringify(response, null, 2));
+			res.send(JSON.stringify(response['models']));
+		  }
+		}
+	  );
+		
+});
+
 require('dotenv').config({silent: true});
 
 

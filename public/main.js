@@ -253,7 +253,11 @@ $(document).ready(function () {
 			getTone(data.message);
 			console.log("source: "+data.language+"| my: "+myLanguage);
 			console.log(data.language!=myLanguage);
-			if(data.language!=myLanguage){
+			if(data.language!=myLanguage && !getModel(data.language,myLanguage)){
+				// console.log("GET :" +getModel(data.language,myLanguage));
+				addMessage(data)
+			}
+			else if(data.language!=myLanguage){				
 				var message={
 					msg: data.message,
 					date: data.date,
@@ -508,6 +512,26 @@ $(document).ready(function () {
 				});	
 		
 		}
+
+		function getModel(sourceLanguage,myLanguage) {
+		
+			var msg={source:sourceLanguage, target:myLanguage};
+			var ret;
+			$.post({
+				type: 'POST',
+				dataType: 'json',
+				data: JSON.stringify(msg),
+				contentType: 'application/json',
+				url: 'https://cloudibmreutlingenm.eu-de.mybluemix.net/model',
+				// url: 'https://cloudibmreutlingenm.eu-de.mybluemix.net/translate',
+				async: false,
+				success: function(data) {
+					console.log('successMODEL: ', data.length);	
+					if(data.length===0)ret=false; else ret=true;	
+				}
+			});	
+			return ret;
+	}
 
 
 });
