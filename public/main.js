@@ -336,7 +336,10 @@ $(document).ready(function () {
 			file = e.target.files[0];
 
 		});
-
+		
+		/*
+		File upload. Image, Video, Audio with specific output. Other Uploads
+		*/
 		function fileUpload() {
 		
 			if (file){
@@ -386,6 +389,9 @@ $(document).ready(function () {
 			return false;
 		}
 		
+		/* 
+		Append a file to message
+		*/
 		function appendFile(file, fileInfo, data){
 			
 			if(data.dest) {
@@ -505,7 +511,9 @@ $(document).ready(function () {
 			}}
 		});
 
-
+		/* 
+		Get mood of the message via IBM Cloud api
+		*/
 		function getTone(message) {
 	
 			var text={"texts":["",message]};
@@ -533,6 +541,9 @@ $(document).ready(function () {
 	
 		}
 	
+		/* 
+		Connect to IBM cloud translate engine
+		*/
 		function translate(msg) {
 		
 				// var text={msg:message};
@@ -559,6 +570,10 @@ $(document).ready(function () {
 		
 		}
 
+		
+		/*
+		Connect to IBM cloud translate model
+		*/
 		function getModel(sourceLanguage,myLanguage) {
 		
 			var msg={source:sourceLanguage, target:myLanguage};
@@ -579,6 +594,9 @@ $(document).ready(function () {
 			return ret;
 	}
 
+	/*
+	get User image
+	*/
 	function getImg(username){
 		for (i in usersImg) {
 			if(usersImg[i].name===username)

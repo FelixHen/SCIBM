@@ -355,7 +355,7 @@ app.get('/register', function(req, res) {
 
 
 /*
-
+connection establishment
 */
 io.on('connection', function(socket){
 	if(!user.name || user.name == null) {
@@ -570,7 +570,7 @@ io.on('connection', function(socket){
 
 
 	/*
-	creates a timeStamp
+	Create a TimeStamp for the Chat
 	*/	
 	function timeStamp() {
 		var date = new Date();
@@ -598,7 +598,9 @@ io.on('connection', function(socket){
 			
 		return time;
 	}
-
+/*
+return toneRequest
+*/
 function createToneRequest (request) {
 	let toneChatRequest;
 
@@ -614,6 +616,9 @@ function createToneRequest (request) {
   return toneChatRequest;
 }
 
+/*
+return state of happyness
+*/
 function happyOrUnhappy (response) {
   const happyTones = ['satisfied', 'excited', 'polite', 'sympathetic'];
   const unhappyTones = ['sad', 'frustrated', 'impolite'];
@@ -640,6 +645,9 @@ function happyOrUnhappy (response) {
   }
 }
 
+/*
+Tone API IBM
+*/
 app.post('/tone', (req, res, next) => {
 	
   let toneRequest = createToneRequest(req.body);
