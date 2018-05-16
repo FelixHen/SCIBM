@@ -149,7 +149,7 @@ $(document).ready(function () {
 			
 			userList.forEach(function(user){
 
-				var $imgDiv=$('<img src="'+ getImg(user) +'" alt="" class="img" id="avatar" height="42" width="42"/>');
+				var $imgDiv=$('<img src="'+ getImg(user) +'" alt="" class="img" id="avatar" height="40" width="40"/>');
 
 				var $usernameDiv = $('<span class="username"/>')
 					.text(user)
@@ -282,7 +282,6 @@ $(document).ready(function () {
 			if(data.dest) message.dest = data.dest;
 			console.log(message);
 				translate(message);
-				getTone(data.message);
 			}else{
 				addMessage(data);
 			}
@@ -548,6 +547,7 @@ $(document).ready(function () {
 					async: false,
 					success: function(data) {
 						console.log('success: ',data);	
+						getTone(data.message);
 						if(data.isFile!=null){
 							text=data;
 							// console.log("TXT: "+JSON.stringify(text));
