@@ -240,7 +240,7 @@ app.post('/login', function(req, res) {
 				if(result[0]){
 					resultUsername = result[0].username;
 					resultPassword = result[0].password;
-					user.language = language = result[0].language;
+					user.language = result[0].language;
 					user.image = result[0].image;
 
 					console.log("Result DB Name: "+result[0].username);
@@ -255,7 +255,6 @@ app.post('/login', function(req, res) {
 						
 						res.sendFile(__dirname + '/public/index.html');
 					}
-				
 				}
 				else {
 					
