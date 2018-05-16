@@ -381,7 +381,7 @@ io.on('connection', function(socket){
 	addUser(user.name,user.language);
 
 	function addUser(username,language){
-		var username = username.replace(/[ `~!@#$%^&*()_|+\-=?;:'",.<>\{\}\[\]\\\/]/gi, '');
+		//var username = username.replace(/[ `~!@#$%^&*()_|+\-=?;:'",.<>\{\}\[\]\\\/]/gi, '');
 		
 		if(users[username]) {
 			console.log('user exist: '+ username);
