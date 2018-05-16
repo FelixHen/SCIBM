@@ -464,6 +464,8 @@ $(document).ready(function () {
 			
 			getTone(data.message);
 			console.log("FILE: "+JSON.stringify(data));
+			console.log("FILE: "+data.message==null);
+			console.log("FILE: "+data.message.length==0);
 
 			var model=getModel(data.language,myLanguage);
 
