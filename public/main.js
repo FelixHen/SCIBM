@@ -472,7 +472,7 @@ $(document).ready(function () {
 				// addMessage(data);
 				appendFile(file, fileInfo, data);
 			}
-			else if(data.language!=myLanguage && model){				
+			if(data.language!=myLanguage && model){				
 				// var message={
 				// 	msg: data.message,
 				// 	date: data.date,
