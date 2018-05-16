@@ -216,6 +216,7 @@ app.post('/login', function(req, res) {
 	
 	var username = req.body.username;  
 	var password;
+	var image;
 	
 	var data = req.body.password;
 	password = crypto.createHash('md5').update(data).digest("hex");
@@ -240,6 +241,7 @@ app.post('/login', function(req, res) {
 					resultUsername = result[0].username;
 					resultPassword = result[0].password;
 					user.language = language = result[0].language;
+					user.image = result[0].image;
 
 					console.log("Result DB Name: "+result[0].username);
 					console.log("Result DB PW: "+result[0].password);
@@ -380,7 +382,8 @@ io.on('connection', function(socket){
 			
 			socket.emit('login', {						// call client login
 				username: username,
-				language: language
+				language: language,
+				image: user.image
 			});
 			
 			/*
