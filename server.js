@@ -3,7 +3,7 @@
  * @author Jan-Patrick Kirchner [742143], Felix Hennig [752734], Marija Belova [752684]
  * @version 2.0
  */
-/*
+
 var express = require('express');
 //var express = require("express");
 //var app = express();
@@ -20,7 +20,7 @@ app.use (function (req, res, next) {
     res.redirect('https://' + req.headers.host + req.url);
   }
 });
-
+/*
 var path = require('path');
 
 //var https = require('https').Server(app);
