@@ -294,15 +294,29 @@ app.post('/signup', function(req, res) {
 		
 		console.log(fields.username);
 		console.log(fields.password);
-
-        if (files.file !== null && files.file.size > 0 && files.file.type.startsWith("image")) {
+		
+		if (files.file !== null && files.file.type.startsWith("image")) {
 			
-            var data = fs.readFileSync(files.file.path);
-            var content = new Buffer(data).toString('base64');
+			if(files.file.size < (1000 * 1000)){
 
-            image = 'data:' + files.file.type + ';base64,' + content;
-			console.log(image);
-        }
+				var data = fs.readFileSync(files.file.path);
+				var data2 = new Buffer(data).toString('base64');
+					
+				//console.log(data);
+				//console.log(data2);
+			
+				image = 'data:' + files.file.type + ';base64,' + data2;
+				//console.log(image);
+			}
+			else {
+			
+				console.log("image to large");
+			}
+			
+		}
+		else {
+			console.log("no file or no image file");
+		}
 		
 		password = crypto.createHash('md5').update(password).digest("hex");
 		
