@@ -463,44 +463,33 @@ $(document).ready(function () {
 		socket.on('file', function(file, fileInfo, data){
 			
 			getTone(data.message);
-			console.log("FILE: "+JSON.stringify(data));
-			console.log("FILE: "+data.message.length);
+			// console.log("FILE: "+JSON.stringify(data));
+			// console.log("FILE: "+data.message.length);
 			var msgl=data.message;
-			console.log(msgl.length===0);
+			// console.log(msgl.length===0);
 			if(msgl.length===0)appendFile(file, fileInfo, data);else{
 
 			var model=getModel(data.language,myLanguage);
 
 			if(data.language!=myLanguage && !model){
-				// console.log("GET :" +getModel(data.language,myLanguage));
-				// addMessage(data);
 				appendFile(file, fileInfo, data);
 			}
 			if(data.language!=myLanguage && model){				
-				// var message={
-				// 	msg: data.message,
-				// 	date: data.date,
-				// 	source:data.language,
-				// 	target:myLanguage,
-				// 	user:data.user
-				// }
 				var message = data;
 				message.msg=data.message;
 				message.source=data.language;
 				message.target=myLanguage;
-				console.log("FileTranslate: "+JSON.stringify(message));
+				// console.log("FileTranslate: "+JSON.stringify(message));
 			if(data.dest) message.dest = data.dest;
-			console.log(message);
+			// console.log(message);
 				var msg=translate(message);
-				console.log("TXT_FILE: "+JSON.stringify(msg));
+				// console.log("TXT_FILE: "+JSON.stringify(msg));
 				data.message=msg.message;
 				appendFile(file, fileInfo, data);
 			}
 			else{
 				appendFile(file, fileInfo, data);
 			}}
-			
-			// appendFile(file, fileInfo, data);
 		});
 
 
@@ -578,49 +567,3 @@ $(document).ready(function () {
 
 
 });
-
-	// function getTone(message) {
-	
-	// 	var text={"texts":["",message]};
-
-    //     $.post({
-	// 		type: 'POST',
-	// 		dataType: 'json',
-	// 		data: JSON.stringify(text),
-	// 		contentType: 'application/json',
-	// 		url: 'https://cloudibmreutlingenm.eu-de.mybluemix.net/tone',
-	// 		async: false,
-	// 		success: function(data) {
-	// 			console.log('success: ',data);
-	// 			document.getElementById("mood").value = data.mood;
-				
-	// 			if(data.mood == 'happy') {
-	// 				mood = data.mood;
-	// 			}
-	// 			else {
-	// 				mood = data.mood;
-	// 			}
-				
-	// 		}
-	// 	});	
-
-	// }
-
-	// function translate(msg) {
-	
-	// 		// var text={msg:message};
-	
-	// 		$.post({
-	// 			type: 'POST',
-	// 			dataType: 'json',
-	// 			data: JSON.stringify(msg),
-	// 			contentType: 'application/json',
-	// 			// url: 'http://localhost:3000/translate',
-	// 			url: 'https://cloudibmreutlingenm.eu-de.mybluemix.net/translate',
-	// 			async: false,
-	// 			success: function(data) {
-	// 				console.log('success: ',data);				
-	// 			}
-	// 		});	
-	
-	// }
