@@ -4,21 +4,18 @@
  * @version 2.0
  */
 
-//var express = require('express');
-var express = require("express");
-var app = express();
-//var app = require('express')();
-//var fs = require('fs');
-
-app.enable('trust proxy');
-
-app.use (function (req, res, next) {
-  if (req.secure || process.env.BLUEMIX_REGION === undefined) {
-    next();
-  } else {
-    console.log('redirecting to https');
-    res.redirect('https://' + req.headers.host + req.url);
-  }
+var express = require("express"); 
+var app = express(); 
+ 
+app.enable('trust proxy'); 
+ 
+app.use (function (req, res, next) { 
+  if (req.secure || process.env.BLUEMIX_REGION === undefined) { 
+    next(); 
+  } else { 
+    console.log('redirecting to https'); 
+    res.redirect('https://' + req.headers.host + req.url); 
+  } 
 });
 /*
 var path = require('path');
@@ -667,6 +664,6 @@ app.post('/tone', (req, res, next) => {
 /*
 listen on Port XXXX
 */	
-http.listen(port, function(){
+server.listen(port, function(){
 	console.log('listening on *:' + port);
 });
