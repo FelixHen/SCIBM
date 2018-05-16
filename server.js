@@ -247,6 +247,10 @@ app.post('/login', function(req, res) {
 					console.log("Result DB Name: "+result[0].username);
 					console.log("Result DB PW: "+result[0].password);
 					
+					var keyImage = new Buffer(result[0].image, 'base64').toString('binary');
+					// console.log("TEST_key: "+keyImage);
+					user.image = keyImage;
+
 					if(resultUsername == username && resultPassword == password){
 		
 						console.log("Login erfolgreich");
@@ -379,13 +383,14 @@ io.on('connection', function(socket){
 			
 			users[username] = socket.id;
 
+			userImages.push({name:username, image:user.image});
+
 			numUsers++;
 			
 			socket.emit('login', {						// call client login
 				username: username,
 				language: language,
-				image: user.image,
-				tmp: user.tmp
+				image: user.image
 			});
 			
 			/*
@@ -412,7 +417,8 @@ io.on('connection', function(socket){
 			*/
 			
 			io.emit('userList', {						// sends userList to all clients
-				userList: userNames
+				userList: userNames,
+				users:userImages
 			});
 			
 			socket.broadcast.emit('user_joined', {		// sends user joined message to other clients
@@ -432,6 +438,7 @@ io.on('connection', function(socket){
 		delete users[socket.username];
 
 		remove(userNames, socket.username);
+		removeImg(userImages, socket.username);
 		
 		/*
 		var userListe = null;
@@ -459,7 +466,8 @@ io.on('connection', function(socket){
 		*/
 		
 		socket.broadcast.emit('userList', {				// sends userList to all other clients
-			userList: userNames
+			userList: userNames,
+			users:userImages
 		});
 		
 		socket.broadcast.emit('user_disconnected', {	// sends user disconnected message to other clients
@@ -477,6 +485,17 @@ io.on('connection', function(socket){
 		if (index !== -1) {
 			array.splice(index, 1);
 		}
+	}
+
+	function removeImg(array, name) {
+		console.log("DELETE: "+name);
+			for(var i=0;i<array.length;i++){
+			  if(name==array[i].name){
+				console.log("DELETE user from the array : "+name+" | ID: "+ array.findIndex(x => x.name==name));
+				array.splice(array.findIndex(arr => arr.name==name),1);    
+			  }  
+			}console.log("Users online: "+JSON.stringify());
+		  
 	}
 
 	 	/*

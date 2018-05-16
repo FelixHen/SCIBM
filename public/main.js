@@ -17,7 +17,10 @@ $(document).ready(function () {
 		var maxFileSize = 3.5; 				// max File Size in MB
 		var myUsername;
 		var myLanguage;
+		var myImg;
 		var $messages = $('.messages');
+
+		var usersImg;
 		
 		var fileReader = new FileReader();	
 		var file;
@@ -84,9 +87,11 @@ $(document).ready(function () {
 			var $timeStampDiv = $('<span class="timeStamp">')
 				.text(data.date);
 
+			var $imgDiv=$('<img src="'+ getImg(data.user) +'" alt="" class="img" id="avatar" height="42" width="42"/>');
+
 			var $messageDiv = $('<li class="message"/>')
 				.data('username', data.user)
-				.append($usernameDiv, $messageBodyDiv, $timeStampDiv, $moodDiv);
+				.append($imgDiv,$usernameDiv, $messageBodyDiv, $timeStampDiv, $moodDiv);
 
 			//alert(data.message);
 			addMessageElement($messageDiv);
@@ -226,10 +231,9 @@ $(document).ready(function () {
 
 			myUsername = data.username;
 			myLanguage = data.language;
+			myImg = data.image;
 			console.log("myLanguage: "+data.language);
-			console.log("myIMG: "+JSON.stringify(data.image));
 			console.log("ME: "+JSON.stringify(data));
-			console.log("ME: "+JSON.stringify(data.tmp));
 			log("Welcome to Chat: " + data.username);
 		});
 		
@@ -238,6 +242,8 @@ $(document).ready(function () {
 		*/
 		socket.on('userList', function (data) {
 					
+			usersImg=data.users;
+			console.log(usersImg);
 			updateUserList(data.userList);
 		});
 		
@@ -565,6 +571,13 @@ $(document).ready(function () {
 				}
 			});	
 			return ret;
+	}
+
+	function getImg(username){
+		for (i in usersImg) {
+			if(usersImg[i].name===username)
+				return usersImg[i].image;
+		}
 	}
 
 
