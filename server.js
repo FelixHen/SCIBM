@@ -309,6 +309,7 @@ app.post('/signup', function(req, res) {
 			user.name=username;
 			user.password=password;
 			user.language=language;
+			user.image=image;
 		}
 		
 		var sql = "SELECT * FROM users WHERE username = ?";
