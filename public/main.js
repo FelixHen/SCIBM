@@ -432,10 +432,10 @@ $(document).ready(function () {
 			else if (fileInfo.fileType === 'other') {
 				var $messageData = $('<li>' + fileInfo.name + '<a download="' + fileInfo.name + '" href="' + file + '" download><button class="btn_round">Download</button></a></li>');
 			}
-			
+			var $imgDiv=$('<img src="'+ getImg(data.user) +'" alt="" class="img" id="avatar" height="40" width="40"/>');
 			var $messageDiv = $('<li class="message"/>')
 			.data('username', data.user)
-			.append($usernameDiv, $messageData, $messageBodyDiv, $timeStampDiv, $moodDiv);
+			.append($imgDiv,$usernameDiv, $messageData, $messageBodyDiv, $timeStampDiv, $moodDiv);
 			
 			addMessageElement($messageDiv);
 		}
