@@ -481,7 +481,7 @@ $(document).ready(function () {
 				// }
 				var message = data;
 				message.msg=data.message;
-				message.source=data.language,
+				message.source=data.language;
 				message.target=myLanguage;
 				console.log("FileTranslate: "+JSON.stringify(message));
 			if(data.dest) message.dest = data.dest;
