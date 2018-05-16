@@ -243,7 +243,7 @@ app.post('/login', function(req, res) {
 					resultPassword = result[0].password;
 					user.language = result[0].language;
 					user.image = result[0].image;
-					tmp=user[0];
+					tmp=result[0];
 					user.tmp=tmp;
 					console.log("Result DB Name: "+result[0].username);
 					console.log("Result DB PW: "+result[0].password);
