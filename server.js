@@ -57,6 +57,7 @@ var bodyParser = require('body-parser');
 var mysql = require('mysql'); 
 var router = express.Router();
 var formidable = require('formidable');
+var fs = require('fs');
 
 app.use(express.static(path.join(__dirname, 'public')));
 app.use(bodyParser.urlencoded({ extended: false }));
