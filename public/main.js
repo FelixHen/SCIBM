@@ -467,7 +467,7 @@ $(document).ready(function () {
 			console.log("FILE: "+data.message.length);
 			var msgl=data.message;
 			console.log(msgl.length===0);
-			console.log(msgl==="");
+			if(msgl.length===0)appendFile(file, fileInfo, data);else{
 
 			var model=getModel(data.language,myLanguage);
 
@@ -498,7 +498,7 @@ $(document).ready(function () {
 			}
 			else{
 				appendFile(file, fileInfo, data);
-			}
+			}}
 			
 			// appendFile(file, fileInfo, data);
 		});
