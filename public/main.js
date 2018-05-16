@@ -227,7 +227,7 @@ $(document).ready(function () {
 			myUsername = data.username;
 			myLanguage = data.language;
 			console.log("myLanguage: "+data.language);
-			console.log("myIMG: "+data.image);
+			console.log("myIMG: "+JSON.stringify(data.image));
 
 			log("Welcome to Chat: " + data.username);
 		});
