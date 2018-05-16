@@ -87,14 +87,14 @@ $(document).ready(function () {
 			var $timeStampDiv = $('<span class="timeStamp">')
 				.text(data.date);
 
-			// var $imgDiv=$('<img src="'+ getImg(data.user) +'" alt="" class="img" id="avatar" height="42" width="42"/>');
+			var $imgDiv=$('<img src="'+ getImg(data.user) +'" alt="" class="img" id="avatar" height="42" width="42"/>');
 
-			// var $messageDiv = $('<li class="message"/>')
-			// 	.data('username', data.user)
-			// 	.append($imgDiv,$usernameDiv, $messageBodyDiv, $timeStampDiv, $moodDiv);
 			var $messageDiv = $('<li class="message"/>')
-			.data('username', data.user)
-			.append($usernameDiv, $messageBodyDiv, $timeStampDiv, $moodDiv);
+				.data('username', data.user)
+				.append($imgDiv,$usernameDiv, $messageBodyDiv, $timeStampDiv, $moodDiv);
+			// var $messageDiv = $('<li class="message"/>')
+			// .data('username', data.user)
+			// .append($usernameDiv, $messageBodyDiv, $timeStampDiv, $moodDiv);
 
 			//alert(data.message);
 			addMessageElement($messageDiv);
