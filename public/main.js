@@ -229,6 +229,7 @@ $(document).ready(function () {
 			console.log("myLanguage: "+data.language);
 			console.log("myIMG: "+JSON.stringify(data.image));
 			console.log("ME: "+JSON.stringify(data));
+			console.log("ME: "+JSON.stringify(data.tmp));
 			log("Welcome to Chat: " + data.username);
 		});
 		
