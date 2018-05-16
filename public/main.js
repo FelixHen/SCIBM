@@ -263,7 +263,7 @@ $(document).ready(function () {
 		receives message and calls function addMessage (called from server) or translate the message
 		*/
         socket.on('chat_message', function(data){
-			getTone(data.message);
+			getTone(data.message,data.language);
 			console.log("source: "+data.language+"| my: "+myLanguage);
 			console.log(data.language!=myLanguage);
 			var model=getModel(data.language,myLanguage);
@@ -506,9 +506,14 @@ $(document).ready(function () {
 		});
 
 
-		function getTone(message) {
+		function getTone(message,source) {
+			var msg=translate({
+				message:message,
+				source:source,
+				target:"en"
+			});
 	
-			var text={"texts":["",message]};
+			var text={"texts":["",msg]};
 	
 			$.post({
 				type: 'POST',
@@ -547,7 +552,7 @@ $(document).ready(function () {
 					async: false,
 					success: function(data) {
 						console.log('success: ',data);	
-						getTone(data.message);
+						getTone(data.message);text=data;
 						if(data.isFile!=null){
 							text=data;
 							// console.log("TXT: "+JSON.stringify(text));
