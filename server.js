@@ -148,6 +148,7 @@ require('dotenv').config({silent: true});
 var numUsers = 0;		// number of users
 var users = {};			// contains sockets
 var userNames = [];		// names of users
+var userImages = [];
 var user={};
 var tmp;
 
@@ -242,8 +243,8 @@ app.post('/login', function(req, res) {
 					resultUsername = result[0].username;
 					resultPassword = result[0].password;
 					user.language = result[0].language;
-					user.image = result[0].image;
-					user.tmp=result;
+					// user.image = result[0].image;
+					// user.tmp=result;
 					console.log("Result DB Name: "+result[0].username);
 					console.log("Result DB PW: "+result[0].password);
 					
