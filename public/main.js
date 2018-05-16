@@ -442,7 +442,8 @@ $(document).ready(function () {
 				user: myUsername,
 				message: $('#m').val(),
 				dest: dest,
-				date: time
+				date: time,
+				language:myLanguage
 				
 			};
 			
