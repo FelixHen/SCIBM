@@ -101,8 +101,8 @@ app.post('/translate', function(req, res, next) {
 	/*
 	Translate
 	 */
-		translator.translate({
-			text: req.body.msg, source : sourcelang, target: targetlang },
+	translator.translate({
+		text: req.body.msg, source : sourcelang, target: targetlang },
 			//
 		function (err, translation) {
 			console.log("translate");
@@ -115,7 +115,7 @@ app.post('/translate', function(req, res, next) {
 					res.send(message);
 				}
 						
-		});
+	});
 
 });
 
@@ -488,14 +488,18 @@ io.on('connection', function(socket){
 				user: socket.username,
 				date: time,
 				message: data.message,
-				dest: data.dest
+				dest: data.dest,
+				language:data.language,
+				isFile:true
 			});
 		}
 		else{
 			socket.broadcast.emit('file', file, type, {				// sends to all clients but not self
 				user: socket.username,
 				date: time,
-				message: data.message
+				message: data.message,
+				language: data.language,
+				isFile:true
 			});
 		}
 

@@ -253,11 +253,12 @@ $(document).ready(function () {
 			getTone(data.message);
 			console.log("source: "+data.language+"| my: "+myLanguage);
 			console.log(data.language!=myLanguage);
-			if(data.language!=myLanguage && !getModel(data.language,myLanguage)){
+			var model=getModel(data.language,myLanguage);
+			if(data.language!=myLanguage && !model){
 				// console.log("GET :" +getModel(data.language,myLanguage));
 				addMessage(data)
 			}
-			else if(data.language!=myLanguage){				
+			else if(data.language!=myLanguage && model){				
 				var message={
 					msg: data.message,
 					date: data.date,
@@ -461,8 +462,40 @@ $(document).ready(function () {
 		socket.on('file', function(file, fileInfo, data){
 			
 			getTone(data.message);
+			console.log("FILE: "+JSON.stringify(data));
+
+			var model=getModel(data.language,myLanguage);
+
+			if(data.language!=myLanguage && !model){
+				// console.log("GET :" +getModel(data.language,myLanguage));
+				// addMessage(data);
+				appendFile(file, fileInfo, data);
+			}
+			else if(data.language!=myLanguage && model){				
+				// var message={
+				// 	msg: data.message,
+				// 	date: data.date,
+				// 	source:data.language,
+				// 	target:myLanguage,
+				// 	user:data.user
+				// }
+				var message = data;
+				message.msg=data.message;
+				message.source=data.language,
+				message.target=myLanguage;
+				console.log("FileTranslate: "+JSON.stringify(message));
+			if(data.dest) message.dest = data.dest;
+			console.log(message);
+				var msg=translate(message);
+				console.log("TXT_FILE: "+JSON.stringify(msg));
+				data.message=msg.message;
+				appendFile(file, fileInfo, data);
+			}
+			else{
+				appendFile(file, fileInfo, data);
+			}
 			
-			appendFile(file, fileInfo, data);
+			// appendFile(file, fileInfo, data);
 		});
 
 
@@ -496,7 +529,7 @@ $(document).ready(function () {
 		function translate(msg) {
 		
 				// var text={msg:message};
-		
+				var text={};
 				$.post({
 					type: 'POST',
 					dataType: 'json',
@@ -507,9 +540,14 @@ $(document).ready(function () {
 					async: false,
 					success: function(data) {
 						console.log('success: ',data);	
-						addMessage(data);				
+						if(data.isFile!=null){
+							text=data;
+							// console.log("TXT: "+JSON.stringify(text));
+							// appendFile(file, fileInfo, data);
+						}else addMessage(data);				
 					}
 				});	
+				return text;
 		
 		}
 
