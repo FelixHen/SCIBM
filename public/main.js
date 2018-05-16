@@ -148,7 +148,9 @@ $(document).ready(function () {
 			$('#user').append($userDropDown);
 			
 			userList.forEach(function(user){
-				
+
+				var $imgDiv=$('<img src="'+ getImg(user) +'" alt="" class="img" id="avatar" height="42" width="42"/>');
+
 				var $usernameDiv = $('<span class="username"/>')
 					.text(user)
 					.css('color', getUsernameColor(user));
@@ -159,12 +161,12 @@ $(document).ready(function () {
 					
 					var $userDiv = $('<li class="user"/>')
 					.data('username', user)
-					.append($usernameDiv, $myUsernameDiv);
+					.append($imgDiv,$usernameDiv, $myUsernameDiv);
 				}
 				else {
 					var $userDiv = $('<li class="user"/>')
 					.data('username', user)
-					.append($usernameDiv);
+					.append($imgDiv,$usernameDiv);
 					
 					var $userDropDown = $('<option value="' + user + '">' + user + '</option>');
 				}
