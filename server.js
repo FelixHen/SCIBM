@@ -43,6 +43,7 @@ var server = https.createServer(options, app);
 
 var express = require('express');
 var app = require('express')();
+
 var path = require('path');
 var http = require('http').Server(app);
 var server = require('http').createServer(app);
@@ -183,12 +184,7 @@ connection.connect(function(err) {
   */
 });
 
-
- 
-
 //-------------------------------------------------------------------------------------------------------------------------------------------
-
-
 
 //login
 app.post('/login', function(req, res) {
@@ -251,62 +247,75 @@ app.post('/login', function(req, res) {
 
 //registration
 app.post('/signup', function(req, res) {
-	// console.log("LOGIN: "+JSON.stringify(req.body));
+	console.log("LOGIN: "+JSON.stringify(req.body));
 
-	/* check data*/ 
-
-	//the name from login field
-	var username = req.body.username;  
+	var username;  
 	var password;
-	var language = req.body.languages;
-	//var bild = req.body.profileImage;
-	
-	var data = req.body.password;
-	password = crypto.createHash('md5').update(data).digest("hex");
-	
-	if(username!=null){
-		console.log(req.body.username);
-		user.name=username;
-		user.password=password;
-		user.language=language;
-	}
-	
-	var sql = "SELECT * FROM users WHERE username = ?";
-	
-	connection.query(sql, [username], function (err, result) {
-		if (err) {
-			throw err;
-			res.sendFile(__dirname + '/public/index.html');
-		}
-			
-		if(!result[0]){
-			/*
-			var img = {
-				img: fs.readFileSync(bild),
-				file_name: 'Img'
-			};
-			*/
-			var sql = "INSERT INTO users (username, password, mail, language, gender) VALUES ('"+username+"', '"+password+"', 'student@hochschule-rt.de', '"+language+"', 0)";
-			//var sql = "INSERT INTO users (username, password, mail, language, gender, profilbild) VALUES ('"+username+"', '"+password+"', 'student@hochschule-rt.de', '"+language+"', 0, "+ bild +")";
-			connection.query(sql, function (err, result) {
-			if (err) throw err;
-				console.log("1 record inserted");
-				res.sendFile(__dirname + '/public/chat.html');
-			});
-			
+	var language;
+	var image;
+
+	var form = new formidable.IncomingForm();
+
+	    form.parse(req, function(err, fields, files) {
+
+		console.log("in form");
 		
-		}
-		else{
-			res.sendFile(__dirname + '/public/register.html');
+		username = fields.username;
+		password = fields.password;
+		language = fields.languages;
+		
+		console.log(fields.username);
+		console.log(fields.password);
+
+        if (files.file !== null && files.file.size > 0 && files.file.type.startsWith("image")) {
+			
+            var data = fs.readFileSync(files.file.path);
+            var content = new Buffer(data).toString('base64');
+
+            image = 'data:' + files.file.type + ';base64,' + content;
+			console.log(image);
+        }
+		
+		password = crypto.createHash('md5').update(password).digest("hex");
+		
+		if(username!=null){
+			console.log(username);
+			user.name=username;
+			user.password=password;
+			user.language=language;
 		}
 		
+		var sql = "SELECT * FROM users WHERE username = ?";
+		console.log("vor sql");
+		connection.query(sql, [username], function (err, result) {
+			if (err) {
+				throw err;
+				res.sendFile(__dirname + '/public/index.html');
+			}
+				
+			if(!result[0]){
+				console.log("nach if in sql");
+
+				var sql = "INSERT INTO users (username, password, mail, language, gender, image) VALUES ?";
+				var values = [[username, password, 'student@hochschule-rt.de', language, 0,image]];
+				connection.query(sql, [values], function (err, result) {
+				if (err) throw err;
+					console.log("1 record inserted");
+					res.sendFile(__dirname + '/public/chat.html');
+				});
+				
 			
-	});
+			}
+			else{
+				res.sendFile(__dirname + '/public/register.html');
+			}
 	
-	
-	
-	
-	// res.send(req.body);
+		});
+		
+    });
+
+	console.log("nach form");
+
   });
   
 app.get('/register', function(req, res) {
