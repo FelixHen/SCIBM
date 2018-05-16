@@ -3,24 +3,21 @@
  * @author Jan-Patrick Kirchner [742143], Felix Hennig [752734], Marija Belova [752684]
  * @version 2.0
  */
-/*
-var express = require('express');
-//var express = require("express");
-//var app = express();
-var app = require('express')();
-//var fs = require('fs');
 
-app.enable('trust proxy');
-
-app.use (function (req, res, next) {
-  if (req.secure || process.env.BLUEMIX_REGION === undefined) {
-    next();
-  } else {
-    console.log('redirecting to https');
-    res.redirect('https://' + req.headers.host + req.url);
-  }
+var express = require("express"); 
+var app = express(); 
+ 
+app.enable('trust proxy'); 
+ 
+app.use (function (req, res, next) { 
+  if (req.secure || process.env.BLUEMIX_REGION === undefined) { 
+    next(); 
+  } else { 
+    console.log('redirecting to https'); 
+    res.redirect('https://' + req.headers.host + req.url); 
+  } 
 });
-
+/*
 var path = require('path');
 
 //var https = require('https').Server(app);
@@ -41,8 +38,8 @@ var options = {
 var server = https.createServer(options, app);
 */
 
-var express = require('express');
-var app = require('express')();
+//var express = require('express');
+//var app = require('express')();
 
 var path = require('path');
 var http = require('http').Server(app);
@@ -297,15 +294,29 @@ app.post('/signup', function(req, res) {
 		
 		console.log(fields.username);
 		console.log(fields.password);
-
-        if (files.file !== null && files.file.size > 0 && files.file.type.startsWith("image")) {
+		
+		if (files.file !== null && files.file.type.startsWith("image")) {
 			
-            var data = fs.readFileSync(files.file.path);
-            var content = new Buffer(data).toString('base64');
+			if(files.file.size < (1000 * 1000)){
 
-            image = 'data:' + files.file.type + ';base64,' + content;
-			console.log(image);
-        }
+				var data = fs.readFileSync(files.file.path);
+				var data2 = new Buffer(data).toString('base64');
+					
+				//console.log(data);
+				//console.log(data2);
+			
+				image = 'data:' + files.file.type + ';base64,' + data2;
+				//console.log(image);
+			}
+			else {
+			
+				console.log("image to large");
+			}
+			
+		}
+		else {
+			console.log("no file or no image file");
+		}
 		
 		password = crypto.createHash('md5').update(password).digest("hex");
 		
@@ -358,7 +369,7 @@ app.get('/register', function(req, res) {
 
 
 /*
-
+connection establishment
 */
 io.on('connection', function(socket){
 	if(!user.name || user.name == null) {
@@ -370,7 +381,7 @@ io.on('connection', function(socket){
 	addUser(user.name,user.language);
 
 	function addUser(username,language){
-		var username = username.replace(/[ `~!@#$%^&*()_|+\-=?;:'",.<>\{\}\[\]\\\/]/gi, '');
+		//var username = username.replace(/[ `~!@#$%^&*()_|+\-=?;:'",.<>\{\}\[\]\\\/]/gi, '');
 		
 		if(users[username]) {
 			console.log('user exist: '+ username);
@@ -573,7 +584,7 @@ io.on('connection', function(socket){
 
 
 	/*
-	creates a timeStamp
+	Create a TimeStamp for the Chat
 	*/	
 	function timeStamp() {
 		var date = new Date();
@@ -601,7 +612,9 @@ io.on('connection', function(socket){
 			
 		return time;
 	}
-
+/*
+return toneRequest
+*/
 function createToneRequest (request) {
 	let toneChatRequest;
 
@@ -617,6 +630,9 @@ function createToneRequest (request) {
   return toneChatRequest;
 }
 
+/*
+return state of happyness
+*/
 function happyOrUnhappy (response) {
   const happyTones = ['satisfied', 'excited', 'polite', 'sympathetic'];
   const unhappyTones = ['sad', 'frustrated', 'impolite'];
@@ -643,6 +659,9 @@ function happyOrUnhappy (response) {
   }
 }
 
+/*
+Tone API IBM
+*/
 app.post('/tone', (req, res, next) => {
 	
   let toneRequest = createToneRequest(req.body);
