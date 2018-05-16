@@ -56,6 +56,7 @@ let port = process.env.PORT || process.env.VCAP_APP_PORT || 3000;
 var bodyParser = require('body-parser');
 var mysql = require('mysql'); 
 var router = express.Router();
+var formidable = require('formidable');
 
 app.use(express.static(path.join(__dirname, 'public')));
 app.use(bodyParser.urlencoded({ extended: false }));
