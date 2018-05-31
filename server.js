@@ -55,6 +55,7 @@ var mysql = require('mysql');
 var router = express.Router();
 var formidable = require('formidable');
 var fs = require('fs');
+const bcrypt = require('bcrypt');
 
 app.use(express.static(path.join(__dirname, 'public')));
 app.use(bodyParser.urlencoded({ extended: false }));
@@ -218,7 +219,8 @@ app.post('/login', function(req, res) {
 	var image;
 	
 	var data = req.body.password;
-	password = crypto.createHash('md5').update(data).digest("hex");
+	password=data;
+	// password = crypto.createHash('md5').update(data).digest("hex");
 	
 	if(username!=null){
 		console.log(req.body.username);
@@ -249,7 +251,7 @@ app.post('/login', function(req, res) {
 					// console.log("TEST_key: "+keyImage);
 					user.image = keyImage;
 
-					if(resultUsername == username && resultPassword == password){
+					if(resultUsername == username && bcrypt.compareSync(password, resultPassword)){
 		
 						console.log("Login erfolgreich");
 						res.sendFile(__dirname + '/public/chat.html');
@@ -318,7 +320,8 @@ app.post('/signup', function(req, res) {
 			console.log("no file or no image file");
 		}
 		
-		password = crypto.createHash('md5').update(password).digest("hex");
+		// password = crypto.createHash('md5').update(password).digest("hex");
+		password = bcrypt.hashSync(password, 10);
 		
 		if(username!=null){
 			console.log(username);
