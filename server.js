@@ -142,7 +142,7 @@ app.post('/model', function(req, res, next) {
 require('dotenv').config({silent: true});
 
 
-	
+var maxImageSize = 200000;
 var numUsers = 0;		// number of users
 var users = {};			// contains sockets
 var userNames = [];		// names of users
@@ -299,7 +299,7 @@ app.post('/signup', function(req, res) {
 		
 		if (files.file !== null && files.file.type.startsWith("image")) {
 			
-			if(files.file.size < (1000 * 1000)){
+			if(files.file.size < maxImageSize){
 
 				var data = fs.readFileSync(files.file.path);
 				var data2 = new Buffer(data).toString('base64');
