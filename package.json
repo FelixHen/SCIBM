@@ -12,7 +12,8 @@
 	"dotenv":"^5.0.1",
   "mysql": "*",
   "formidable": "^1.2.1",
-  "bcrypt": "^2.0.1"
+  "bcrypt": "^2.0.1",
+  "grunt-cli":"^1.2.0"
   },
   "scripts": {
     "start": "node server.js"
