@@ -60,7 +60,7 @@ var fs = require('fs');
 const bcrypt = require('bcrypt');
 var session = require('express-session');
 var passport = require('passport');
-var local = require('passport-local');
+var passportLocal = require('passport-local');
 
 app.use(express.static(path.join(__dirname, 'public')));
 app.use(bodyParser.urlencoded({ extended: false }));
@@ -229,88 +229,12 @@ app.get('/', function (req, res) {
     res.sendFile(__dirname + '/public/index.html');
 });
 
-app.post('/login', passport.authenticate('passport-local-login', {
+//login
+app.post('/login', passport.authenticate('local-login', {
     successRedirect: '/chat',
     failureRedirect: '/'
 }));
-
-//login
-app.post('/login2', function(req, res) {
-	console.log("LOGIN: "+JSON.stringify(req.body));
-	
-	var username = req.body.username;  
-	var password;
-	var image;
-	
-	var data = req.body.password;
-	password=data;
-	// password = crypto.createHash('md5').update(data).digest("hex");
-	
-	if(username!=null){
-		console.log(req.body.username);
-		user.name=username;
-		user.password=password;
-	}
-	/*
-	con.connect(function(err) {
-		if (err) throw err;
-	*/
-			var sql = "SELECT * FROM users WHERE username = ?";
-			
-			connection.query(sql, [username], function (err, result) {
-				if (err) {
-					throw err;
-					res.sendFile(__dirname + '/public/index.html');
-				}
-				if(result[0]){
-					resultUsername = result[0].username;
-					resultPassword = result[0].password;
-					user.language = result[0].language;
-					// user.image = result[0].image;
-					// user.tmp=result;
-					console.log("Result DB Name: "+result[0].username);
-					console.log("Result DB PW: "+result[0].password);
-					
-					var keyImage = new Buffer(result[0].image, 'base64').toString('binary');
-					// console.log("TEST_key: "+keyImage);
-					user.image = keyImage;
-
-					if(resultUsername == username && bcrypt.compareSync(password, resultPassword)){
-		
-						console.log("Login erfolgreich");
-						//res.sendFile(__dirname + '/public/chat.html');
-						/*
-						res.render(__dirname + '/chat.html', function(req, res){
-
-
-						});
-						*/
-						
-						//passport.authenticate('passport-local-register', { successRedirect: '/chat', failureRedirect: '/' })(req, res);
-						passport.authenticate('passport-local-login', { successRedirect: '/chat', failureRedirect: '/' });
-						
-						console.log("nach passport.authenticate");
-						
-					}
-					else {
-						
-						res.sendFile(__dirname + '/public/index.html');
-					}
-				}
-				else {
-					
-					res.sendFile(__dirname + '/public/index.html');
-				}
-			});
-	/*
-	});
-	*/
-	
-	
-	// res.send(req.body);
-	
-  });
-
+  
 //registration
 app.post('/signup', function(req, res, next) {
 	console.log("LOGIN: "+JSON.stringify(req.body));
@@ -343,12 +267,9 @@ app.post('/signup', function(req, res, next) {
 
 				var data = fs.readFileSync(files.file.path);
 				var data2 = new Buffer(data).toString('base64');
-					
-				//console.log(data);
-				//console.log(data2);
 			
 				req.body.image = 'data:' + files.file.type + ';base64,' + data2;
-				//console.log(image);
+
 			}
 			else {
 			
@@ -360,14 +281,9 @@ app.post('/signup', function(req, res, next) {
 			console.log("no file or no image file");
 		}
 		
-		passport.authenticate('passport-local-register', { successRedirect: '/chat', failureRedirect: '/' })(req, res, next);
-		
-		// password = crypto.createHash('md5').update(password).digest("hex");
-		
+		passport.authenticate('local-register', { successRedirect: '/chat', failureRedirect: '/' })(req, res, next);
 		
     });
-
-	console.log("nach form");
 
   });
   
@@ -380,33 +296,12 @@ app.get('/register', function(req, res) {
 app.get('/chat', function (req, res) {
     if (typeof req.session.passport != "undefined") {
         if (req.session.passport.user.user !== null && req.session.passport.user.language !== null) {
-            console.log('[SERVER] forwarding user: ' + req.session.passport.user.user + ' to chat with language: ' + req.session.passport.user.language);
-			
-			var options = {
-				headers: {
-					username: req.session.passport.user.user,
-					language: req.session.passport.user.language
-				}
-				
-				
-			};
-
-			//res.sendFile(path.join(__dirname, '/public/chat.html'), options);
-			
-			
+	
 			res.render('chat', {
                 username: req.session.passport.user.user,
                 language: req.session.passport.user.language
             });
-			//res.redirect(__dirname + '/public/chat.html?gameId=' + options);
-			
-			//res.sendFile(__dirname + '/public/chat.html' + options);
-            /*
-			res.render('index', {
-                username: req.session.passport.user.user,
-                language: req.session.passport.user.language
-            });
-			*/
+
         }
     } else {
         res.redirect('/');
@@ -423,18 +318,11 @@ passport.deserializeUser(function (obj, done) {
     done(null, obj);
 });
 
-passport.use('passport-local-register', new local({
-    passReqToCallback: true
-},
+passport.use('local-register', new passportLocal({passReqToCallback: true},
+
     function (req, username, password, done) {
-		console.log("passport-local-register");
-		console.log("passport-local-register");
 		
-		/*
-		req.body.username = fields.username;
-		req.body.password = fields.password;
-		req.body.language 
-		*/
+		console.log("local-register");
 		
 		username = req.body.username;
 		language = req.body.language;
@@ -457,7 +345,7 @@ passport.use('passport-local-register', new local({
 			if (err) {
 				throw err;
 				done(null, false);
-			//	res.sendFile(__dirname + '/public/index.html');
+
 			}
 			else{
 				console.log("nach if in sql");
@@ -466,84 +354,30 @@ passport.use('passport-local-register', new local({
 				var values = [[username, password, 'student@hochschule-rt.de', language, 0,image]];
 				connection.query(sql, [values], function (err, result) {
 				if (err) throw err;
+					
 					console.log("1 record inserted");
-				//	res.sendFile(__dirname + '/public/chat.html');
 					
 					if (result) {
                         done(null, { user: username, language: language });
-                        console.log('[SERVER] Register of ' + req.body.username + ' successful!');
+                        console.log('Registrierung von ' + req.body.username + ' erfolgreich!');
                     } else {
                         done(null, false);
-                        console.log('[SERVER] Register of ' + req.body.username + ' failed!');
+                        console.log('Registrierung von ' + req.body.username + ' fehlgeschlagen!');
                     }
 					
 				});
 			}
-			/*
-			if(!result[0]){
-				
-				
-			
-			}
-			else{
-				done(null, false);
-			//	res.sendFile(__dirname + '/public/register.html');
-			}
-			*/
 	
 		});
 		
-		/*
-        if (req.body.username || req.body.password) {
-            //do not allow whitespaces or usernames longer than 15
-            if (isWhitespaceOrEmpty(req.body.username) || req.body.username.length > 15) {
-                console.log('username has whitespaces or is empty or exceeded the length of 15!');
-                done(null, false);
-            }
-            else {
-                if (req.body.password.length > 15) {
-                    console.log('password has exceeded the length of 15!');
-                    done(null, false);
-                }
-                database.findUser(req.body.username, function (cb) {
-                    if (cb) {
-                        console.log('user already exists!');
-                        done(null, false);
-                    } else {
-                        //Check if there is already a user with this name saved
-                        var lang;
-                        if (req.body.language === "German") {
-                            lang = "de";
-                        } else if (req.body.language === "English") {
-                            lang = "en";
-                        } else if (req.body.language === "Hispanic") {
-                            lang = "es";
-                        } else if (req.body.language === "French") {
-                            lang = "fr";
-                        }
-
-                        database.createUser(req.body.username, req.body.password, req.body.image, lang, function (user) {
-                            if (user) {
-                                done(null, { user: user, language: lang });
-                                console.log('[SERVER] Register of ' + req.body.username + ' successful!');
-                            } else {
-                                done(null, false);
-                                console.log('[SERVER] Register of ' + req.body.username + ' failed!');
-                            }
-                        });
-                    }
-                });
-            }
-        } else {
-            console.log('username or password missing!');
-        }
-		*/
     }));
 
-passport.use('passport-local-login', new local({ passReqToCallback: true},
+passport.use('local-login', new passportLocal({ passReqToCallback: true},
     function (req, username, password, done) {
-		console.log('passport-local-login');
-        if (req.body.username || req.body.password) {
+		
+		console.log('local-login');
+        
+		if (req.body.username || req.body.password) {
             if (isWhitespaceOrEmpty(req.body.username) || req.body.username.length > 15) {
                 console.log('username has whitespaces or is empty or exceeded the length of 15!');
                 done(null, false);
@@ -557,9 +391,13 @@ passport.use('passport-local-login', new local({ passReqToCallback: true},
 			connection.query(sql, [username], function (err, result) {
 				if (err) {
 					throw err;
-					res.sendFile(__dirname + '/public/index.html');
+					done(null, false);
 				}
-				if(result[0]){
+				if(!result[0]){
+				
+					done(null, false);
+				}
+				else{
 					
 					resultUsername = result[0].username;
 					resultPassword = result[0].password;
@@ -575,18 +413,13 @@ passport.use('passport-local-login', new local({ passReqToCallback: true},
 					else {
 						done(null, false);
                     }
-					
+				}
 				
-				}
-				else {
-					
-					res.sendFile(__dirname + '/public/index.html');
-				}
 			});
 			
 		
         } else {
-            console.log('[SERVER] Password missing!');
+            console.log('Fehler, Passwort oder Username gehlt');
         }
     }));
 
@@ -608,11 +441,7 @@ io.on('connection', function(socket){
 	
     });
 	
-	
-	
-
-	function addUser(username,language){
-		//var username = username.replace(/[ `~!@#$%^&*()_|+\-=?;:'",.<>\{\}\[\]\\\/]/gi, '');
+	function addUser(username, language){
 		
 		if(users[username]) {
 			console.log('user exist: '+ username);
