@@ -7,7 +7,34 @@
 var mood;
  
 $(document).ready(function () {
+	
+		
+	
+		
+		
+		
+		
+		
+		var user = {
+        "name": username,
+        "language": language
+		
+		};
+		
+		//alert(session);
+		//alert(session.passport.user.user);
+		/*
+		var user = {
+        "username": session.passport.user.user,
+        "language": session.passport.user.language
+		
+		};
+		*/
+	
 		var socket = io();
+		
+		socket.emit('sendUser', user);
+		
 		//var io = require('socket.io-client') /* tried: socket.io-client@1.4.8 - failed, socket.io-client@1.4.7 - failed, socket.io-client@1.4.6 - failed, socket.io-client@1.4.5 - Success*/
 		//var socket = io.connect('https://cloudibmreutlingenm.eu-de.mybluemix.net', {secure: true, reconnect: true});
 		

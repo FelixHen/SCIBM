@@ -1,0 +1,83 @@
+<!--
+ * Node Server
+ * @author Jan-Patrick Kirchner [742143], Felix Hennig [752734], Konstantinos Karagkiozis [752753]
+ * @version 1.0
+-->
+<!doctype html>
+<html>
+  <head>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+    <title>Chat</title>
+	<link rel="stylesheet" href="style.css" />
+
+   	<link href="dist/emojionearea.css" rel="stylesheet"/>	
+   
+	<style>
+		.container{
+			width: -50%;
+			margin: 50px auto;
+		}
+	
+	</style>
+   
+  </head>
+
+  <script src="https://cdn.socket.io/socket.io-1.7.3.js"></script>
+  <script src="https://code.jquery.com/jquery-1.11.1.js"></script>
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>	
+  <script>
+      var username =  "<%= username %>";
+	  var language =  "<%= language %>";
+  </script>
+  <script src="colors.js"></script>
+  <script src="main.js"></script>
+  <script src="dist/emojionearea.min.js"></script>
+  
+  <body>
+<!-- 
+    <ul class="pages">
+		
+	<li class="chat page"> -->
+	
+	<div class="chatArea" id="messageFild">
+	
+		<ul class="messages" id="messages">
+	
+		</ul>
+		
+	</div>
+	
+	<div class="userList" id="userList">
+		<h3 class="title onlineUsers">Online Users <span id="userCounter"></span></h3>
+		<ul class="users" id="users"></ul>
+		
+	</div>
+		
+    <form method="post" action="" id="messageForm">
+		<div style="clear: both;" />
+
+		<select name="user" size="1" id="user">		
+		</select>
+		
+		
+			<label for="fileselect" class="btn_round">file upload</label>
+			<input id="fileselect" style="visibility:hidden;" type="file" name="fileselect">
+		
+
+		<br />
+		<input id="m" autocomplete="off" placeholder="your message" type="text" />
+			
+		<!-- <button class="btn_round" onclick="">Send</button> -->
+		<!-- <button type="submit" class="btn_round" onclick="">Send</button> -->
+		<input type="submit" id="submitBtn" class="btn_round" value="Send" /> 
+		<input id="mood" type="hidden" name="mood" value="" readonly> 
+			
+	</form>
+	
+	<!-- </li>	
+	</ul> -->
+	
+
+  </body>
+</html>

@@ -47,6 +47,8 @@ var server = require('http').createServer(app);
 let io = require('socket.io')(http);
 
 
+
+
 var crypto = require('crypto');
 
 let port = process.env.PORT || process.env.VCAP_APP_PORT || 3000;
@@ -56,11 +58,24 @@ var router = express.Router();
 var formidable = require('formidable');
 var fs = require('fs');
 const bcrypt = require('bcrypt');
+var session = require('express-session');
+var passport = require('passport');
+var local = require('passport-local');
 
 app.use(express.static(path.join(__dirname, 'public')));
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(bodyParser.json());
+app.set("view engine", "ejs");
+app.set('views', __dirname + '/view');
+  
+app.use(session({
+    secret: 'basjfbiasIF()t89f9BIJ"4ui2424bij2bkasf0hhfh8AWF(GF89',
+    resave: false,
+    saveUninitialized: true
+}));
 
+app.use(passport.initialize());
+app.use(passport.session());
 
 // Create the service wrapper
 let ToneAnalyzerV3 = require('watson-developer-cloud/tone-analyzer/v3');
@@ -210,8 +225,17 @@ connection.connect(function(err) {
 
 //-------------------------------------------------------------------------------------------------------------------------------------------
 
+app.get('/', function (req, res) {
+    res.sendFile(__dirname + '/public/index.html');
+});
+
+app.post('/login', passport.authenticate('passport-local-login', {
+    successRedirect: '/chat',
+    failureRedirect: '/'
+}));
+
 //login
-app.post('/login', function(req, res) {
+app.post('/login2', function(req, res) {
 	console.log("LOGIN: "+JSON.stringify(req.body));
 	
 	var username = req.body.username;  
@@ -254,7 +278,19 @@ app.post('/login', function(req, res) {
 					if(resultUsername == username && bcrypt.compareSync(password, resultPassword)){
 		
 						console.log("Login erfolgreich");
-						res.sendFile(__dirname + '/public/chat.html');
+						//res.sendFile(__dirname + '/public/chat.html');
+						/*
+						res.render(__dirname + '/chat.html', function(req, res){
+
+
+						});
+						*/
+						
+						//passport.authenticate('passport-local-register', { successRedirect: '/chat', failureRedirect: '/' })(req, res);
+						passport.authenticate('passport-local-login', { successRedirect: '/chat', failureRedirect: '/' });
+						
+						console.log("nach passport.authenticate");
+						
 					}
 					else {
 						
@@ -276,16 +312,16 @@ app.post('/login', function(req, res) {
   });
 
 //registration
-app.post('/signup', function(req, res) {
+app.post('/signup', function(req, res, next) {
 	console.log("LOGIN: "+JSON.stringify(req.body));
 
 	var username;  
 	var password;
 	var language;
 	var image;
-
+	
 	var form = new formidable.IncomingForm();
-
+	form.keepExtensions = true;
 	    form.parse(req, function(err, fields, files) {
 
 		console.log("in form");
@@ -293,6 +329,10 @@ app.post('/signup', function(req, res) {
 		username = fields.username;
 		password = fields.password;
 		language = fields.languages;
+		
+		req.body.username = fields.username;
+		req.body.password = fields.password;
+		req.body.language = fields.languages;
 		
 		console.log(fields.username);
 		console.log(fields.password);
@@ -307,7 +347,7 @@ app.post('/signup', function(req, res) {
 				//console.log(data);
 				//console.log(data2);
 			
-				image = 'data:' + files.file.type + ';base64,' + data2;
+				req.body.image = 'data:' + files.file.type + ';base64,' + data2;
 				//console.log(image);
 			}
 			else {
@@ -320,7 +360,87 @@ app.post('/signup', function(req, res) {
 			console.log("no file or no image file");
 		}
 		
+		passport.authenticate('passport-local-register', { successRedirect: '/chat', failureRedirect: '/' })(req, res, next);
+		
 		// password = crypto.createHash('md5').update(password).digest("hex");
+		
+		
+    });
+
+	console.log("nach form");
+
+  });
+  
+app.get('/register', function(req, res) {
+
+	res.sendFile(__dirname + '/public/register.html');
+
+});
+
+app.get('/chat', function (req, res) {
+    if (typeof req.session.passport != "undefined") {
+        if (req.session.passport.user.user !== null && req.session.passport.user.language !== null) {
+            console.log('[SERVER] forwarding user: ' + req.session.passport.user.user + ' to chat with language: ' + req.session.passport.user.language);
+			
+			var options = {
+				headers: {
+					username: req.session.passport.user.user,
+					language: req.session.passport.user.language
+				}
+				
+				
+			};
+
+			//res.sendFile(path.join(__dirname, '/public/chat.html'), options);
+			
+			
+			res.render('chat', {
+                username: req.session.passport.user.user,
+                language: req.session.passport.user.language
+            });
+			//res.redirect(__dirname + '/public/chat.html?gameId=' + options);
+			
+			//res.sendFile(__dirname + '/public/chat.html' + options);
+            /*
+			res.render('index', {
+                username: req.session.passport.user.user,
+                language: req.session.passport.user.language
+            });
+			*/
+        }
+    } else {
+        res.redirect('/');
+    }
+});
+
+passport.serializeUser(function (user, done) {
+    console.log("serializing " + user.user);
+    done(null, user);
+});
+
+passport.deserializeUser(function (obj, done) {
+    console.log("deserializing " + obj.user);
+    done(null, obj);
+});
+
+passport.use('passport-local-register', new local({
+    passReqToCallback: true
+},
+    function (req, username, password, done) {
+		console.log("passport-local-register");
+		console.log("passport-local-register");
+		
+		/*
+		req.body.username = fields.username;
+		req.body.password = fields.password;
+		req.body.language 
+		*/
+		
+		username = req.body.username;
+		language = req.body.language;
+		password = req.body.password;
+		image = req.body.image;
+		
 		password = bcrypt.hashSync(password, 10);
 		
 		if(username!=null){
@@ -336,10 +456,10 @@ app.post('/signup', function(req, res) {
 		connection.query(sql, [username], function (err, result) {
 			if (err) {
 				throw err;
-				res.sendFile(__dirname + '/public/index.html');
+				done(null, false);
+			//	res.sendFile(__dirname + '/public/index.html');
 			}
-				
-			if(!result[0]){
+			else{
 				console.log("nach if in sql");
 
 				var sql = "INSERT INTO users (username, password, mail, language, gender, image) VALUES ?";
@@ -347,41 +467,149 @@ app.post('/signup', function(req, res) {
 				connection.query(sql, [values], function (err, result) {
 				if (err) throw err;
 					console.log("1 record inserted");
-					res.sendFile(__dirname + '/public/chat.html');
+				//	res.sendFile(__dirname + '/public/chat.html');
+					
+					if (result) {
+                        done(null, { user: username, language: language });
+                        console.log('[SERVER] Register of ' + req.body.username + ' successful!');
+                    } else {
+                        done(null, false);
+                        console.log('[SERVER] Register of ' + req.body.username + ' failed!');
+                    }
+					
 				});
+			}
+			/*
+			if(!result[0]){
+				
 				
 			
 			}
 			else{
-				res.sendFile(__dirname + '/public/register.html');
+				done(null, false);
+			//	res.sendFile(__dirname + '/public/register.html');
 			}
+			*/
 	
 		});
 		
-    });
+		/*
+        if (req.body.username || req.body.password) {
+            //do not allow whitespaces or usernames longer than 15
+            if (isWhitespaceOrEmpty(req.body.username) || req.body.username.length > 15) {
+                console.log('username has whitespaces or is empty or exceeded the length of 15!');
+                done(null, false);
+            }
+            else {
+                if (req.body.password.length > 15) {
+                    console.log('password has exceeded the length of 15!');
+                    done(null, false);
+                }
+                database.findUser(req.body.username, function (cb) {
+                    if (cb) {
+                        console.log('user already exists!');
+                        done(null, false);
+                    } else {
+                        //Check if there is already a user with this name saved
+                        var lang;
+                        if (req.body.language === "German") {
+                            lang = "de";
+                        } else if (req.body.language === "English") {
+                            lang = "en";
+                        } else if (req.body.language === "Hispanic") {
+                            lang = "es";
+                        } else if (req.body.language === "French") {
+                            lang = "fr";
+                        }
 
-	console.log("nach form");
+                        database.createUser(req.body.username, req.body.password, req.body.image, lang, function (user) {
+                            if (user) {
+                                done(null, { user: user, language: lang });
+                                console.log('[SERVER] Register of ' + req.body.username + ' successful!');
+                            } else {
+                                done(null, false);
+                                console.log('[SERVER] Register of ' + req.body.username + ' failed!');
+                            }
+                        });
+                    }
+                });
+            }
+        } else {
+            console.log('username or password missing!');
+        }
+		*/
+    }));
 
-  });
-  
-app.get('/register', function(req, res) {
+passport.use('passport-local-login', new local({ passReqToCallback: true},
+    function (req, username, password, done) {
+		console.log('passport-local-login');
+        if (req.body.username || req.body.password) {
+            if (isWhitespaceOrEmpty(req.body.username) || req.body.username.length > 15) {
+                console.log('username has whitespaces or is empty or exceeded the length of 15!');
+                done(null, false);
+            } if (req.body.password.length > 15) {
+                console.log('password has exceeded the length of 15!');
+                done(null, false);
+            }
+			
+			var sql = "SELECT * FROM users WHERE username = ?";
+			
+			connection.query(sql, [username], function (err, result) {
+				if (err) {
+					throw err;
+					res.sendFile(__dirname + '/public/index.html');
+				}
+				if(result[0]){
+					
+					resultUsername = result[0].username;
+					resultPassword = result[0].password;
+					resultLanguage = result[0].language;
+					user.language = result[0].language;
+					
+					if(resultUsername == username && bcrypt.compareSync(req.body.password, resultPassword)){
+						
+						
+						done(null, { user: resultUsername, language: resultLanguage });
+                               
+					} 
+					else {
+						done(null, false);
+                    }
+					
+				
+				}
+				else {
+					
+					res.sendFile(__dirname + '/public/index.html');
+				}
+			});
+			
+		
+        } else {
+            console.log('[SERVER] Password missing!');
+        }
+    }));
 
-	res.sendFile(__dirname + '/public/register.html');
-
-  });
-
+	
+function isWhitespaceOrEmpty(text) {
+	return !/[^\s]/.test(text);
+}
 
 /*
 connection establishment
 */
 io.on('connection', function(socket){
-	if(!user.name || user.name == null) {
-		sendFile(__dirname + '/public/index.html');
-	}
 	
-	console.log('a user connected');
-	console.log("USER: "+user.name+" PASSWORD: "+user.password);
-	addUser(user.name,user.language);
+	socket.on('sendUser', function (user) {
+		
+		addUser(user.name, user.language);
+		console.log('a user connected');
+		console.log("USER: "+user.name);
+	
+    });
+	
+	
+	
 
 	function addUser(username,language){
 		//var username = username.replace(/[ `~!@#$%^&*()_|+\-=?;:'",.<>\{\}\[\]\\\/]/gi, '');

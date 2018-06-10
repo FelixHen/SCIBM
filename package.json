@@ -1,19 +1,23 @@
 {
   "name": "socket-chat-gruppe-m",
   "version": "0.0.1",
-  "description": "Cloud Computing: A simple chat server: Jan-Patrick Kirchner [742143], Felix Hennig [752734], Konstantinos Karagkiozis [752753]",
+  "description": "Cloud Computing: A simple chat server: Jan-Patrick Kirchner [742143], Felix Hennig [752734]",
   "dependencies": {
+    "bcrypt": "^2.0.1",
+    "body-parser": "^1.18.2",
+    "cfenv": "^1.1.0",
+    "dotenv": "^5.0.1",
     "express": "^4.15.2",
+    "express-session": "^1.15.6",
+    "formidable": "^1.2.1",
+    "grunt-cli": "^1.2.0",
+    "mysql": "*",
+    "passport": "^0.4.0",
+    "passport-local": "^1.0.0",
     "path": "^0.12.7",
     "socket.io": "^1.7.4",
-	"cfenv":"^1.1.0",
-	"watson-developer-cloud":"^3.3.0",
-	"body-parser":"^1.18.2",
-	"dotenv":"^5.0.1",
-  "mysql": "*",
-  "formidable": "^1.2.1",
-  "bcrypt": "^2.0.1",
-  "grunt-cli":"^1.2.0"
+    "watson-developer-cloud": "^3.3.0",
+    "ejs": "^2.6.1"
   },
   "scripts": {
     "start": "node server.js"
