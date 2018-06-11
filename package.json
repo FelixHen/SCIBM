@@ -7,17 +7,18 @@
     "body-parser": "^1.18.2",
     "cfenv": "^1.1.0",
     "dotenv": "^5.0.1",
+    "ejs": "^2.6.1",
     "express": "^4.15.2",
     "express-session": "^1.15.6",
     "formidable": "^1.2.1",
     "grunt-cli": "^1.2.0",
     "mysql": "*",
+    "node-sri": "^1.1.1",
     "passport": "^0.4.0",
     "passport-local": "^1.0.0",
     "path": "^0.12.7",
     "socket.io": "^1.7.4",
-    "watson-developer-cloud": "^3.3.0",
-    "ejs": "^2.6.1"
+    "watson-developer-cloud": "^3.3.0"
   },
   "scripts": {
     "start": "node server.js"
