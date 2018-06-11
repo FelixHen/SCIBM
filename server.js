@@ -6,7 +6,8 @@
 
 var express = require("express"); 
 var app = express(); 
- 
+
+
 app.enable('trust proxy'); 
  
 app.use (function (req, res, next) { 
@@ -61,6 +62,8 @@ const bcrypt = require('bcrypt');
 var session = require('express-session');
 var passport = require('passport');
 var passportLocal = require('passport-local');
+var sri = require('node-sri');
+
 
 app.use(express.static(path.join(__dirname, 'public')));
 app.use(bodyParser.urlencoded({ extended: false }));
