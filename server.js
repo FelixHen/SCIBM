@@ -228,6 +228,37 @@ connection.connect(function(err) {
 
 //-------------------------------------------------------------------------------------------------------------------------------------------
 
+
+//X-XSS-Protection header
+/*
+1; mode=block
+enables the XSS Filter. 
+Rather than sanitize the page, when a XSS attack is detected,
+the browser will prevent rendering of the page.
+*/
+app.use(function(req, res, next) {
+    res.header("X-XSS-Protection", "1; mode=block");
+    next();
+});
+
+//X-CONTENT-TYPE-OPTIONS
+app.use(function(req, res, next) {
+    res.header("X-Content-Type-Options", "nosniff");
+    next();
+});
+//CONTENT-SECURITY-POLICY
+/*
+The configuration below allows loading 
+scripts,XMLHttpRequest (AJAX), images and styles from same domain 
+and nothing else.
+*/
+app.use(function(req, res, next) {
+	res.header("Content-Security-Policy", 
+	"default-src https:; script-src 'self' https://www.google-analytics.com https://ajax.googleapis.com https://cdn.socket.io https://code.jquery.com https://cdn.jsdelivr.net 'unsafe-inline' https://cdn.rawgit.com; connect-src 'self'; img-src 'self' data: https://cdn.jsdelivr.net ; style-src 'self'  'unsafe-inline' https://cdn.jsdelivr.net data: localhost;");
+    next();
+});
+
+
 app.get('/', function (req, res) {
     res.sendFile(__dirname + '/public/index.html');
 });
