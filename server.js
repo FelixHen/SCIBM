@@ -261,7 +261,7 @@ the browser will prevent rendering of the page.
 
 app.use(helmet.contentSecurityPolicy({directives: {
 	defaultSrc: ['https:'],
-	scriptSrc: ['www.google-analytics.com' , 'ajax.googleapis.com', 'cdn.socket.io', 'code.jquery.com', 'cdn.jsdelivr.net',"'unsafe-inline'", 'cdn.rawgit.com'],
+	scriptSrc: ["'unsafe-inline'",'google-analytics.com' , 'ajax.googleapis.com', 'cdn.socket.io', 'code.jquery.com', 'cdn.jsdelivr.net', 'cdn.rawgit.com'],
 	styleSrc: ["'self'",  "'unsafe-inline'", 'cdn.jsdelivr.net'],
 	imgSrc: ['data:', 'cdn.jsdelivr.net'],
 	connectSrc: ["'self'"]}
