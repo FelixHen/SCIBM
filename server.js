@@ -252,20 +252,20 @@ the browser will prevent rendering of the page.
 // scripts,XMLHttpRequest (AJAX), images and styles from same domain 
 // and nothing else.
 // */
-// app.use(function(req, res, next) {
-// 	res.header("Content-Security-Policy", 
-// 	"default-src https:; script-src 'self' https://www.google-analytics.com https://ajax.googleapis.com https://cdn.socket.io https://code.jquery.com https://cdn.jsdelivr.net 'unsafe-inline' https://cdn.rawgit.com; connect-src 'self'; img-src 'self' data: https://cdn.jsdelivr.net ; style-src 'self'  'unsafe-inline' https://cdn.jsdelivr.net data: ;");
-//     next();
-// });
+app.use(function(req, res, next) {
+	res.header("Content-Security-Policy", 
+	"default-src https:; script-src 'self' https://www.google-analytics.com https://ajax.googleapis.com https://cdn.socket.io https://code.jquery.com https://cdn.jsdelivr.net 'unsafe-inline' https://cdn.rawgit.com; connect-src 'self'; img-src 'self' data: https://cdn.jsdelivr.net ; style-src 'self'  'unsafe-inline' https://cdn.jsdelivr.net data: ;");
+    next();
+});
 
 
-app.use(helmet.contentSecurityPolicy({directives: {
-	defaultSrc: ['https:'],
-	scriptSrc: ["'unsafe-inline'",'google-analytics.com' , 'ajax.googleapis.com', 'cdn.socket.io', 'code.jquery.com', 'cdn.jsdelivr.net', 'cdn.rawgit.com'],
-	styleSrc: ["'self'",  "'unsafe-inline'", 'cdn.jsdelivr.net'],
-	imgSrc: ['data:', 'cdn.jsdelivr.net'],
-	connectSrc: ["'self'"]}
-  }));
+// app.use(helmet.contentSecurityPolicy({directives: {
+// 	defaultSrc: ["'self'"],
+// 	scriptSrc: ["'unsafe-inline'",'google-analytics.com' , 'ajax.googleapis.com', 'cdn.socket.io', 'code.jquery.com', 'cdn.jsdelivr.net', 'cdn.rawgit.com'],
+// 	styleSrc: ["'self'",  "'unsafe-inline'", 'cdn.jsdelivr.net'],
+// 	imgSrc: ['data:', 'cdn.jsdelivr.net'],
+// 	connectSrc: ["'self'"]}
+//   }));
 
  // Implement X-XSS-Protection
 app.use(helmet.xssFilter());
