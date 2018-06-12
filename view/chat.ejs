@@ -35,6 +35,17 @@
   <script src="dist/emojionearea.min.js" integrity=""></script>
   
   <body>
+  
+  <% 
+  var sri = require('node-sri')
+ 
+sri.hash('https://cdn.socket.io/socket.io-1.7.3.js', function(err, hash){
+  if (err) throw err
+ 
+  console.log('My hash is', hash)
+})
+%>
+  
 <!-- 
     <ul class="pages">
 		
