@@ -63,7 +63,7 @@ var session = require('express-session');
 var passport = require('passport');
 var passportLocal = require('passport-local');
 var sri = require('node-sri');
-
+var helmet = require('helmet'); // helmet@3.12.1
 
 app.use(express.static(path.join(__dirname, 'public')));
 app.use(bodyParser.urlencoded({ extended: false }));
@@ -236,28 +236,45 @@ enables the XSS Filter.
 Rather than sanitize the page, when a XSS attack is detected,
 the browser will prevent rendering of the page.
 */
-app.use(function(req, res, next) {
-    res.header("X-XSS-Protection", "1; mode=block");
-    next();
-});
+// app.use(function(req, res, next) {
+//     res.header("X-XSS-Protection", "1; mode=block");
+//     next();
+// });
 
-//X-CONTENT-TYPE-OPTIONS
-app.use(function(req, res, next) {
-    res.header("X-Content-Type-Options", "nosniff");
-    next();
-});
-//CONTENT-SECURITY-POLICY
-/*
-The configuration below allows loading 
-scripts,XMLHttpRequest (AJAX), images and styles from same domain 
-and nothing else.
-*/
-app.use(function(req, res, next) {
-	res.header("Content-Security-Policy", 
-	"default-src https:; script-src 'self' https://www.google-analytics.com https://ajax.googleapis.com https://cdn.socket.io https://code.jquery.com https://cdn.jsdelivr.net 'unsafe-inline' https://cdn.rawgit.com; connect-src 'self'; img-src 'self' data: https://cdn.jsdelivr.net ; style-src 'self'  'unsafe-inline' https://cdn.jsdelivr.net data: ;");
-    next();
-});
+// //X-CONTENT-TYPE-OPTIONS
+// app.use(function(req, res, next) {
+//     res.header("X-Content-Type-Options", "nosniff");
+//     next();
+// });
+// //CONTENT-SECURITY-POLICY
+// /*
+// The configuration below allows loading 
+// scripts,XMLHttpRequest (AJAX), images and styles from same domain 
+// and nothing else.
+// */
+// app.use(function(req, res, next) {
+// 	res.header("Content-Security-Policy", 
+// 	"default-src https:; script-src 'self' https://www.google-analytics.com https://ajax.googleapis.com https://cdn.socket.io https://code.jquery.com https://cdn.jsdelivr.net 'unsafe-inline' https://cdn.rawgit.com; connect-src 'self'; img-src 'self' data: https://cdn.jsdelivr.net ; style-src 'self'  'unsafe-inline' https://cdn.jsdelivr.net data: ;");
+//     next();
+// });
 
+
+app.use(helmet.contentSecurityPolicy({directives: {
+	defaultSrc: ['https:'],
+	scriptSrc: ['www.google-analytics.com' , 'ajax.googleapis.com', 'cdn.socket.io', 'code.jquery.com', 'cdn.jsdelivr.net',"'unsafe-inline'", 'cdn.rawgit.com'],
+	styleSrc: ["'self'",  "'unsafe-inline'", 'cdn.jsdelivr.net'],
+	imgSrc: ['data:', 'cdn.jsdelivr.net'],
+	connectSrc: ["'self'"]}
+  }));
+
+ // Implement X-XSS-Protection
+app.use(helmet.xssFilter());
+
+ // Implement X-Content-Type-Options
+ app.use(helmet.noSniff());
+
+// Hide X-Powered-By
+app.use(helmet.hidePoweredBy());
 
 app.get('/', function (req, res) {
     res.sendFile(__dirname + '/public/index.html');
