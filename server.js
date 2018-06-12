@@ -276,6 +276,10 @@ app.use(helmet.xssFilter());
 // Hide X-Powered-By
 app.use(helmet.hidePoweredBy());
 
+// Implement X-Frame: SameOrigin :Allows our page to be served inside a frame with the same origin.
+app.use(helmet.xframe('sameorigin'));
+
+
 app.get('/', function (req, res) {
     res.sendFile(__dirname + '/public/index.html');
 });
