@@ -394,6 +394,10 @@ passport.use('local-login', new passportLocal({ passReqToCallback: true},
 					resultPassword = result[0].password;
 					resultLanguage = result[0].language;
 					user.language = result[0].language;
+
+					var keyImage = new Buffer(result[0].image, 'base64').toString('binary');
+					// console.log("TEST_key: "+keyImage);
+					user.image = keyImage;
 					
 					if(resultUsername == username && bcrypt.compareSync(req.body.password, resultPassword)){
 						
