@@ -276,6 +276,10 @@ app.use(helmet.xssFilter());
 // Hide X-Powered-By
 app.use(helmet.hidePoweredBy());
 
+app.use(helmet.referrerPolicy({ 
+    policy: 'same-origin' 
+}));
+
 
 
 app.get('/', function (req, res) {
