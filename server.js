@@ -180,16 +180,6 @@ enables the XSS Filter.
 Rather than sanitize the page, when a XSS attack is detected,
 the browser will prevent rendering of the page.
 */
-// app.use(function(req, res, next) {
-//     res.header("X-XSS-Protection", "1; mode=block");
-//     next();
-// });
-
-// //X-CONTENT-TYPE-OPTIONS
-// app.use(function(req, res, next) {
-//     res.header("X-Content-Type-Options", "nosniff");
-//     next();
-// });
 // //CONTENT-SECURITY-POLICY
 // /*
 // The configuration below allows loading 
