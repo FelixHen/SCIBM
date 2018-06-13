@@ -64,6 +64,7 @@ var passport = require('passport');
 var passportLocal = require('passport-local');
 var sri = require('node-sri');
 var helmet = require('helmet'); // helmet@3.12.1
+var RateLimit = require('express-rate-limit');
 
 app.use(express.static(path.join(__dirname, 'public')));
 app.use(bodyParser.urlencoded({ extended: false }));
@@ -124,6 +125,22 @@ var translator = new LanguageTranslatorV2({
 });
 
 require('dotenv').config({silent: true});
+
+var loginLimiter = new RateLimit({
+  windowMs: 5*60*1000, // 5 minutes window
+  delayAfter: 2, // begin slowing down responses after the 2th request
+  delayMs: 3*1000, // slow down subsequent responses by 3 seconds per request
+  max: 3, // start blocking after 5 requests
+  message: "Too many logins from this IP, please try again after 5 minutes"
+});
+
+var createAccountLimiter = new RateLimit({
+  windowMs: 60*60*1000, // 1 hour window
+  delayAfter: 1, // begin slowing down responses after the first request
+  delayMs: 5*1000, // slow down subsequent responses by 5 seconds per request
+  max: 5, // start blocking after 5 requests
+  message: "Too many accounts created from this IP, please try again after an hour"
+});
 
 
 var maxImageSize = 200000;
@@ -242,13 +259,13 @@ app.get('/', function (req, res) {
 });
 
 //login
-app.post('/login', passport.authenticate('local-login', {
+app.post('/login', loginLimiter, passport.authenticate('local-login', {
     successRedirect: '/chat',
     failureRedirect: '/'
 }));
   
 //registration
-app.post('/signup', function(req, res, next) {
+app.post('/signup', createAccountLimiter, function(req, res, next) {
 	console.log("LOGIN: "+JSON.stringify(req.body));
 
 	var username;  
