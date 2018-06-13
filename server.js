@@ -98,9 +98,9 @@ app.use(helmet.hidePoweredBy());
 app.use(helmet.referrerPolicy({ 
     policy: 'same-origin' 
 }))
-// Set Strict-Transport-Security: max-age=5184000 = 60 Tage.
+// Set Strict-Transport-Security: max-age=31536000 = 1 JAhr.
 app.use(helmet.hsts({
-  maxAge: 5184000
+  maxAge: 31536000
 }))
 // Create the service wrapper
 let ToneAnalyzerV3 = require('watson-developer-cloud/tone-analyzer/v3');
