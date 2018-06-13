@@ -241,16 +241,11 @@ app.get('/', function (req, res) {
     res.sendFile(__dirname + '/public/index.html');
 });
 
-// //login
-// app.post('/login', passport.authenticate('local-login', {
-//     successRedirect: '/chat',
-//     failureRedirect: '/'
-// }));
-
-app.post('/login', function (req, res) {
-    passport.authenticate('local-login', { successRedirect: '/chat', failureRedirect: '/' })(req, res, next);
-});
-  
+//login
+app.post('/login', passport.authenticate('local-login', {
+    successRedirect: '/chat',
+    failureRedirect: '/'
+}));
   
 //registration
 app.post('/signup', function(req, res, next) {
