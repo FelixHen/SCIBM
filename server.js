@@ -80,6 +80,24 @@ app.use(session({
 app.use(passport.initialize());
 app.use(passport.session());
 
+app.use(function(req, res, next) {
+	res.header("Content-Security-Policy", 
+	"default-src https:; script-src 'self' https://www.google-analytics.com https://ajax.googleapis.com https://cdn.socket.io https://code.jquery.com https://cdn.jsdelivr.net 'unsafe-inline' https://cdn.rawgit.com; connect-src 'self'; img-src 'self' data: https://cdn.jsdelivr.net ; style-src 'self'  'unsafe-inline' https://cdn.jsdelivr.net data: ;");
+    next();
+});
+
+ // Implement X-XSS-Protection
+app.use(helmet.xssFilter());
+
+ // Implement X-Content-Type-Options
+ app.use(helmet.noSniff());
+
+// Hide X-Powered-By
+app.use(helmet.hidePoweredBy());
+
+app.use(helmet.referrerPolicy({ 
+    policy: 'same-origin' 
+}))
 // Create the service wrapper
 let ToneAnalyzerV3 = require('watson-developer-cloud/tone-analyzer/v3');
 
@@ -186,11 +204,24 @@ the browser will prevent rendering of the page.
 // scripts,XMLHttpRequest (AJAX), images and styles from same domain 
 // and nothing else.
 // */
-app.use(function(req, res, next) {
-	res.header("Content-Security-Policy", 
-	"default-src https:; script-src 'self' https://www.google-analytics.com https://ajax.googleapis.com https://cdn.socket.io https://code.jquery.com https://cdn.jsdelivr.net 'unsafe-inline' https://cdn.rawgit.com; connect-src 'self'; img-src 'self' data: https://cdn.jsdelivr.net ; style-src 'self'  'unsafe-inline' https://cdn.jsdelivr.net data: ;");
-    next();
-});
+// app.use(function(req, res, next) {
+// 	res.header("Content-Security-Policy", 
+// 	"default-src https:; script-src 'self' https://www.google-analytics.com https://ajax.googleapis.com https://cdn.socket.io https://code.jquery.com https://cdn.jsdelivr.net 'unsafe-inline' https://cdn.rawgit.com; connect-src 'self'; img-src 'self' data: https://cdn.jsdelivr.net ; style-src 'self'  'unsafe-inline' https://cdn.jsdelivr.net data: ;");
+//     next();
+// });
+
+//  // Implement X-XSS-Protection
+// app.use(helmet.xssFilter());
+
+//  // Implement X-Content-Type-Options
+//  app.use(helmet.noSniff());
+
+// // Hide X-Powered-By
+// app.use(helmet.hidePoweredBy());
+
+// app.use(helmet.referrerPolicy({ 
+//     policy: 'same-origin' 
+// }))
 
 
 // app.use(helmet.contentSecurityPolicy({directives: {
@@ -200,20 +231,6 @@ app.use(function(req, res, next) {
 // 	imgSrc: ['data:', 'cdn.jsdelivr.net'],
 // 	connectSrc: ["'self'"]}
 //   }));
-
- // Implement X-XSS-Protection
-app.use(helmet.xssFilter());
-
- // Implement X-Content-Type-Options
- app.use(helmet.noSniff());
-
-// Hide X-Powered-By
-app.use(helmet.hidePoweredBy());
-
-app.use(helmet.referrerPolicy({ 
-    policy: 'same-origin' 
-}));
-
 
 
 app.get('/', function (req, res) {
@@ -398,7 +415,7 @@ passport.use('local-login', new passportLocal({ passReqToCallback: true},
 					var keyImage = new Buffer(result[0].image, 'base64').toString('binary');
 					// console.log("TEST_key: "+keyImage);
 					user.image = keyImage;
-					
+
 					if(resultUsername == username && bcrypt.compareSync(req.body.password, resultPassword)){
 						
 						
