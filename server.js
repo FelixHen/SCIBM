@@ -101,62 +101,6 @@ var translator = new LanguageTranslatorV2({
   url: 'https://gateway-fra.watsonplatform.net/language-translator/api'
 });
 
-
-app.post('/translate', function(req, res, next) {
-	console.log('Translate Body: '+JSON.stringify(req.body));
-	var sourcelang=req.body.source;
-	var targetlang=req.body.target;
-	console.log(' TranslateLANG '+JSON.stringify(sourcelang)+" | "+JSON.stringify(targetlang));
-
-	// var msg=req.body.msg;
-	
-	// var parameters = {
-	// 	text: msg
-	// }
-
-	/*
-	Translate
-	 */
-	translator.translate({
-		text: req.body.msg, source : sourcelang, target: targetlang },
-			//
-		function (err, translation) {
-			console.log("translate");
-				if (err)
-						console.log('error:', err);
-				else{
-					var message=req.body;
-					message.message=translation['translations'][0].translation;
-					console.log(message);
-					res.send(message);
-				}
-						
-	});
-
-});
-
-
-app.post('/model', function(req, res, next) {
-	console.log('Model Body: '+JSON.stringify(req.body));
-	var sourcelang=req.body.source;
-	var targetlang=req.body.target;
-	console.log(' MODELLANG '+JSON.stringify(sourcelang)+" | "+JSON.stringify(targetlang));
-	
-	translator.listModels(
-		{source:sourcelang, target:targetlang},
-		function(error, response) {
-		  if (error)
-			console.log(error);
-		  else{
-			console.log(response['models'].length);
-			// console.log(JSON.stringify(response, null, 2));
-			res.send(JSON.stringify(response['models']));
-		  }
-		}
-	  );
-		
-});
-
 require('dotenv').config({silent: true});
 
 
@@ -797,6 +741,57 @@ app.post('/tone', (req, res, next) => {
   else {
     return res.status(400).send({error: 'Invalid Input'});
   }
+});
+
+/*
+IBM Translator
+ */
+app.post('/translate', function(req, res, next) {
+	console.log('Translate Body: '+JSON.stringify(req.body));
+	var sourcelang=req.body.source;
+	var targetlang=req.body.target;
+	console.log(' TranslateLANG '+JSON.stringify(sourcelang)+" | "+JSON.stringify(targetlang));
+	/*
+	Translate
+	 */
+	translator.translate({
+		text: req.body.msg, source : sourcelang, target: targetlang },
+			//
+		function (err, translation) {
+			console.log("translate");
+				if (err)
+						console.log('error:', err);
+				else{
+					var message=req.body;
+					message.message=translation['translations'][0].translation;
+					console.log(message);
+					res.send(message);
+				}
+						
+	});
+
+});
+
+
+app.post('/model', function(req, res, next) {
+	console.log('Model Body: '+JSON.stringify(req.body));
+	var sourcelang=req.body.source;
+	var targetlang=req.body.target;
+	console.log(' MODELLANG '+JSON.stringify(sourcelang)+" | "+JSON.stringify(targetlang));
+	
+	translator.listModels(
+		{source:sourcelang, target:targetlang},
+		function(error, response) {
+		  if (error)
+			console.log(error);
+		  else{
+			console.log(response['models'].length);
+			// console.log(JSON.stringify(response, null, 2));
+			res.send(JSON.stringify(response['models']));
+		  }
+		}
+	  );
+		
 });
 
 
