@@ -105,7 +105,7 @@ var loginLimiter = new RateLimit({
   windowMs: 5*60*1000, // 5 minutes window
   delayAfter: 2, // begin slowing down responses after the 2th request
   delayMs: 3*1000, // slow down subsequent responses by 3 seconds per request
-  max: 3, // start blocking after 5 requests
+  max: 3, // start blocking after 3 requests
   message: "Too many logins from this IP, please try again after 5 minutes"
 });
 
@@ -239,6 +239,17 @@ passport.use('local-register', new passportLocal({passReqToCallback: true},
 
     function (req, username, password, done) {
 		
+	if (req.body.username || req.body.password) {
+		
+		if (/\S/.test(req.body.username) || req.body.username.length > 14 || req.body.username.length < 3) {
+				
+                done(null, false);
+        }
+		if (/\S/.test(req.body.password) || req.body.password.length > 14 || req.body.password.length < 3) {
+				
+                done(null, false);
+        }
+		
 		console.log("local-register");
 		
 		username = req.body.username;
@@ -286,8 +297,16 @@ passport.use('local-register', new passportLocal({passReqToCallback: true},
 			}
 	
 		});
+	
+	}
+	else 
+	{
+			
+		console.log('Registrierungs Fehler! Passwort oder Username fehlt');
+		done(null, false);
+    }
 		
-    }));
+}));
 
 passport.use('local-login', new passportLocal({ passReqToCallback: true},
     function (req, username, password, done) {
@@ -296,11 +315,8 @@ passport.use('local-login', new passportLocal({ passReqToCallback: true},
         
 		if (req.body.username || req.body.password) {
 
-            if (isWhitespaceOrEmpty(req.body.username) || req.body.username.length > 15) {
-                // console.log('username has whitespaces or is empty or exceeded the length of 15!');
-                done(null, false);
-            } if (req.body.password.length > 15) {
-                // console.log('password has exceeded the length of 15!');
+            if (/\S/.test(req.body.username) || req.body.username.length > 15) {
+				
                 done(null, false);
             }
 			
@@ -324,21 +340,22 @@ passport.use('local-login', new passportLocal({ passReqToCallback: true},
 
 					if(resultUsername == username && bcrypt.compareSync(req.body.password, resultPassword)){				
 						done(null, { user: resultUsername, language: resultLanguage });                    
-					}else {
+					}
+					else 
+					{
 						done(null, false);
                     }
-				}	
+				}
 			});
 
-        } else {
-            console.log('Fehler, Passwort oder Username gehlt');
+        } 
+		else 
+		{
+			
+            console.log('Login Fehler! Passwort oder Username fehlt');
+			done(null, false);
         }
-    }));
-
-	
-function isWhitespaceOrEmpty(text) {
-	return !/[^\s]/.test(text);
-}
+}));
 
 /*
 connection establishment
