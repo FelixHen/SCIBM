@@ -19,7 +19,8 @@
     "path": "^0.12.7",
     "socket.io": "^1.7.4",
     "watson-developer-cloud": "^3.3.0",
-    "helmet": "^3.12.1"
+    "helmet": "^3.12.1",
+    "express-rate-limit":"^2.11.0"
   },
   "scripts": {
     "start": "node server.js"
