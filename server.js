@@ -235,127 +235,105 @@ passport.deserializeUser(function (obj, done) {
     done(null, obj);
 });
 
+
+
 passport.use('local-register', new passportLocal({passReqToCallback: true},
-
+ 
     function (req, username, password, done) {
-		
-	if (req.body.username || req.body.password) {
-		
-		if (/\S/.test(req.body.username) || req.body.username.length > 14 || req.body.username.length < 3) {
-				
-                done(null, false);
-        }
-		if (/\S/.test(req.body.password) || req.body.password.length > 14 || req.body.password.length < 3) {
-				
-                done(null, false);
-        }
-		
-		console.log("local-register");
-		
-		username = req.body.username;
-		language = req.body.language;
-		password = req.body.password;
-		image = req.body.image;
-		
-		password = bcrypt.hashSync(password, 10);
-		
-		if(username!=null){
-			console.log(username);
-			user.name=username;
-			user.password=password;
-			user.language=language;
-			user.image=image;
-		}
-		
-		var sql = "SELECT * FROM users WHERE username = ?";
-		console.log("vor sql");
-		connection.query(sql, [username], function (err, result) {
-			if (err) {
-				throw err;
-				done(null, false);
+    
+    console.log("local-register");
+    
+    username = req.body.username;
+    language = req.body.language;
+    password = req.body.password;
+    image = req.body.image;
+    
+    password = bcrypt.hashSync(password, 10);
+    
+    if(username!=null){
+      console.log(username);
+      user.name=username;
+      user.password=password;
+      user.language=language;
+      user.image=image;
+    }
 
-			}
-			else{
-				console.log("nach if in sql");
-
-				var sql = "INSERT INTO users (username, password, mail, language, gender, image) VALUES ?";
-				var values = [[username, password, 'student@hochschule-rt.de', language, 0,image]];
-				connection.query(sql, [values], function (err, result) {
-				if (err) throw err;
-					
-					console.log("1 record inserted");
-					
-					if (result) {
+		
+    var sql = "SELECT * FROM users WHERE username = ?";
+    console.log("vor sql");
+    connection.query(sql, [username], function (err, result) {
+      if (err) {
+        throw err;
+        done(null, false);
+ 
+      }
+      else{
+        console.log("nach if in sql");
+ 
+        var sql = "INSERT INTO users (username, password, mail, language, gender, image) VALUES ?";
+        var values = [[username, password, 'student@hochschule-rt.de', language, 0,image]];
+        connection.query(sql, [values], function (err, result) {
+        if (err) throw err;
+          
+          console.log("1 record inserted");
+          
+          if (result) {
                         done(null, { user: username, language: language });
                         console.log('Registrierung von ' + req.body.username + ' erfolgreich!');
                     } else {
                         done(null, false);
                         console.log('Registrierung von ' + req.body.username + ' fehlgeschlagen!');
                     }
-					
-				});
-			}
-	
-		});
-	
-	}
-	else 
-	{
-			
-		console.log('Registrierungs Fehler! Passwort oder Username fehlt');
-		done(null, false);
-    }
-		
+          
+        });
+      }
+  
+    });
+    
 }));
 
 passport.use('local-login', new passportLocal({ passReqToCallback: true},
     function (req, username, password, done) {
-		
-		console.log('local-login');
-        
-		if (req.body.username || req.body.password) {
-
-            if (/\S/.test(req.body.username) || req.body.username.length > 15) {
-				
-                done(null, false);
-            }
-			
-			var sql = "SELECT * FROM users WHERE username = ?";
-			
-			connection.query(sql, [username], function (err, result) {
-				if (err) {
-					throw err;
-					done(null, false);
-				}
-				if(!result[0]){			
-					done(null, false);
-				}else{		
-					resultUsername = result[0].username;
-					resultPassword = result[0].password;
-					resultLanguage = result[0].language;
-					user.language = result[0].language;
-
-					var keyImage = new Buffer(result[0].image, 'base64').toString('binary');
-					user.image = keyImage;
-
-					if(resultUsername == username && bcrypt.compareSync(req.body.password, resultPassword)){				
-						done(null, { user: resultUsername, language: resultLanguage });                    
-					}
-					else 
-					{
-						done(null, false);
-                    }
-				}
-			});
-
-        } 
-		else 
-		{
-			
-            console.log('Login Fehler! Passwort oder Username fehlt');
-			done(null, false);
+    
+    console.log('local-login');
+	
+    // /\S/.test(req.body.username)
+	
+    if (req.body.username || req.body.password) {
+ 
+      var sql = "SELECT * FROM users WHERE username = ?";
+      
+      connection.query(sql, [username], function (err, result) {
+        if (err) {
+          throw err;
+          done(null, false);
         }
+        if(!result[0]){      
+          done(null, false);
+        }else {    
+			resultUsername = result[0].username;
+			resultPassword = result[0].password;
+			resultLanguage = result[0].language;
+			user.language = result[0].language;
+ 
+			var keyImage = new Buffer(result[0].image, 'base64').toString('binary');
+			user.image = keyImage;
+ 
+			if(resultUsername == username && bcrypt.compareSync(req.body.password, resultPassword)){        
+				done(null, { user: resultUsername, language: resultLanguage });                    
+			}else {
+				done(null, false);
+			}
+        }  
+      });
+ 
+    } 
+	else {
+        console.log('Fehler, Passwort oder Username gehlt');
+    }
+
 }));
+
 
 /*
 connection establishment
