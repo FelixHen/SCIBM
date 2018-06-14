@@ -7,6 +7,7 @@
 var express = require("express"); 
 var app = express(); 
 
+
 app.enable('trust proxy'); 
  
 app.use (function (req, res, next) { 
@@ -17,13 +18,40 @@ app.use (function (req, res, next) {
     res.redirect('https://' + req.headers.host + req.url); 
   } 
 });
+/*
+var path = require('path');
+
+//var https = require('https').Server(app);
+//var server = require('https').createServer(app);
+//let io = require('socket.io').listen(server);
+
+var http = require('http').Server(app);
+var server = require('http').createServer(app);
+let io = require('socket.io')(http);
+
+
+var https = require('https');
+
+var options = {
+  key: fs.readFileSync('./file.key'),
+  cert: fs.readFileSync('./file.cert')
+};
+var server = https.createServer(options, app);
+*/
+
+//var express = require('express');
+//var app = require('express')();
 
 var path = require('path');
 var http = require('http').Server(app);
 var server = require('http').createServer(app);
 let io = require('socket.io')(http);
 
-// var crypto = require('crypto');
+
+
+
+var crypto = require('crypto');
+
 let port = process.env.PORT || process.env.VCAP_APP_PORT || 3000;
 var bodyParser = require('body-parser');
 var mysql = require('mysql'); 
@@ -35,7 +63,7 @@ var session = require('express-session');
 var passport = require('passport');
 var passportLocal = require('passport-local');
 var sri = require('node-sri');
-var helmet = require('helmet');
+var helmet = require('helmet'); // helmet@3.12.1
 var RateLimit = require('express-rate-limit');
 
 app.use(express.static(path.join(__dirname, 'public')));
@@ -68,18 +96,13 @@ app.use(helmet.xssFilter());
 // Hide X-Powered-By
 app.use(helmet.hidePoweredBy());
 
-//The new Referrer-Policy HTTP header lets authors control how browsers set the Referer header.
 app.use(helmet.referrerPolicy({ 
     policy: 'same-origin' 
 }))
-
 // Set Strict-Transport-Security: max-age=31536000 = 1 JAhr.
 app.use(helmet.hsts({
   maxAge: 31536000
 }))
-
-/*** IBM Tone Analyzer ***/
-
 // Create the service wrapper
 let ToneAnalyzerV3 = require('watson-developer-cloud/tone-analyzer/v3');
 
@@ -89,6 +112,8 @@ let toneAnalyzer = new ToneAnalyzerV3({
     password: 'vBRie4TxLo2Y',
     url: 'https://gateway-fra.watsonplatform.net/tone-analyzer/api'
 });
+
+
 
 // authenticate to the Language Translator API
 var LanguageTranslatorV2 = require('watson-developer-cloud/language-translator/v2');
@@ -124,8 +149,18 @@ var users = {};			// contains sockets
 var userNames = [];		// names of users
 var userImages = [];
 var user={};
-// var tmp;
+var tmp;
 
+
+//-------------------------------------------------------------------------------------------------------------------------------------------
+/*
+var con = mysql.createConnection({
+  host: 'den1.mysql1.gear.host',
+  user: 'simplechatusers',
+  password: 'Qc4vAR-GBU_Y',
+  database: 'SimpleChatUsers'
+});
+*/
 
 //mysql connection
 var options = {
@@ -140,12 +175,83 @@ var options = {
 
 var connection = mysql.createConnection(options);
 
+/*
+let mysqlurl = new url.URL(mysql://admin:KKAKNFEBLHRXCTTZ@sl-eu-fra-2-portal.4.dblayer.com:16736/compose);
+let options = {
+    host: mysqlurl.hostname,
+    port: mysqlurl.port,
+    user: mysqlurl.username,
+    password: mysqlurl.password
+    //database: mysqlurl.pathname.split("/")[1]
+};
+*/
+/*
+var con = mysql.createConnection({
+  host: "eu-mm-auto-sl-lhr-01-b.cleardb.net",	// london2
+  user: "b4402c6bba0e8c",
+  password: "364ab0a9"
+});
+*/
+
+
 connection.connect(function(err) {
 
   if (err) throw err;
   console.log("Connected!");
+  /*
+  var sql = "CREATE TABLE users (id INT AUTO_INCREMENT PRIMARY KEY, username VARCHAR(255), password VARCHAR(255), mail VARCHAR(255), language VARCHAR(255), gender INT(1))"; 
+  con.query(sql, function (err, result) { 
+    if (err) throw err; 
+    console.log("Table created"); 
+  });
 
+
+  */
 });
+
+//-------------------------------------------------------------------------------------------------------------------------------------------
+
+
+//X-XSS-Protection header
+/*
+1; mode=block
+enables the XSS Filter. 
+Rather than sanitize the page, when a XSS attack is detected,
+the browser will prevent rendering of the page.
+*/
+// //CONTENT-SECURITY-POLICY
+// /*
+// The configuration below allows loading 
+// scripts,XMLHttpRequest (AJAX), images and styles from same domain 
+// and nothing else.
+// */
+// app.use(function(req, res, next) {
+// 	res.header("Content-Security-Policy", 
+// 	"default-src https:; script-src 'self' https://www.google-analytics.com https://ajax.googleapis.com https://cdn.socket.io https://code.jquery.com https://cdn.jsdelivr.net 'unsafe-inline' https://cdn.rawgit.com; connect-src 'self'; img-src 'self' data: https://cdn.jsdelivr.net ; style-src 'self'  'unsafe-inline' https://cdn.jsdelivr.net data: ;");
+//     next();
+// });
+
+//  // Implement X-XSS-Protection
+// app.use(helmet.xssFilter());
+
+//  // Implement X-Content-Type-Options
+//  app.use(helmet.noSniff());
+
+// // Hide X-Powered-By
+// app.use(helmet.hidePoweredBy());
+
+// app.use(helmet.referrerPolicy({ 
+//     policy: 'same-origin' 
+// }))
+
+
+// app.use(helmet.contentSecurityPolicy({directives: {
+// 	defaultSrc: ["'self'"],
+// 	scriptSrc: ["'unsafe-inline'",'google-analytics.com' , 'ajax.googleapis.com', 'cdn.socket.io', 'code.jquery.com', 'cdn.jsdelivr.net', 'cdn.rawgit.com'],
+// 	styleSrc: ["'self'",  "'unsafe-inline'", 'cdn.jsdelivr.net'],
+// 	imgSrc: ['data:', 'cdn.jsdelivr.net'],
+// 	connectSrc: ["'self'"]}
+//   }));
 
 
 app.get('/', function (req, res) {
@@ -170,6 +276,8 @@ app.post('/signup', createAccountLimiter, function(req, res, next) {
 	var form = new formidable.IncomingForm();
 	form.keepExtensions = true;
 	    form.parse(req, function(err, fields, files) {
+
+		console.log("in form");
 		
 		username = fields.username;
 		password = fields.password;
@@ -178,6 +286,9 @@ app.post('/signup', createAccountLimiter, function(req, res, next) {
 		req.body.username = fields.username;
 		req.body.password = fields.password;
 		req.body.language = fields.languages;
+		
+		console.log(fields.username);
+		console.log(fields.password);
 		
 		if (files.file !== null && files.file.type.startsWith("image")) {
 			
@@ -188,12 +299,15 @@ app.post('/signup', createAccountLimiter, function(req, res, next) {
 			
 				req.body.image = 'data:' + files.file.type + ';base64,' + data2;
 
-			}else {
+			}
+			else {
 			
-				// console.log("image to large");
-			}	
-		}else {
-			// console.log("no file or no image file");
+				console.log("image to large");
+			}
+			
+		}
+		else {
+			console.log("no file or no image file");
 		}
 		
 		passport.authenticate('local-register', { successRedirect: '/chat', failureRedirect: '/' })(req, res, next);
@@ -201,15 +315,13 @@ app.post('/signup', createAccountLimiter, function(req, res, next) {
     });
 
   });
-
-//registration page
+  
 app.get('/register', function(req, res) {
 
 	res.sendFile(__dirname + '/public/register.html');
 
 });
 
-//chatroom
 app.get('/chat', function (req, res) {
     if (typeof req.session.passport != "undefined") {
         if (req.session.passport.user.user !== null && req.session.passport.user.language !== null) {
@@ -295,12 +407,11 @@ passport.use('local-login', new passportLocal({ passReqToCallback: true},
 		console.log('local-login');
         
 		if (req.body.username || req.body.password) {
-
             if (isWhitespaceOrEmpty(req.body.username) || req.body.username.length > 15) {
-                // console.log('username has whitespaces or is empty or exceeded the length of 15!');
+                console.log('username has whitespaces or is empty or exceeded the length of 15!');
                 done(null, false);
             } if (req.body.password.length > 15) {
-                // console.log('password has exceeded the length of 15!');
+                console.log('password has exceeded the length of 15!');
                 done(null, false);
             }
 			
@@ -311,25 +422,35 @@ passport.use('local-login', new passportLocal({ passReqToCallback: true},
 					throw err;
 					done(null, false);
 				}
-				if(!result[0]){			
+				if(!result[0]){
+				
 					done(null, false);
-				}else{		
+				}
+				else{
+					
 					resultUsername = result[0].username;
 					resultPassword = result[0].password;
 					resultLanguage = result[0].language;
 					user.language = result[0].language;
 
 					var keyImage = new Buffer(result[0].image, 'base64').toString('binary');
+					// console.log("TEST_key: "+keyImage);
 					user.image = keyImage;
 
-					if(resultUsername == username && bcrypt.compareSync(req.body.password, resultPassword)){				
-						done(null, { user: resultUsername, language: resultLanguage });                    
-					}else {
+					if(resultUsername == username && bcrypt.compareSync(req.body.password, resultPassword)){
+						
+						
+						done(null, { user: resultUsername, language: resultLanguage });
+                               
+					} 
+					else {
 						done(null, false);
                     }
-				}	
+				}
+				
 			});
-
+			
+		
         } else {
             console.log('Fehler, Passwort oder Username gehlt');
         }
@@ -363,9 +484,12 @@ io.on('connection', function(socket){
 			console.log('add user: '+ username);
 			socket.username = username;
 			
-			userNames.push(username);	
+			userNames.push(username);
+			
 			users[username] = socket.id;
+
 			userImages.push({name:username, image:user.image});
+
 			numUsers++;
 			
 			socket.emit('login', {						// call client login
@@ -373,6 +497,29 @@ io.on('connection', function(socket){
 				language: language,
 				image: user.image
 			});
+			
+			/*
+			var userListe = null;
+			var sql = "SELECT username, language, profilbild FROM users";
+			connection.query(sql, function (err, result) {
+				if (err) {
+				console.log(err);
+					throw err;
+					
+				}
+				if(result[0]){
+					console.log(result);
+					userListe = result;
+					
+					io.emit('userList', {						// sends userList to all clients
+						userList: userListe
+					});
+				}
+				else {
+						
+				}
+			});
+			*/
 			
 			io.emit('userList', {						// sends userList to all clients
 				userList: userNames,
@@ -398,6 +545,31 @@ io.on('connection', function(socket){
 		remove(userNames, socket.username);
 		removeImg(userImages, socket.username);
 		
+		/*
+		var userListe = null;
+		
+		
+			var sql = "SELECT username, language, profilbild FROM users";
+			connection.query(sql, function (err, result) {
+				if (err) {
+				console.log(err);
+					throw err;
+					
+				}
+				if(result[0]){
+					console.log(result);
+					userListe = result;
+					socket.broadcast.emit('userList', {				// sends userList to all other clients
+						userList: userNames
+					});
+					
+				}
+				else {
+						
+				}
+			});
+		*/
+		
 		socket.broadcast.emit('userList', {				// sends userList to all other clients
 			userList: userNames,
 			users:userImages
@@ -410,7 +582,7 @@ io.on('connection', function(socket){
 	});
 
 	/*
-		remove element from array
+	remove element from array
 	*/	
 	function remove(array, element) {
 		const index = array.indexOf(element);
@@ -431,9 +603,9 @@ io.on('connection', function(socket){
 		  
 	}
 
-	/*
-		receives file+message from a user
-		sends file+message to one or all clients
+	 	/*
+	receives file+message from a user
+	sends file+message to one or all clients
 	*/	
 	socket.on('file', function(file, type, data){
         console.log(socket.username + ' is sharing a file');
@@ -449,7 +621,8 @@ io.on('connection', function(socket){
 				language:data.language,
 				isFile:true
 			});
-		}else{
+		}
+		else{
 			socket.broadcast.emit('file', file, type, {				// sends to all clients but not self
 				user: socket.username,
 				date: time,
@@ -458,17 +631,19 @@ io.on('connection', function(socket){
 				isFile:true
 			});
 		}
+
 	});
 
-	/*
-		receives message from a user
-		sends message to one or all clients
+/*
+	receives message from a user
+	sends message to one or all clients
 	*/	
 	socket.on('chat_message', function(data){
 		console.log('user: ' + socket.username + ' send message');
 		console.log('message: ' + data.msg);
 		
-		var time = timeStamp();	
+		var time = timeStamp();
+		
 
 		if(data.dest != null) {					
 			socket.broadcast.to(users[data.dest]).emit('chat_message', {	// sends to specific client
@@ -486,7 +661,8 @@ io.on('connection', function(socket){
 				dest: data.dest,
 				language:data.language
 			});
-		}else {			
+		}
+		else {			
 			io.emit('chat_message', {			// sends to all clients
 				user: socket.username,
 				date: time,
@@ -494,40 +670,43 @@ io.on('connection', function(socket){
 				language:data.language
 			});
 		}
+
 	});
+
 });
 
-/*
-	Create a TimeStamp for the Chat
-*/	
-function timeStamp() {
-	var date = new Date();	
-	var year = date.getFullYear();
-	var month = date.getMonth()+1;
-	var day = date.getDate();
-	var hours = date.getHours();
-	var minutes = date.getMinutes()
-	
-	if(minutes < 10){
-		var minutes = "0" + minutes;
-	}
-	if(hours < 10){
-		var hours = "0" + hours;
-	}
-	if(month < 10){
-		var month = "0" + month;
-	}
-	if(day < 10){
-		var day = "0" + day;
-	}
-	
-	var time = day + '/' + month + '/' + year + ' ' + hours + ':' + minutes;
-		
-	return time;
-}
 
+	/*
+	Create a TimeStamp for the Chat
+	*/	
+	function timeStamp() {
+		var date = new Date();
+		
+		var year = date.getFullYear();
+		var month = date.getMonth()+1;
+		var day = date.getDate();
+		var hours = date.getHours();
+		var minutes = date.getMinutes()
+		
+		if(minutes < 10){
+			var minutes = "0" + minutes;
+		}
+		if(hours < 10){
+			var hours = "0" + hours;
+		}
+		if(month < 10){
+			var month = "0" + month;
+		}
+		if(day < 10){
+			var day = "0" + day;
+		}
+		
+		var time = day + '/' + month + '/' + year + ' ' + hours + ':' + minutes;
+			
+		return time;
+	}
 /*
-	return toneRequest
+return toneRequest
 */
 function createToneRequest (request) {
 	let toneChatRequest;
@@ -545,7 +724,7 @@ function createToneRequest (request) {
 }
 
 /*
-	return state of happyness
+return state of happyness
 */
 function happyOrUnhappy (response) {
   const happyTones = ['satisfied', 'excited', 'polite', 'sympathetic'];
@@ -565,10 +744,10 @@ function happyOrUnhappy (response) {
       }
     }
   }
-
   if (happyValue >= unhappyValue) {
     return 'happy';
-  }else {
+  }
+  else {
     return 'unhappy';
   }
 }
@@ -582,7 +761,6 @@ app.post('/tone', (req, res, next) => {
   console.log("request  "+ toneRequest);
 
   if (toneRequest) {console.log("toneRequest: "+ toneRequest);
-
     toneAnalyzer.tone_chat(toneRequest, (err, response) => {
       if (err) {
         return next(err);
@@ -590,12 +768,11 @@ app.post('/tone', (req, res, next) => {
       let answer = {mood: happyOrUnhappy(response)};
 
       return res.json(answer);
-	});
-	
-  } else {
+    });
+  }
+  else {
     return res.status(400).send({error: 'Invalid Input'});
   }
-
 });
 
 /*
@@ -606,7 +783,6 @@ app.post('/translate', function(req, res, next) {
 	var sourcelang=req.body.source;
 	var targetlang=req.body.target;
 	console.log(' TranslateLANG '+JSON.stringify(sourcelang)+" | "+JSON.stringify(targetlang));
-
 	/*
 	Translate
 	 */
@@ -622,17 +798,18 @@ app.post('/translate', function(req, res, next) {
 					message.message=translation['translations'][0].translation;
 					console.log(message);
 					res.send(message);
-				}					
+				}
+						
 	});
+
 });
 
-// language model
-app.post('/model', function(req, res, next) {
 
-	// console.log('Model Body: '+JSON.stringify(req.body));
+app.post('/model', function(req, res, next) {
+	console.log('Model Body: '+JSON.stringify(req.body));
 	var sourcelang=req.body.source;
 	var targetlang=req.body.target;
-	// console.log(' MODELLANG '+JSON.stringify(sourcelang)+" | "+JSON.stringify(targetlang));
+	console.log(' MODELLANG '+JSON.stringify(sourcelang)+" | "+JSON.stringify(targetlang));
 	
 	translator.listModels(
 		{source:sourcelang, target:targetlang},
@@ -641,6 +818,7 @@ app.post('/model', function(req, res, next) {
 			console.log(error);
 		  else{
 			console.log(response['models'].length);
+			// console.log(JSON.stringify(response, null, 2));
 			res.send(JSON.stringify(response['models']));
 		  }
 		}
