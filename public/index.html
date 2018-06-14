@@ -6,30 +6,30 @@
 <!doctype html>
 <html>
   <head>
+
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <meta http-equiv="Content-Security-Policy-Report-Only" 
   content="default-src 'self' ; script-src 'self' https://www.google-analytics.com https://ajax.googleapis.com https://cdn.socket.io https://code.jquery.com https://cdn.jsdelivr.net https://cdn.rawgit.com; connect-src 'self'; img-src 'self' data: https://cdn.jsdelivr.net ; style-src 'self'  'unsafe-inline' https://cdn.jsdelivr.net data:;">
 
-    <title>Chat login</title>
-	 <link rel="stylesheet" href="style.css" />
-   
-   <link href="dist/emojionearea.css" rel="stylesheet"/>	
+	<title>Chat login</title>
+	
+	<link rel="stylesheet" href="style.css" /> 
+    <link href="dist/emojionearea.css" rel="stylesheet"/>	
    
 	<style>
 		.container{
 			width: -50%;
 			margin: 50px auto;
-		}
-	
+		}	
 	</style>
    
   </head>
   
   <body>
 
-    <ul class="pages">
-		
+    <ul class="pages">		
 	<li class="login page">
+
 		<div id="header_top">
 			<h2>BETA v0.1 (IBM) - IBM<span style="color:red;">chat</style></h2>
 		</div>
@@ -49,8 +49,7 @@
 			</form>
 		</div>
 
-    </li>	
-	
+	</li>	
 	</ul>
 	
     <script src="https://cdn.socket.io/socket.io-1.7.3.js"></script>
@@ -71,7 +70,6 @@
     		};
     		reader.readAsDataURL(e.target.files[0]);
  		 };
-
 	</script> 
 
 </html>
