@@ -7,37 +7,17 @@
 var mood;
  
 $(document).ready(function () {
-	
-		
-	
-		
-		
-		
-		
 		
 		var user = {
         "name": username,
         "language": language
 		
 		};
-		
-		//alert(session);
-		//alert(session.passport.user.user);
-		/*
-		var user = {
-        "username": session.passport.user.user,
-        "language": session.passport.user.language
-		
-		};
-		*/
 	
 		var socket = io();
 		
 		socket.emit('sendUser', user);
-		
-		//var io = require('socket.io-client') /* tried: socket.io-client@1.4.8 - failed, socket.io-client@1.4.7 - failed, socket.io-client@1.4.6 - failed, socket.io-client@1.4.5 - Success*/
-		//var socket = io.connect('https://cloudibmreutlingenm.eu-de.mybluemix.net', {secure: true, reconnect: true});
-		
+			
 		var $loginPage = $('.login.page');	// landing page
 		var $chatPage = $('.chat.page');	// chat
 		
@@ -53,20 +33,16 @@ $(document).ready(function () {
 		var file;
 		var fileInfo;
 		
-		
-		
-		
-		//fuer Emojis
+		//for Emojis
 		
 		$("#m").emojioneArea({
 			events: {
 				keypress: function (editor, event) {
-					console.log('event:keypress', event.which); //work
+					console.log('event:keypress', event.which);
 					if(event.which == 13){
-						console.log('event:keypress2', event.which); //work
-						$('#messageForm').submit(); // work
-						//$('#txtMessage').val(''); //not work
-						$('#m').data("emojioneArea").setText(""); // this work
+						console.log('event:keypress2', event.which); 
+						$('#messageForm').submit(); 
+						$('#m').data("emojioneArea").setText(""); 
 					}
 				}
 			}
@@ -76,12 +52,7 @@ $(document).ready(function () {
 		builds message in HTML
 		*/
 		function addMessage(data) {
-			// console.log("language: "+data.lang);
-			
-			// getTone(data.message);
-			
-			//alert(mood);
-			
+
 			if(data.dest) {
 
 				var $username1 = $('<span class="user1"/>')
@@ -119,11 +90,7 @@ $(document).ready(function () {
 			var $messageDiv = $('<li class="message"/>')
 				.data('username', data.user)
 				.append($imgDiv,$usernameDiv, $messageBodyDiv, $timeStampDiv, $moodDiv);
-			// var $messageDiv = $('<li class="message"/>')
-			// .data('username', data.user)
-			// .append($usernameDiv, $messageBodyDiv, $timeStampDiv, $moodDiv);
 
-			//alert(data.message);
 			addMessageElement($messageDiv);
 		}
 		
@@ -249,13 +216,7 @@ $(document).ready(function () {
 			return false;
 			
 		});
-		
-		function formSubmit(message) {
-			
-			
-		}
-		
-		
+				
 		/*
 		shows chat page if login is successful (called from server)
 		*/
@@ -265,7 +226,7 @@ $(document).ready(function () {
 			myLanguage = data.language;
 			myImg = data.image;
 			console.log("myLanguage: "+data.language);
-			console.log("ME: "+JSON.stringify(data));
+			// console.log("ME: "+JSON.stringify(data));
 			log("Welcome to Chat: " + data.username);
 		});
 		
@@ -292,13 +253,11 @@ $(document).ready(function () {
         socket.on('chat_message', function(data){
 			getTone(data.message);
 			console.log("source: "+data.language+"| my: "+myLanguage);
-			console.log(data.language!=myLanguage);
 			var model=getModel(data.language,myLanguage);
+
 			if(data.language!=myLanguage && !model){
-				// console.log("GET :" +getModel(data.language,myLanguage));
 				addMessage(data)
-			}
-			else if(data.language!=myLanguage && model){				
+			}else if(data.language!=myLanguage && model){				
 				var message={
 					msg: data.message,
 					date: data.date,
@@ -309,6 +268,7 @@ $(document).ready(function () {
 			if(data.dest) message.dest = data.dest;
 			console.log(message);
 				translate(message);
+
 			}else{
 				addMessage(data);
 			}
@@ -509,10 +469,7 @@ $(document).ready(function () {
 		socket.on('file', function(file, fileInfo, data){
 			
 			getTone(data.message);
-			// console.log("FILE: "+JSON.stringify(data));
-			// console.log("FILE: "+data.message.length);
 			var msgl=data.message;
-			// console.log(msgl.length===0);
 			if(msgl.length===0)appendFile(file, fileInfo, data);else{
 
 			var model=getModel(data.language,myLanguage);
@@ -520,20 +477,19 @@ $(document).ready(function () {
 			if(data.language!=myLanguage && !model){
 				appendFile(file, fileInfo, data);
 			}
-			if(data.language!=myLanguage && model){				
+
+			if(data.language!=myLanguage && model){		
+
 				var message = data;
 				message.msg=data.message;
 				message.source=data.language;
 				message.target=myLanguage;
-				// console.log("FileTranslate: "+JSON.stringify(message));
 			if(data.dest) message.dest = data.dest;
-			// console.log(message);
 				var msg=translate(message);
-				// console.log("TXT_FILE: "+JSON.stringify(msg));
 				data.message=msg.message;
 				appendFile(file, fileInfo, data);
-			}
-			else{
+
+			}else{
 				appendFile(file, fileInfo, data);
 			}}
 		});
@@ -572,24 +528,20 @@ $(document).ready(function () {
 		Connect to IBM cloud translate engine
 		*/
 		function translate(msg) {
-		
-				// var text={msg:message};
 				var text={};
 				$.post({
 					type: 'POST',
 					dataType: 'json',
 					data: JSON.stringify(msg),
 					contentType: 'application/json',
-					// url: 'http://localhost:3000/translate',
 					url: 'https://cloudibmreutlingenm.eu-de.mybluemix.net/translate',
 					async: false,
 					success: function(data) {
 						console.log('success: ',data);	
 						getTone(data.message);
+
 						if(data.isFile!=null){
 							text=data;
-							// console.log("TXT: "+JSON.stringify(text));
-							// appendFile(file, fileInfo, data);
 						}else addMessage(data);				
 					}
 				});	
@@ -611,7 +563,6 @@ $(document).ready(function () {
 				data: JSON.stringify(msg),
 				contentType: 'application/json',
 				url: 'https://cloudibmreutlingenm.eu-de.mybluemix.net/model',
-				// url: 'https://cloudibmreutlingenm.eu-de.mybluemix.net/translate',
 				async: false,
 				success: function(data) {
 					console.log('successMODEL: ', data.length);	
@@ -630,6 +581,5 @@ $(document).ready(function () {
 				return usersImg[i].image;
 		}
 	}
-
 
 });
