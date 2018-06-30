@@ -37,6 +37,7 @@ var passportLocal = require('passport-local');
 var sri = require('node-sri');
 var helmet = require('helmet');
 var RateLimit = require('express-rate-limit');
+var RedisStore = require('connect-redis')(session);
 
 app.use(express.static(path.join(__dirname, 'public')));
 app.use(bodyParser.urlencoded({ extended: false }));
@@ -44,11 +45,7 @@ app.use(bodyParser.json());
 app.set("view engine", "ejs");
 app.set('views', __dirname + '/view');
   
-app.use(session({
-    secret: 'basjfbiasIF()t89f9BIJ"4ui2424bij2bkasf0hhfh8AWF(GF89',
-    resave: false,
-    saveUninitialized: true
-}));
+
 
 app.use(passport.initialize());
 app.use(passport.session());
@@ -58,6 +55,23 @@ app.use(function(req, res, next) {
 	"default-src https:; script-src 'self' https://www.google-analytics.com https://ajax.googleapis.com https://cdn.socket.io https://code.jquery.com https://cdn.jsdelivr.net 'unsafe-inline' https://cdn.rawgit.com; connect-src 'self'; img-src 'self' data: https://cdn.jsdelivr.net ; style-src 'self'  'unsafe-inline' https://cdn.jsdelivr.net data: ;");
     next();
 });
+
+var options = {
+    host: 'sl-eu-fra-2-portal.4.dblayer.com',
+    port: 16736,
+    user: 'admin',
+    password: 'KKAKNFEBLHRXCTTZ',
+    database: 'compose',
+    expiration: 86400000,
+    checkExpirationInterval: 900000
+};
+
+app.use(session({
+	store: new RedisStore(options),
+    secret: 'basjfbiasIF()t89f9BIJ"4ui2424bij2bkasf0hhfh8AWF(GF89',
+    resave: false,
+    saveUninitialized: true
+}));
 
  // Implement X-XSS-Protection
 app.use(helmet.xssFilter());
